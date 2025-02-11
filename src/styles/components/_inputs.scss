@@ -11,6 +11,11 @@
         height: 20px; 
         pointer-events: none; 
     }
+    &--mid {
+        position: relative;
+        width: 100%;
+        margin: 10px 0;
+    }
 
     &--no-bottom-margin {
         margin-bottom: 0 !important; 

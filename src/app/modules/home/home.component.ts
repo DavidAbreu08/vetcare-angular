@@ -15,6 +15,6 @@ export class HomeComponent {
   }
 
   onNavigation(){
-    this.router.navigate(['/login']);
+    this.router.navigate(['auth/login']);
   }
 }
