@@ -1,0 +1,81 @@
+@import '../../../styles/abstracts/variables';
+@import '../../../styles/abstracts/mixins';
+
+.login {
+    display: flex;
+    flex-direction: row;
+
+    &__logo-name {
+        position: absolute;
+        bottom: 20%;
+        right: 45%;
+    
+        h1 {
+            color: var(--ion-color-primary);
+            font-size: 50px;   
+            font-weight: 300;
+            text-transform: uppercase; 
+        }
+
+        small {
+            font-size: 30px;
+            font-weight: 800;
+        }
+    }
+
+    &__left-side{
+        @include flexCenter();
+        width: 60%;
+        height: 100vh;
+        background-color: var(--ion-color-primary-contrast);
+        
+        .logo{
+            width: 100%;
+        }
+    }
+
+    &__right-side {
+        width: 40%;
+        height: 100vh;
+        background-color: var(--ion-color-primary);
+        flex-direction: column;
+        @include flexCenter();
+    
+        .form {
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: left;
+            
+            &__options {
+                width: 100%;
+                height: 40px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            
+                a {
+                    font-size: 14px;
+                    color: var(--ion-color-secondary);
+                    text-decoration: none;
+                }
+            }    
+        }
+    }
+
+    &__register-link {
+        color: var(--ion-color-light);
+        position: absolute;
+        bottom: 20px;
+
+        a {
+            font-size: 16px;
+            color: var(--ion-color-secondary);
+            text-decoration:underline;
+        }
+    }
+}
+
+
