@@ -1,0 +1,23 @@
+<div class='login'>
+    <div class='login__left-side'>
+        <img src="/assets/images/logo.jpg" class='logo' alt='Logo Image'/>
+        <div class="login__logo-name">
+            <h1>VetCare <small>Systems</small></h1>
+        </div>
+    </div>
+    <div class='login__right-side'>
+        <form class='form'>
+            <h1 class="form__center">Recuperar password</h1>
+            <p class="form__center">Por-favor insira os seus dados e verifique de seguida o seu email.</p>
+            <div class='form-group'>
+                <img src="/assets/images/mail.png" class='img' alt="Email Icon" />
+                <input type='email' name='email' placeholder='Email'/>
+            </div>
+            
+            <button (click)="handleEmail()">Recuperar</button>
+        </form>
+        <div class='login__register-link'>
+           Deseja voltar? <a href='auth/signup'>Volte aqui!</a>
+        </div>
+    </div>
+</div>

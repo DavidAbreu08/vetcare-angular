@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "dev": "ng serve --open",
     "serve:ssr:vetcare-systems-angular": "node dist/vetcare-systems-angular/server/server.mjs"
   },
   "private": true,

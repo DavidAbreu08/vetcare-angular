@@ -1,7 +1,7 @@
 @import '../../../../styles/abstracts/variables';
 @import '../../../../styles/abstracts/mixins';
 
-.signup {
+.verify-email {
     display: flex;
     flex-direction: row;
 
@@ -40,43 +40,49 @@
         background-color: var(--ion-color-primary);
         flex-direction: column;
         @include flexCenter();
+
+        .image {
+            height: 130px;
+            width: 150px;
+        }
     
         .form {
-            width: 90%;
+            width: 70%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: left;
+            justify-content: center;     
 
-            &__center {
-                display: flex;
-                justify-content: space-between;
-                gap: 10px;
-                width: 100%;
+           h1{
+                align-self: center;
+                font-size: 24px;
             }
-            
-            &__options {
-                width: 100%;
-                height: 40px;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            
-                span {
-                    font-size: 15px;
-                    color: var(--ion-color-secondary);
-                    text-decoration: none;
-                }
-                strong {
-                    font-size: 16px;
-                    text-decoration: underline;
-                }
 
-            }    
+           p{
+                align-self: center;
+                font-size: 14px;
+                text-align:center;
+                margin-top: 20px;
+            }
+
+            &__resend-link{
+                align-self: center;
+                margin-top: 10px;
+                display: flex;
+                color: var(--ion-color-light);
+            }
+            a{
+                font-size: 16px;
+                color: var(--ion-color-secondary);
+            }
+
+            
         }
     }
-
+    
+    &__reload-link {
+        color: var(--ion-color-light);
+        
+    }
     &__register-link {
         color: var(--ion-color-light);
         position: absolute;
