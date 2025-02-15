@@ -6,12 +6,21 @@
         </div>
     </div>
     <div class='signup__right-side'>
-        <form class='form'>
+        <form class='form' [formGroup]="registerForm">
             <h1>Registar</h1>
             <p>Por-favor insira os seus dados.</p>
             <div class='form-group'>
                 <img src="/assets/images/mail.png" class='img' alt="Email Icon" />
-                <input type='email' name='email' placeholder='Email'/>
+                <input 
+                    type='email' 
+                    name='email' 
+                    placeholder='Email' 
+                    formControlName="email" 
+                    [ngClass]="{'error' : (email?.dirty || email?.touched) && email?.hasError('required') }"
+                />
+                <div *ngIf="(email?.dirty || email?.touched) && email?.hasError('required')" class="error-message">
+                    Email é um campo <strong>obrigatório</strong>!
+                </div>
             </div>
             <div class="form__center">
                 <div class='form-group form-group--mid'>

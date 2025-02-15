@@ -4,10 +4,12 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   imports: [
+    CommonModule,
     RouterOutlet,
     HeaderComponent,
     FooterComponent
@@ -22,9 +24,7 @@ export class AppComponent implements OnInit{
 
   constructor(
   private readonly router: Router,
-  ){
-
-  }
+  ){}
 
   ngOnInit(){
     this.router.events.pipe(
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit{
     ).subscribe((event: any) => {
       if (
         event.url === '/auth/login'||
-        event.url === '/auth/signup'||
+        event.url === '/auth/register'||
         event.url === '/auth/recover-pass' ||
         event.url === '/auth/verify-email' 
       ) {
