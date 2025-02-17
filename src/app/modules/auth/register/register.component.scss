@@ -48,6 +48,21 @@
             justify-content: center;
             align-items: left;
 
+            .error-message{
+                color: var(--ion-color-primary-contrast);
+                font-size: 14px;
+                margin-top: 5px;
+                padding: 5px 10px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+
+                strong{
+                    color: var(--ion-color-danger);
+                    font-weight: bold;
+                }
+            }
+
             &__center {
                 display: flex;
                 justify-content: space-between;

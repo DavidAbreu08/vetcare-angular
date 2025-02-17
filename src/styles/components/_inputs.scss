@@ -2,6 +2,7 @@
     position: relative;
     width: 100%;
     margin: 10px 0;
+    align-items: center;
 
     .img {
         position: absolute;
@@ -9,7 +10,7 @@
         top: 33%;
         width: 20px; 
         height: 20px; 
-        pointer-events: none; 
+        pointer-events: none;
     }
     &--mid {
         position: relative;

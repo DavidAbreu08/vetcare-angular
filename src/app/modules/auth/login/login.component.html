@@ -1,33 +1,51 @@
 <div class='login'>
     <div class='login__left-side'>
-        <img src="/assets/images/logo.jpg" class='logo' alt='Logo Image'/>
-        <div class="login__logo-name">
-            <h1>VetCare <small>Systems</small></h1>
-        </div>
+      <img src="/assets/images/logo.jpg" class='logo' alt='Logo Image'/>
+      <div class="login__logo-name">
+        <h1>VetCare <small>Systems</small></h1>
+      </div>
     </div>
+  
     <div class='login__right-side'>
-        <form class='form'>
-            <h1>Bem Vindo de volta!</h1>
-            <p>Por-favor insira os seus dados.</p>
-            <div class='form-group'>
-                <img src="/assets/images/mail.png" class='img' alt="Email Icon" />
-                <input type='email' name='email' placeholder='Email'/>
-            </div>
-            <div class='form-group form-group--no-bottom-margin'>
-                <img src="/assets/images/lockIcon.png" class='img' alt="Username Icon" />
-                <input type='password' name='password' placeholder='Password'/>
-            </div>
-            <div class='form__options'>
-                <label>
-                    <input type="checkbox" class="checkbox" />
-                    <span>Lembrar mais tarde</span>
-                </label>
-                <a href='auth/recover-pass'>Esqueceu-se da password?</a>
-            </div>
-            <button type='submit' class='but'>Entrar</button>
-        </form>
-        <div class='login__register-link'>
-            Ainda não tem conta? <a routerLink='/auth/register'>Registe-se Aqui!</a>
+      <form class='form' [formGroup]="loginForm" (ngSubmit)="submit()">
+        <h1>Bem Vindo de volta!</h1>
+        <p>Por favor insira os seus dados.</p>
+  
+        <div class='form-group' [class.error]="email?.invalid && email?.touched">
+          <img src="/assets/images/mail.png" class='img' alt="Email Icon" />
+          <input 
+            type='email' 
+            formControlName='email' 
+            placeholder='Email'
+          />
+          <small *ngIf="email?.invalid && email?.touched">Email inválido</small>
         </div>
+  
+        <div class='form-group form-group--no-bottom-margin' [class.error]="password?.invalid && password?.touched">
+          <img src="/assets/images/lockIcon.png" class='img' alt="Password Icon" />
+          <input 
+            type='password' 
+            formControlName='password' 
+            placeholder='Password'
+          />
+          <small *ngIf="password?.invalid && password?.touched">Mínimo 8 caracteres</small>
+        </div>
+  
+        <div class='form__options'>
+          <label>
+            <input type="checkbox" class="checkbox" />
+            <span>Lembrar mais tarde</span>
+          </label>
+          <a routerLink='/auth/recover-pass'>Esqueceu-se da password?</a>
+        </div>
+  
+        <button type='submit' class='but' [disabled]="loginForm.invalid">Entrar</button>
+        <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </form>
+  
+      <div class='login__register-link'>
+        Ainda não tem conta? <a routerLink='/auth/register'>Registe-se Aqui!</a>
+      </div>
     </div>
-</div>
+  </div>
+  
