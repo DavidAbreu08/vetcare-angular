@@ -7,6 +7,7 @@ import { HttpResponse } from '../../core/interfaces/http-response.interface';
 import { LoginInterface } from './interfaces/login.interface';
 import { LoginResponse } from './interfaces/response.interface';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,18 +23,18 @@ export class AuthService {
       .pipe(
         tap((response) => {
           if (response?.token) {
-            localStorage.setItem('token', response.token); // Store token in localStorage
-            localStorage.setItem('user', JSON.stringify(response.user)); // Store user details
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('user', JSON.stringify(response.user)); // Armazena os detalhes do utilizador
           }
         }),
         catchError(this.handleError)
       );
   }
 
-  register(registerValues: RegisterInterface): Observable<any> {
+  register(registerValues: RegisterInterface): Observable<HttpResponse> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post<any>(`${this.apiUrl}/users`, registerValues, { headers })
+    return this.http.post<HttpResponse>(`${this.apiUrl}/users`, registerValues, { headers })
       .pipe(
         tap(response => {
           console.log("User registered successfully", response);
@@ -54,4 +55,19 @@ export class AuthService {
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
+
+  isAuthenticated(): boolean {
+    
+    return false;
+  }
+
+  getUserRole(): string | null {
+    const user = localStorage.getItem('userRole');
+    if (user) {
+      const userObj = JSON.parse(user);
+      return userObj.role; 
+    }
+    return null;
+  }
+  
 }
