@@ -1,11 +1,13 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { RegisterInterface } from './interfaces/register.interface';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, retry, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { HttpResponse } from '../../core/interfaces/http-response.interface';
 import { LoginInterface } from './interfaces/login.interface';
 import { LoginResponse } from './interfaces/response.interface';
+import { ErrorService } from '../../core/services/error.service';
+import { isPlatformBrowser } from '@angular/common';
 
 
 @Injectable({
@@ -15,21 +17,27 @@ export class AuthService {
 
   private readonly apiUrl = environment.api.url;
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private readonly http: HttpClient,
+    private errorService: ErrorService
+  ) { }
 
   login(loginValues: LoginInterface): Observable<LoginResponse> {
     return this.http
       .post<LoginResponse>(`${this.apiUrl}/auth/login`, loginValues)
       .pipe(
+        retry(2),
         tap((response) => {
           if (response?.token) {
             localStorage.setItem('token', response.token);
-            localStorage.setItem('user', JSON.stringify(response.user)); // Armazena os detalhes do utilizador
+          } else {
+            console.warn('Resposta do servidor não contém token ou user.');
           }
         }),
-        catchError(this.handleError)
       );
   }
+  
 
   register(registerValues: RegisterInterface): Observable<HttpResponse> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -39,35 +47,12 @@ export class AuthService {
         tap(response => {
           console.log("User registered successfully", response);
         }),
-        catchError(this.handleError)
       );
   }
 
-  private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Ocorreu um erro desconhecido!';
-    if (error.error instanceof ErrorEvent) {
-      // Erro do lado do cliente
-      errorMessage = `Erro: ${error.error.message}`;
-    } else {
-      // Erro do lado do servidor
-      errorMessage = `Erro ${error.status}: ${error.message}`;
+  getToken(): any {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token')
     }
-    console.error(errorMessage);
-    return throwError(() => new Error(errorMessage));
   }
-
-  isAuthenticated(): boolean {
-    
-    return false;
-  }
-
-  getUserRole(): string | null {
-    const user = localStorage.getItem('userRole');
-    if (user) {
-      const userObj = JSON.parse(user);
-      return userObj.role; 
-    }
-    return null;
-  }
-  
 }

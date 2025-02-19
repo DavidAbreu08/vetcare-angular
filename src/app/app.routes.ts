@@ -12,6 +12,10 @@ export const routes: Routes = [
         loadComponent: () => import('./modules/home/home.component').then(component => component.HomeComponent)
     },
     {
+        path: 'user',
+        loadChildren: () => import('./modules/user/user.routes').then(route => route.routes)
+    },
+    {
         path: 'auth',
         loadChildren: () => import('./modules/auth/auth.routes').then(route => route.routes)
     },
@@ -19,6 +23,5 @@ export const routes: Routes = [
         path: 'admin',
         loadChildren: () => import('./modules/admin/admin.routes').then(route => route.routes),
         canActivate: [authGuard],
-        data: {expectedRole: '99'}
     },
 ];
