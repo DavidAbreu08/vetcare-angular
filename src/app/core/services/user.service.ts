@@ -16,12 +16,12 @@ export class UserService {
     private readonly http: HttpClient,
   ) { }
 
+  // might not need to do this decode on front end cause backend is already doing it with /auth/me
   public getDecodedPayload(token: string): any{
     try{
       const decoded = jwtDecode<JwtPayload>(token)
       return decoded;
     }catch{
-      console.error('token invalid')
       return null
     }
   }

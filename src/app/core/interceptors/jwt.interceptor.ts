@@ -1,21 +1,26 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthService } from '../../modules/auth/auth.service';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { throwError } from 'rxjs';
 
-@Injectable()
-export class JwtInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
+  const platformId = inject(PLATFORM_ID);
+  let token: string | null = null;
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.authService.getToken();
-    if (token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    }
-    return next.handle(request);
+  if (isPlatformBrowser(platformId)) {
+    token = localStorage.getItem('token');
   }
-}
+
+  //if (!token) {
+  //  console.error('Token não encontrado');
+  //  return throwError(() => new Error('Token não encontrado'));
+  //}
+
+  const request = req.clone({
+    setHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return next(request);
+};

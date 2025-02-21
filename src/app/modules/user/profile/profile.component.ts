@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
 import { UserInterface } from '../../../core/interfaces/user.interface';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 /**

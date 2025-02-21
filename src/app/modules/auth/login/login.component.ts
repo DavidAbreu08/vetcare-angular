@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit{
       next: (response) => {
         console.log('Login bem-sucedido!', response);
         
-        this.router.navigate(['/home']);
+        this.router.navigate(['/user']);
       },
       error: (err) => {
         this.errorMessage = 'Credenciais inválidas. Tente novamente!';
