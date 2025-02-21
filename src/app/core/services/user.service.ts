@@ -27,6 +27,11 @@ export class UserService {
   }
 
   public getUserProfile(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/auth/me`);
+    this.userInfo = this.http.get(`${this.apiUrl}/auth/me`);
+    return this.userInfo;
+  }
+
+  public getRole(): number{
+    return this.userInfo.role;
   }
 }

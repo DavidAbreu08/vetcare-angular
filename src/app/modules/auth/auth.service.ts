@@ -55,4 +55,10 @@ export class AuthService {
       return localStorage.getItem('token')
     }
   }
+
+
+  public isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+  
 }
