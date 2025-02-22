@@ -15,8 +15,7 @@ export class RoleEmployeeGuard implements CanActivate {
   canActivate(): Observable<boolean> {
     return this.userService.getUserProfile().pipe(
       switchMap(() => {
-        const role = this.userService.getRole(); 
-        console.log(role)
+        const role = this.userService.getRole();
         if (role === '98') {
           return [true];  // Allow navigation
         } else {

@@ -1,6 +1,104 @@
 @import '../../../styles/abstracts/variables';
-@import '../../../styles/abstracts/mixins';
 
-p{
-    color: var(--ion-color-dark);
+
+.logo {
+    width: 290px;
+    height: 120px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+        width: 80%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            max-width: 150%;
+            height: auto;
+            object-fit: contain;
+        }
+    }
 }
+
+
+.sidebar {
+    position: fixed;
+    margin-left: 20px;
+    width: 290px;
+    height: 500px;
+    background: var(--ion-color-primary);
+    color: var(--ion-color-dark-contrast);
+    padding-top: 20px;
+    box-shadow: var(--ion-color-primary-rgb);
+    border-radius: 15px;
+
+    .nav-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        img{
+            height: 25px;
+            width: 25px;
+        }
+
+        li {
+            padding: 15px 35px;
+            transition: 0.3s;
+            border-left: 4px solid transparent; 
+            
+            a {
+                text-decoration: none;
+                color: var(--ion-color-dark-contrast);
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            &:hover {
+                background: var(--ion-color-primary-tint);
+                border-left: 4px solid var(--ion-color-secondary);
+            }
+            &.active {
+                background: var(--ion-color-primary-tint);
+                border-left: 4px solid var(--ion-color-secondary);
+            }
+        }
+    }
+}
+
+.side-out {
+    position: fixed;
+    bottom: 20px; 
+    width: 290px;
+    height: 50px;
+    background: var(--ion-color-primary);
+    display: flex;
+    margin-left: 20px;
+    box-shadow: var(--ion-color-primary-rgb);
+    border-radius: 10px;
+
+    a {
+        color: var(--ion-color-dark-contrast);
+        display: flex;
+        align-items: center;
+        padding: 0 0 0 25px;
+        gap: 15px;
+        font-size: 16px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.3s ease-in-out;
+    }
+    img {
+        width: 25px;
+        height: 25px;
+        padding: 12px 60px;
+    }
+}
+

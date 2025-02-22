@@ -17,7 +17,7 @@ export const routes: Routes = [
     {
         path: 'user',
         loadChildren: () => import('./modules/user/user.routes').then(route => route.routes),
-        canActivate: [AuthGuard, RoleAdminGuard, RoleEmployeeGuard, RoleClientGuard]
+        canActivate: [AuthGuard]
     },
     {
         path: 'auth',
