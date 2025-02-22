@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
-import { RoleGuard } from './core/guards/role.guard';
+import { RoleAdminGuard } from './core/guards/role-admin.guard';
+import { RoleEmployeeGuard } from './core/guards/role-employee.guard';
+import { RoleClientGuard } from './core/guards/role-client.guard';
 
 export const routes: Routes = [
     {
@@ -14,7 +16,8 @@ export const routes: Routes = [
     },
     {
         path: 'user',
-        loadChildren: () => import('./modules/user/user.routes').then(route => route.routes)
+        loadChildren: () => import('./modules/user/user.routes').then(route => route.routes),
+        canActivate: [AuthGuard, RoleAdminGuard, RoleEmployeeGuard, RoleClientGuard]
     },
     {
         path: 'auth',
@@ -23,11 +26,11 @@ export const routes: Routes = [
     {
         path: 'admin',
         loadChildren: () => import('./modules/admin/admin.routes').then(route => route.routes),
-        canActivate: [AuthGuard, RoleGuard],
+        canActivate: [AuthGuard, RoleAdminGuard],
     },
     {
         path: 'employee',
         loadChildren: () => import('./modules/employee/employee.routes').then(route => route.routes),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, RoleEmployeeGuard],
     },
 ];

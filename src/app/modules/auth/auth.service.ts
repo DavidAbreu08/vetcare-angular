@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { RegisterInterface } from './interfaces/register.interface';
-import { catchError, Observable, retry, tap } from 'rxjs';
+import { Observable, retry, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { HttpResponse } from '../../core/interfaces/http-response.interface';
 import { LoginInterface } from './interfaces/login.interface';

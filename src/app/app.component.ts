@@ -5,6 +5,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { UserService } from './core/services/user.service';
 
 @Component({
   selector: 'app-root',

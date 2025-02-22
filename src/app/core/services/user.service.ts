@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +27,13 @@ export class UserService {
   }
 
   public getUserProfile(): Observable<any> {
-    this.userInfo = this.http.get(`${this.apiUrl}/auth/me`);
-    return this.userInfo;
+    return this.http.get(`${this.apiUrl}/auth/me`).pipe(
+      tap((user) => (this.userInfo = user))
+    );
   }
 
-  public getRole(): number{
-    return this.userInfo.role;
+  public getRole(): string | null{
+    return this.userInfo ? this.userInfo.role : null;
   }
+  
 }
