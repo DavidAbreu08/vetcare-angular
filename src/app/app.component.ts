@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { UserService } from './core/services/user.service';
+import { SideNavToggle } from './shared/header/sideNavToggle.interface';
+import { BodyComponent } from './shared/body/body.component';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,8 @@ import { UserService } from './core/services/user.service';
     CommonModule,
     RouterOutlet,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    BodyComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -23,9 +26,17 @@ export class AppComponent implements OnInit{
   public isAuthPage!: boolean
   public isLoggedIn!: boolean
 
+  isSideNavCollapsed = false;
+  screenWidth = 0;
+
+  onToggleSideNav(data: SideNavToggle): void{
+    this.screenWidth = data.screenWidth;
+    this.isSideNavCollapsed = data.collapsed;
+  }
   constructor(
   private readonly router: Router,
   ){}
+
 
   ngOnInit(){
     this.router.events.pipe(
@@ -35,7 +46,9 @@ export class AppComponent implements OnInit{
         event.url === '/auth/login'||
         event.url === '/auth/register'||
         event.url === '/auth/recover-pass' ||
-        event.url === '/auth/verify-email' 
+        event.url === '/auth/verify-email' ||
+        event.url === '/home' 
+
       ) {
         this.isAuthPage = true;
       } else {
@@ -47,4 +60,6 @@ export class AppComponent implements OnInit{
       }
     });
   }
+
+  
 }

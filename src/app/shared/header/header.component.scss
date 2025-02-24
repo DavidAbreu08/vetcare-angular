@@ -1,104 +1,120 @@
 @import '../../../styles/abstracts/variables';
 
-
-.logo {
-    width: 290px;
-    height: 120px;
-    margin-left: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    a {
-        width: 80%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        img {
-            max-width: 150%;
-            height: auto;
-            object-fit: contain;
-        }
-    }
-}
-
-
-.sidebar {
-    position: fixed;
-    margin-left: 20px;
-    width: 290px;
-    height: 500px;
+.sidenav {
     background: var(--ion-color-primary);
-    color: var(--ion-color-dark-contrast);
-    padding-top: 20px;
-    box-shadow: var(--ion-color-primary-rgb);
-    border-radius: 15px;
+    transition: all .5s ease;
+    position: fixed;
+    z-index: 1;
+    top:0;
+    width: 5rem;
+    height: 100vh;
+    box-shadow: 0.063rem 0 1.25rem 0 var(--ion-color-light-shade);
 
-    .nav-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
 
-        img{
-            height: 25px;
-            width: 25px;
+    .logo-container{
+        display: flex;
+        align-items: center;
+        padding: 0.938rem 0.938rem 0 0.938rem;
+        width: 100%;
+
+        .logo{
+            background: var(--ion-color-dark-contrast);
+            text-align: center;
+            width: 3rem;
+            min-width: 3rem;
+            border-radius: 0.313rem;
+            padding: 0.313rem;
+            font-size: 24px;
+            font-weight: 900;
+            cursor: pointer;
+            border: none;
         }
 
-        li {
-            padding: 15px 35px;
-            transition: 0.3s;
-            border-left: 4px solid transparent; 
-            
-            a {
-                text-decoration: none;
+        .logo-text{
+            margin-left: 1.5rem;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--ion-color-dark-contrast);
+        }
+
+
+        .btn-close{
+            margin-left: auto;
+            cursor: pointer;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-color: transparent;
+            border: none;
+
+            .fa-times{
                 color: var(--ion-color-dark-contrast);
-                display: flex;
-                align-items: center;
-                gap: 15px;
-                font-size: 16px;
-                font-weight: 500;
-            }
-
-            &:hover {
-                background: var(--ion-color-primary-tint);
-                border-left: 4px solid var(--ion-color-secondary);
-            }
-            &.active {
-                background: var(--ion-color-primary-tint);
-                border-left: 4px solid var(--ion-color-secondary);
+                font-size: 24px;
             }
         }
     }
 }
 
-.side-out {
-    position: fixed;
-    bottom: 20px; 
-    width: 290px;
-    height: 50px;
-    background: var(--ion-color-primary);
-    display: flex;
-    margin-left: 20px;
-    box-shadow: var(--ion-color-primary-rgb);
-    border-radius: 10px;
+.sidenav-collapsed{
+    width: 16.5625rem;
+}
 
-    a {
-        color: var(--ion-color-dark-contrast);
-        display: flex;
-        align-items: center;
-        padding: 0 0 0 25px;
-        gap: 15px;
-        font-size: 16px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background 0.3s ease-in-out;
+.sidenav-nav{
+    list-style: none;
+    padding: 0.938rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100% - 3.65rem);
+    cursor: pointer;
+
+    .sidenav-nav-item{
+        width: 100%;
+        margin-bottom: 0.625rem;
+
+        .sidenav-nav-link{
+            display: flex;
+            align-items: center;
+            height: 3rem;
+            color: var(--ion-color-light-shade);
+            text-decoration: none;
+            border-radius: 0.625rem;
+            transition: all .3s ease;
+
+
+            .sidenav-link-icon{
+                font-size: 22px;
+                width: 2rem;
+                height: 2rem;
+                min-width: 2rem;
+                margin: 0 0.5rem;
+                text-align: center;
+            }
+
+            .sidenav-link-text{
+                margin-left: 1.5rem;
+
+            }
+
+        }
     }
-    img {
-        width: 25px;
-        height: 25px;
-        padding: 12px 60px;
+
+    .sidenav-nav-item:hover{
+
+        .sidenav-nav-link{
+            background-color: var(--ion-color-dark-contrast);
+            color: var(--ion-color-dark);
+        }
+
     }
 }
 
+.active{
+    background-color: var(--ion-color-light);
+
+    .sidenav-link-icon,
+    .sidenav-link-text{
+        color: var(--ion-color-dark);
+    }
+}

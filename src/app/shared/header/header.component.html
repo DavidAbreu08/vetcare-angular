@@ -1,63 +1,20 @@
-<div class="logo">
-    <a href="#">
-        <img src="../../../assets/images/logomain.png" alt="Logo Image">
-    </a>
-</div>
-<div class="sidebar">
-    <ul class="nav-list">
-        <li>
-            <a href="#">
-                <img src="../../../assets/icons/painel-de-controle.png" alt="Clinica Image">
-                Painel de Controlo
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="../../../assets/icons/consultorio.png" alt="Clinica Image">
-                Clínica
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="../../../assets/icons/relogio.png" alt="Horários Image">
-                Horários
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="../../../assets/icons/funcionarios.png" alt="Funcionários Image">
-                Funcionários
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="../../../assets/icons/calendario.png" alt="Agenda Image">
-                Agenda
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="../../../assets/icons/amar.png" alt="Clientes Image">
-                Clientes
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="../../../assets/icons/verificado.png" alt="Validação Image">
-                Validação
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <img src="../../../assets/icons/notificacao.png" alt="Notificações Image">
-                Gestão de Notificações
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''" >
+    <div class="logo-container">
+        <button class="logo" (click)="toggleCollapse()">A</button>
+        <div class="logo-text" *ngIf="collapsed">Angular</div>
+        <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
+            <i class="fal fa-times close-icon"></i>
+        </button>
+    </div>
+    <ul class="sidenav-nav">
+        <li class="sidenav-nav-item" *ngFor="let data of navData">
+            <a class="sidenav-nav-link" [routerLink]="[data.routeLink]"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}"
+            >
+                <i class="sidenav-link-icon" [ngClass]="data.icon"></i>
+                <span class="sidenav-link-text" *ngIf="collapsed" >{{data.label}}</span>
             </a>
         </li>
     </ul>
-</div>
-<div class="side-out">
-    <a href="#">
-        Terminar sessão
-    </a>
-    <img src="../../../assets/icons/sair.png" alt="Notificações Image">
 </div>
