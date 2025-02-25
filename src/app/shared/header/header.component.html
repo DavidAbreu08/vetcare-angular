@@ -1,7 +1,11 @@
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''" >
     <div class="logo-container">
-        <button class="logo" (click)="toggleCollapse()">A</button>
-        <div class="logo-text" *ngIf="collapsed">Angular</div>
+        <button class="btn-logo" (click)="toggleCollapse()">
+            <img src="../../../assets/icons/logoIcon.png"alt="" class="logo">
+        </button>
+        <div class="logo-text" *ngIf="collapsed">
+            <span class="logo-title">Vetcare Systems</span>
+        </div>
     </div>
     <ul class="sidenav-nav">
         <li class="sidenav-nav-item" *ngFor="let data of navData">

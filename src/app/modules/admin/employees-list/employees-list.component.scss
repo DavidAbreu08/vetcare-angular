@@ -1,0 +1,11 @@
+@import '../../../../styles/abstracts/variables';
+
+.employees-list{
+    display: flex;
+
+    .title{
+        color: var(--ion-color-primary);
+        font-weight: 600;
+        font-size: 25px;
+    }
+}

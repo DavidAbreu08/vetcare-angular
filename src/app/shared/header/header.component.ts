@@ -1,15 +1,18 @@
 import { Component, EventEmitter, HostListener, Inject, OnInit, Output, PLATFORM_ID } from '@angular/core';
 import { navbarData } from './nav-data';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SideNavToggle } from './sideNavToggle.interface';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @Component({
   selector: 'app-header',
   imports: [
     RouterLink,
     CommonModule,
-    RouterModule
+    RouterModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -25,11 +28,16 @@ export class HeaderComponent implements OnInit{
   activeRoute: string = '';
 
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.screenWidth = window.innerWidth;
+    if (isPlatformBrowser(this.platformId)) {
+      this.screenWidth = window.innerWidth;
+    }
     if (this.screenWidth <= 768) {
       this.collapsed = false;
     }
@@ -37,7 +45,9 @@ export class HeaderComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.screenWidth = window.innerWidth;
+    if (isPlatformBrowser(this.platformId)) {
+      this.screenWidth = window.innerWidth;
+    }
     this.activeRoute = this.router.url;
 
     this.router.events.subscribe(() => {

@@ -15,7 +15,7 @@ import { BodyComponent } from './shared/body/body.component';
     RouterOutlet,
     HeaderComponent,
     FooterComponent,
-    BodyComponent
+    BodyComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -46,7 +46,8 @@ export class AppComponent implements OnInit{
         event.url === '/auth/register'||
         event.url === '/auth/recover-pass' ||
         event.url === '/auth/verify-email' ||
-        event.url === '/home' 
+        event.url === '/home' ||
+        event.url === '/user'
 
       ) {
         this.isAuthPage = true;
