@@ -37,21 +37,6 @@
             color: var(--ion-color-dark-contrast);
         }
 
-
-        .btn-close{
-            margin-left: auto;
-            cursor: pointer;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            background-color: transparent;
-            border: none;
-
-            .fa-times{
-                color: var(--ion-color-dark-contrast);
-                font-size: 24px;
-            }
-        }
     }
 }
 
@@ -100,14 +85,6 @@
         }
     }
 
-    .sidenav-nav-item:hover{
-
-        .sidenav-nav-link{
-            background-color: var(--ion-color-dark-contrast);
-            color: var(--ion-color-dark);
-        }
-
-    }
 }
 
 .active{
@@ -115,6 +92,6 @@
 
     .sidenav-link-icon,
     .sidenav-link-text{
-        color: var(--ion-color-dark);
+        color: var(--ion-color-primary);
     }
 }

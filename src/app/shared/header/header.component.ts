@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Inject, OnInit, Output, PLATFORM_ID } from '@angular/core';
+import { Component, EventEmitter, HostListener, Inject, OnInit, Output, PLATFORM_ID } from '@angular/core';
 import { navbarData } from './nav-data';
-import { RouterLink, RouterModule } from '@angular/router';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router, RouterLink, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { SideNavToggle } from './sideNavToggle.interface';
 
 @Component({
@@ -21,14 +21,34 @@ export class HeaderComponent implements OnInit{
   collapsed = false;
   screenWidth = 0;
 
-  navData = navbarData
+  navData = navbarData;
+  activeRoute: string = '';
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
+
+  constructor(private router: Router) {}
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.screenWidth = window.innerWidth;
+    if (this.screenWidth <= 768) {
+      this.collapsed = false;
+    }
+    this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+  }
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.screenWidth = window.innerHeight;
-    }
+    this.screenWidth = window.innerWidth;
+    this.activeRoute = this.router.url;
+
+    this.router.events.subscribe(() => {
+      this.activeRoute = this.router.url;
+    });
+  }
+
+  getIcon(routeLink: string): string {
+    return this.activeRoute === `/${routeLink}`
+      ? this.navData.find(item => item.routeLink === routeLink)?.iconActive || ''
+      : this.navData.find(item => item.routeLink === routeLink)?.iconInactive || '';
   }
 
   toggleCollapse(): void{
@@ -36,8 +56,4 @@ export class HeaderComponent implements OnInit{
     this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
   }
 
-  closeSidenav(): void{
-    this.collapsed = false;
-    this.onToggleSideNav.emit({collapsed: this.collapsed, screenWidth: this.screenWidth});
-  }
 }
