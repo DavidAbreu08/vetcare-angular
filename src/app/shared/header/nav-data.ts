@@ -16,5 +16,5 @@ export const navbarData = [
         iconActive: '../../../assets/icons/employees-list-active.png',
         iconInactive: '../../../assets/icons/employees-list.png',
         label: 'Funcionários',
-    },
+    }
 ]

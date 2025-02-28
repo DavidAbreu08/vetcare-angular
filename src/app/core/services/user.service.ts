@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
