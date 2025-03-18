@@ -1,0 +1,26 @@
+<input type="text" placeholder="Search" />
+<div class="notification-container">
+  <a (click)="toggleNotifications()" class="notification-container__btn">
+    <img src="../../../assets/icons/notification.png" alt="Notificações" />
+    <span>1</span>
+  </a>
+
+  <div class="notification-container__dropdown" *ngIf="showNotifications">
+    <h3>Notificações</h3>
+    <a
+      *ngFor="let notification of notifications"
+      [routerLink]="notification.link"
+    >
+      {{ notification.message }}
+    </a>
+  </div>
+</div>
+<div class="avatar" (click)="toggleProfileDropdown()">
+    <img src="../../../assets/icons/down-arrow.png" alt="" class="dropdown" />
+    <div class="profile-dropdown" *ngIf="showProfileDropdown">
+      <a routerLink="/user">Meu Perfil</a>
+      <a>Configurações</a>
+      <a>Sair</a>
+    </div>
+  </div>
+

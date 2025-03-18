@@ -4,19 +4,6 @@
   </div>
 
   <div class="control-panel__top-bar">
-    <input type="text" placeholder="Search">
-    <div class="notification-container">
-      <a (click)="toggleNotifications()" class="notification-container__btn">
-        <img src="../../../../assets/icons/notification.png" alt="Notificações">
-        <span>1</span>
-      </a>
-
-      <div class="notification-container__dropdown" *ngIf="showNotifications">
-        <h3>Notificações</h3>
-        <a *ngFor="let notification of notifications" [routerLink]="notification.link">
-          {{ notification.message }}
-        </a>
-      </div>
-    </div>
+    <app-top-bar></app-top-bar>
   </div>
 </div>

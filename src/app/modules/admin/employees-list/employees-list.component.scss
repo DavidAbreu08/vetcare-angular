@@ -2,10 +2,15 @@
 
 .employees-list{
     display: flex;
-
-    .title{
+    h1{
         color: var(--ion-color-primary);
         font-weight: 600;
         font-size: 25px;
+    }
+
+    &__top-bar{
+        position: absolute;
+        top: 20px;
+        right: 30px;
     }
 }

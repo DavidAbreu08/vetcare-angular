@@ -1,8 +1,17 @@
+@import '../../../../styles/abstracts/variables';
+    
 .schedule{
     display: flex;
 
-    .title{
+    h1{
         color: var(--ion-color-primary);
         font-size: 24px;
+    }
+
+    &__top-bar{
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        
     }
 }
