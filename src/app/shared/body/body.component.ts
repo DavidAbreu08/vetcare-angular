@@ -1,6 +1,7 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-body',
@@ -12,6 +13,8 @@ export class BodyComponent implements OnInit {
   
   @Input() collapsed = false;
   @Input() screenWidth = 0;
+  @Input() isAuthPage = false;
+  @Input() isLoggedIn = false;  
   currentRoute: string = '';
 
   constructor(
@@ -26,29 +29,25 @@ export class BodyComponent implements OnInit {
       }
     }
 
-    // Obtém a rota ativa
-    this.currentRoute = this.router.url;
-
-    // Escuta mudanças de rota
-    this.router.events.subscribe(() => {
-      this.currentRoute = this.router.url;
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.currentRoute = event.url;
     });
   }
 
   getBodyClass(): string {
-    let styleClass = '';
-
-    // Aplica estilos APENAS para rotas que começam com "/admin"
-    if (this.currentRoute.startsWith('/admin')) {
-      styleClass = 'body-md-screen';
-      
-      if (this.collapsed && this.screenWidth > 768) {
-        styleClass = 'body-trimmed';
-      } else if (this.collapsed && this.screenWidth <= 768 && this.screenWidth > 0) {
-        styleClass = 'body-md-screen';
-      }
+    if (this.isAuthPage) {
+        return 'body-full-width';
     }
 
-    return styleClass;
-  }
+    if (this.collapsed && this.screenWidth > 768) {
+        return 'body-trimmed';
+    } else if (this.collapsed && this.screenWidth <= 768) {
+        return 'body-md-screen';
+    }
+
+    return 'body-md-screen';
+}
+
 }

@@ -2,5 +2,7 @@
   <app-body
     [collapsed]="isSideNavCollapsed"
     [screenWidth]="screenWidth"
+    [isAuthPage]="isAuthPage"
+    [isLoggedIn]="isLoggedIn"
   ></app-body>
 <app-footer *ngIf="isLoggedIn || !isAuthPage"/>

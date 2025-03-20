@@ -6,5 +6,4 @@ export const routes: Routes = [
     { path: 'schedule', loadComponent: () => import('./schedules/schedules.component').then(component => component.SchedulesComponent), pathMatch: 'full' },
     { path: 'employees-list', loadComponent: () => import('./employees-list/employees-list.component').then(component => component.EmployeesListComponent), pathMatch: 'full' },
 
-    
 ];

@@ -9,7 +9,6 @@ import { TopBarComponent } from '../../../shared/top-bar/top-bar.component';
   selector: 'app-control-panel',
   imports: [
     CommonModule,
-    RouterLink,
     TopBarComponent
   ],
   templateUrl: './control-panel.component.html',
@@ -17,7 +16,7 @@ import { TopBarComponent } from '../../../shared/top-bar/top-bar.component';
 })
 export class ControlPanelComponent implements OnInit{
 
-  public userInfo!: UserInterface;
+  public userInfo: UserInterface = {} as UserInterface;
   
 
   constructor(
@@ -27,10 +26,7 @@ export class ControlPanelComponent implements OnInit{
   ngOnInit() {
     this.userService.getUserProfile()
       .subscribe((res: UserInterface) => {
-        console.log(res)
         this.userInfo = res;
       })
   }
-
-
 }

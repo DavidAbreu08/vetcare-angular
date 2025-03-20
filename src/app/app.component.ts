@@ -12,7 +12,6 @@ import { BodyComponent } from './shared/body/body.component';
   selector: 'app-root',
   imports: [
     CommonModule,
-    RouterOutlet,
     HeaderComponent,
     FooterComponent,
     BodyComponent,
@@ -27,39 +26,32 @@ export class AppComponent implements OnInit{
 
   isSideNavCollapsed = false;
   screenWidth = 0;
+  constructor(
+    private readonly router: Router,
+    ){}
 
   onToggleSideNav(data: SideNavToggle): void{
     this.screenWidth = data.screenWidth;
     this.isSideNavCollapsed = data.collapsed;
   }
-  constructor(
-  private readonly router: Router,
-  ){}
-
+  
 
   ngOnInit(){
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      if (
-        event.url === '/auth/login'||
-        event.url === '/auth/register'||
-        event.url === '/auth/recover-pass' ||
-        event.url === '/auth/verify-email' ||
-        event.url === '/home' ||
-        event.url === '/user'
-
-      ) {
-        this.isAuthPage = true;
-      } else {
-        this.isAuthPage = false;
-      }
-
+      const authPages = [
+        '/auth/login',
+        '/auth/register',
+        '/auth/recover-pass',
+        '/auth/verify-email',
+        '/home',
+        '/user'
+      ];
+      this.isAuthPage = authPages.includes(event.url);
       if (event.url === '/auth/login' && this.isLoggedIn) {
-        this.router.navigate(['/home'])
+        this.router.navigate(['/home']);
       }
     });
   }
-
-  
 }
