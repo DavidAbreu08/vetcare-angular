@@ -15,9 +15,9 @@
     </a>
   </div>
 </div>
-<div class="avatar" (click)="toggleProfileDropdown()">
+<div class="avatar" (click)="toggleProfileDropdown()" onkeypress="">
     <img src="../../../assets/icons/down-arrow.png" alt="" class="dropdown" />
-    <div class="profile-dropdown" *ngIf="showProfileDropdown">
+    <div class="avatar__dropdown" *ngIf="showProfileDropdown">
       <a routerLink="/user">Meu Perfil</a>
       <a>Configurações</a>
       <a>Sair</a>

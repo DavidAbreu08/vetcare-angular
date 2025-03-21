@@ -29,7 +29,7 @@ export class TopBarComponent {
    *
    * @param elementRef Reference to the component's DOM element.
    */
-  constructor(private elementRef: ElementRef) {}
+  constructor(private readonly elementRef: ElementRef) {}
 
   /**
    * Toggles the display of the notifications dropdown.
@@ -39,7 +39,7 @@ export class TopBarComponent {
     this.showNotifications = !this.showNotifications;
 
     if (this.showNotifications) {
-      this.showProfileDropdown = false; // Fecha o menu do perfil se as notificações estiverem abertas
+      this.showProfileDropdown = false;
     }
   }
 
@@ -51,7 +51,7 @@ export class TopBarComponent {
     this.showProfileDropdown = !this.showProfileDropdown;
 
     if (this.showProfileDropdown) {
-      this.showNotifications = false; // Fecha o menu de notificações se o perfil estiver aberto
+      this.showNotifications = false;
     }
   }
 

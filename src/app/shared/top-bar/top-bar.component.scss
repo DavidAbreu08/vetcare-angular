@@ -53,6 +53,7 @@ input{
         height: 200px;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
 
         h3{
             margin: 0;
@@ -94,6 +95,32 @@ input{
     background-size: 25px;
     cursor: pointer;
 
+    &__dropdown {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        background: var(--ion-color-dark-contrast);
+        padding: 10px;
+        width: 150px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    
+        a {
+          display: block;
+          padding: 8px;
+          font-size: 14px;
+          color: var(--ion-color-tertiary);
+          text-decoration: none;
+          cursor: pointer;
+    
+          &:hover {
+            background-color: var(--ion-color-light);
+            border-radius: 5px;
+          }
+        }
+    }  
+
     img{
         position: absolute;
         top: 15px;
@@ -102,30 +129,4 @@ input{
         width: 20px;
     }
   
-    .profile-dropdown {
-      position: absolute;
-      top: 50px;
-      right: 0;
-      background: var(--ion-color-dark-contrast);
-      padding: 10px;
-      width: 150px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      z-index: 10;
-  
-      a {
-        display: block;
-        padding: 8px;
-        font-size: 14px;
-        color: var(--ion-color-tertiary);
-        text-decoration: none;
-        cursor: pointer;
-  
-        &:hover {
-          background-color: var(--ion-color-light);
-          border-radius: 5px;
-        }
-      }
-    }
-  }
-  
+}

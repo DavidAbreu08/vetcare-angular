@@ -1,12 +1,12 @@
 @media (min-width: 2200px) {
     .column {
-      flex: 25% !important;
-      max-width: 25% !important;
+      flex: 33.33% !important;
+      max-width: 33.33% !important;
     }
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */
-@media (max-width: 1400px) {
+@media (max-width: 1920px) {
     .column {
       flex: 50% !important;
       max-width: 50% !important;
@@ -14,7 +14,7 @@
 }
   
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media (max-width: 900px) {
+@media (max-width: 1050px) {
     .column {
       flex: 100% !important;
       max-width: 100% !important;

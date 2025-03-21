@@ -11,6 +11,7 @@ import { navbarData } from './nav-data';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SideNavToggle } from './sideNavToggle.interface';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
@@ -19,20 +20,19 @@ import { SideNavToggle } from './sideNavToggle.interface';
     RouterLink,
     CommonModule,
     RouterModule,
+    TranslateModule
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   standalone: true
 })
 export class HeaderComponent implements OnInit{
-
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter()
   collapsed = false;
   screenWidth = 0;
 
   navData = navbarData;
   activeRoute: string = '';
-
 
   constructor(
     private readonly router: Router,

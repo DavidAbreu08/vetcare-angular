@@ -1,4 +1,12 @@
 {
+    "common": {
+        "buttons": {
+            "logout": "Terminar sessão"
+        },
+        "inputs": {
+    
+        }
+    },
     "dashboard": {
         "welcome": "Bem Vindo a VetCare!",
 
