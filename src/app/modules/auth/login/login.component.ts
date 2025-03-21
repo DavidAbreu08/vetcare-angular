@@ -1,8 +1,15 @@
+/*
+ * File: login.component.ts
+ * Project: VetCare
+ * Created: Thursday, 20th February 2025 10:25:43 pm
+ * Last Modified: Friday, 21st March 2025 4:25:26 pm
+ * Copyright © 2025 VetCare
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({

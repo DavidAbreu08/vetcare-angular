@@ -1,28 +1,44 @@
-<div class="control-panel">
-  <div class="control-panel__welcome">
-    <h1>Bem Vindo a VetCare!</h1>
+<div class="dashboard">
+  <div class="dashboard__welcome">
+    <h1>{{ 'welcome' | translate }}</h1>
     <h4 *ngIf="userInfo">Olá {{userInfo.firstName}} {{userInfo.lastName}}. Bem-vindo de volta!</h4>
   </div>
-  <div class="control-panel__top-bar">
+  <div class="dashboard__top-bar">
     <app-top-bar></app-top-bar>
   </div>
-  <div class="content">
-    <h1>Resultados de hoje</h1>
-    <div class="content__icon">
-      <img src="../../../../assets/icons/schedule.png" alt="calendar image">
+  <div class="dashboard__content">
+    <div class="overall">
+      <h1>{{ 'dashboard.overall.title' | translate }}</h1>
+      <div class="overall__icon" (click)="toggleCalendar()" onkeypress="">
+        <img src="../../../../assets/icons/schedule.png" alt="calendar">
+      </div>
+      <div class="overall__circle-client">
+        <h2>40</h2>
+        <h5>Clientes</h5>
+      </div>
+      <div class="overall__circle-employee">
+        <h2>20</h2>
+        <h5>Funcionários</h5>
+      </div>
+      <div class="overall__circle-animals">
+        <h2>2</h2>
+        <h5>Animais</h5>
+      </div>
     </div>
-    <div class="content__circle-client">
-      <h2>40</h2>
-      <h5>Clientes</h5>
+    <div class="calendar">
+      <h2>Eventos marcados</h2>
     </div>
-    <div class="content__circle-employee">
-      <h2>20</h2>
-      <h5>Funcionários</h5>
-    </div>
-    <div class="content__circle-animals">
-      <h2>2</h2>
-      <h5>Animais</h5>
+    <div class="newsoftheweek">
+      <h1>3 noticias mais visitadas</h1>
+      <div class="newsoftheweek__news">
+        <h2>Noticia 1</h2>
+      </div>
+      <div class="newsoftheweek__news">
+        <h2>Noticia 1</h2>
+      </div>
+      <div class="newsoftheweek__news">
+        <h2>Noticia 1</h2>
+      </div>
     </div>
   </div>
-
 </div>

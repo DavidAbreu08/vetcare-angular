@@ -1,10 +1,16 @@
+/*
+ * File: header.component.ts
+ * Project: VetCare
+ * Created: Friday, 14th March 2025 2:05:49 pm
+ * Last Modified: Friday, 21st March 2025 4:07:07 pm
+ * Copyright © 2025 VetCare
+ */
+
 import { Component, EventEmitter, HostListener, Inject, OnInit, Output, PLATFORM_ID } from '@angular/core';
 import { navbarData } from './nav-data';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SideNavToggle } from './sideNavToggle.interface';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @Component({
@@ -29,8 +35,8 @@ export class HeaderComponent implements OnInit{
 
 
   constructor(
-    private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
+    private readonly router: Router,
+    @Inject(PLATFORM_ID) private readonly platformId: Object
   ) {}
 
   @HostListener('window:resize', ['$event'])

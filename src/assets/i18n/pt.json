@@ -1,0 +1,9 @@
+{
+    "dashboard": {
+        "welcome": "Bem Vindo a VetCare!",
+
+        "overall" :{
+            "title": "Resultados de hoje"
+        }
+    }
+}

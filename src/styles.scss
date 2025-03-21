@@ -9,14 +9,15 @@
 @import './styles/components/modals';
 
 * {
-    font-family: "Montserrat", serif; 
+    font-family: "Montserrat", sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 html,
 body {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    position: relative;
+    
     background-color: var(--ion-color-light);
+    height: 100%;
 }

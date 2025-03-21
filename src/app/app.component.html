@@ -1,8 +1,8 @@
-<app-header (onToggleSideNav)="onToggleSideNav($event)" *ngIf="isLoggedIn || !isAuthPage" />
-  <app-body
-    [collapsed]="isSideNavCollapsed"
-    [screenWidth]="screenWidth"
-    [isAuthPage]="isAuthPage"
-    [isLoggedIn]="isLoggedIn"
-  ></app-body>
-<app-footer *ngIf="isLoggedIn || !isAuthPage"/>
+<app-header 
+  (onToggleSideNav)="onToggleSideNav($event)" 
+  *ngIf="isLoggedIn || !isAuthPage" 
+/>
+<div class="screen" [ngClass]="sizeClass">
+  <router-outlet></router-outlet>
+</div>
+<app-footer *ngIf="isLoggedIn || !isAuthPage" />

@@ -4,12 +4,14 @@ import { UserInterface } from '../../../core/interfaces/user.interface';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TopBarComponent } from '../../../shared/top-bar/top-bar.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-control-panel',
   imports: [
     CommonModule,
-    TopBarComponent
+    TopBarComponent,
+    TranslateModule
   ],
   templateUrl: './control-panel.component.html',
   styleUrl: './control-panel.component.scss'
@@ -20,7 +22,7 @@ export class ControlPanelComponent implements OnInit{
   
 
   constructor(
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ){}
 
   ngOnInit() {
@@ -28,5 +30,9 @@ export class ControlPanelComponent implements OnInit{
       .subscribe((res: UserInterface) => {
         this.userInfo = res;
       })
+  }
+
+  toggleCalendar(){
+    console.log('calendar')
   }
 }
