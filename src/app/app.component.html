@@ -1,8 +1,37 @@
-<app-header 
-  (onToggleSideNav)="onToggleSideNav($event)" 
-  *ngIf="isLoggedIn || !isAuthPage" 
-/>
-<div class="screen" [ngClass]="sizeClass">
-  <router-outlet></router-outlet>
+<div class="app-container">
+  @if (!isAuthPage) {
+    <div class="position-relative">
+      <app-sidebar 
+        [isSidebarCollapsed]="isSidebarCollapsed"
+        (sidebarToggle)="onSidebarToggle()"
+      />
+      <button
+        class="sidebar-toggle-btn"
+        [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+        (click)="onSidebarToggle()"
+      >
+        @if (isSidebarCollapsed) {
+          <mat-icon 
+            aria-hidden="false" 
+            aria-label="Arrow back" 
+            fontIcon="arrow_forward"
+          ></mat-icon>
+        }@else {
+          <mat-icon 
+            aria-hidden="false" 
+            aria-label="Arrow back" 
+            fontIcon="arrow_backward"
+          ></mat-icon>  
+        }
+      </button>
+    </div>
+    <app-top-bar />
+  }
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="content-inner">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer *ngIf="isLoggedIn || !isAuthPage" />
+  </main>
+  
 </div>
-<app-footer *ngIf="isLoggedIn || !isAuthPage" />

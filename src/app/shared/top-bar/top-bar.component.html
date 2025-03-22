@@ -1,26 +1,28 @@
-<input type="text" placeholder="Search" />
-<div class="notification-container">
-  <a (click)="toggleNotifications()" class="notification-container__btn">
-    <img src="../../../assets/icons/notification.png" alt="Notificações" />
-    <span>1</span>
-  </a>
-
-  <div class="notification-container__dropdown" *ngIf="showNotifications">
-    <h3>Notificações</h3>
-    <a
-      *ngFor="let notification of notifications"
-      [routerLink]="notification.link"
-    >
-      {{ notification.message }}
-    </a>
+<div class="top-bar">
+  <div class="top-bar__search">
+    <input type="text" placeholder="Search" />
   </div>
-</div>
-<div class="avatar" (click)="toggleProfileDropdown()" onkeypress="">
-    <img src="../../../assets/icons/down-arrow.png" alt="" class="dropdown" />
+  <div class="top-bar__notification-container">
+    <a (click)="toggleNotifications()" class="notification-container__btn">
+      <img src="../../../assets/icons/notification.png" alt="Notificações" />
+      <span>1</span>
+    </a>
+    <div class="notification-container__dropdown" *ngIf="showNotifications">
+      <h3>Notificações</h3>
+      <a
+        *ngFor="let notification of notifications"
+        [routerLink]="notification.link"
+      >
+        {{ notification.message }}
+      </a>
+    </div>
+  </div>
+  <div class="top-bar__avatar" (click)="toggleProfileDropdown()" onkeypress="">
     <div class="avatar__dropdown" *ngIf="showProfileDropdown">
       <a routerLink="/user">Meu Perfil</a>
       <a>Configurações</a>
       <a>Sair</a>
     </div>
   </div>
+</div>
 

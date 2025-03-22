@@ -1,26 +1,47 @@
-.screen {
-    height: 100vh;
-    width: 100%;
-    z-index: 0;
-    position: relative;
-    top: 0;
-    transition: all 0.5s ease;
-    background: var(--ion-color-light);
-    overflow-x: hidden;
+@import '../styles/abstracts/variables';
+
+.app-container {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+}
+
+.content {
+    flex-grow: 1;
+    margin-left: 240px;
+    transition: all 0.3s ease-in-out;
     overflow-y: auto;
+    margin-top: 55px;
+  
+    &-inner {
+      padding: 70px;
+      margin: 0 auto;
+    }
+  
+    &-expanded {
+      margin-left: 50px;
+    }
 }
 
-.screen-md-screen {
-    width: calc(100% - 100px);
-    margin-left: 100px;
-}
-
-.screen-trimmed {
-    width: calc(100% - 280px);
-    margin-left: 280px;
-}
-
-.screen-full-width {
-    width: 100% !important;
-    margin-left: 0 !important;
+.sidebar-toggle-btn {
+    position: absolute;
+    top: 1rem;
+    left: 250px; // Default position when sidebar is expanded
+    background-color: var(--ion-color-primary);
+    border: none;
+    color: var(--ion-color-light);
+    padding: 0.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: $box-shadow;
+    transition: all 0.3s ease-in-out;
+  
+    &:hover {
+      background-color: #34495e;
+    }
+  
+    &.sidebar-collapsed {
+      left: 110px;
+    }
 }

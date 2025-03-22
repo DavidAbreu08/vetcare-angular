@@ -1,12 +1,8 @@
 <div class="employees">
-  <div class="employees__top-bar">
-    <app-top-bar></app-top-bar>
-  </div>
   <div class="row">
     <div class="column">
       <div class="employees__togglebuttons">
         <button>{{ 'common.buttons.addFunc' | translate }}</button>
-        <button>{{ 'common.buttons.addPermitions' | translate }}</button>
       </div>
     </div>
     <div class="card-list header">
@@ -55,8 +51,41 @@
       <div class="column-list" *ngIf="employee.isActive">Ativo</div>
       <div class="column-list" *ngIf="!employee.isActive">Ferias</div>
       <div class="column-list">
-        <button>✏️</button>
-        <button>🗑️</button>
+        <button mat-mini-fab aria-label="Button to open menu" class="button--rounded" (click)="openOptionsMenu(i)">
+          <mat-icon 
+            aria-hidden="false" 
+            aria-label="Menu" 
+            fontIcon="more_vert"
+          ></mat-icon>
+        </button>
+        <div class="card-list__options" id="options-menu-{{ i }}" [ngClass]="{'active': openedOptionsIndex === i.toString()}">
+          <ul>
+            <li>
+              <mat-icon 
+                aria-hidden="false" 
+                aria-label="Edit" 
+                fontIcon="edit"
+              ></mat-icon>
+              Editar
+            </li>
+            <li>
+              <mat-icon 
+                aria-hidden="false" 
+                aria-label="Settings" 
+                fontIcon="settings"
+              ></mat-icon>
+              Alterar permissões
+            </li>
+            <li class="danger">
+              <mat-icon 
+                aria-hidden="false" 
+                aria-label="Delete" 
+                fontIcon="delete"
+              ></mat-icon>
+              Apagar
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

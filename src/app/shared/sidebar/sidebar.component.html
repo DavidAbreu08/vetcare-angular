@@ -1,0 +1,57 @@
+<div class="sidebar" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
+    <div class="sidebar__logo">
+        @if (!isSidebarCollapsed) {
+            <img src="../../../assets/images/logo_v3.png" alt="Logo">
+        } @else {
+            <img src="../../../assets/images/short_logo_v3.png" alt="Logo">
+        }
+    </div>
+    <div class="sidebar__menu">
+      <ul>
+        <ng-container *ngFor="let item of menuItems">
+            <li 
+                class="sidebar__menu-item" 
+                (click)="toggleMenuItem(item)"
+                [ngClass]="{
+                    'has-children': item.children,
+                    'menu-item-active': item.isOpen
+                  }"
+                class="sidebar__item"
+                onkeydown=""
+                [routerLink]="item.link"
+            >
+                <div class="sidebar__link">
+                    <mat-icon 
+                        aria-hidden="false" 
+                        fontIcon="{{ item.icon }}"
+                    ></mat-icon>
+                    <span class="sidebar__item-text">{{ item.label }}</span>
+                </div>
+                <ul
+                    *ngIf="item.children && !isSidebarCollapsed && item.isOpen"
+                    class="sidebar__submenu"
+                >
+                    <li *ngFor="let child of item.children">
+                        <a class="sidebar__submenu__item sidebar__subitem" [routerLink]="child.link">
+                            <mat-icon 
+                                aria-hidden="false" 
+                                fontIcon="{{ child.icon }}"
+                            ></mat-icon>
+                            <span class="sidebar__item-text">{{ child.label }}</span>
+                        </a>
+                    </li>
+                </ul>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <div class="sidebar__logout">
+        <a href="#">
+            <mat-icon 
+                aria-hidden="false" 
+                fontIcon="logout"
+            ></mat-icon>
+            <span class="sidebar__item-text">{{ 'common.buttons.logout' | translate }}</span>
+        </a>
+    </div>
+  </div>

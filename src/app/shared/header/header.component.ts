@@ -28,11 +28,13 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit{
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter()
-  collapsed = false;
-  screenWidth = 0;
+  public collapsed = false;
+  public screenWidth = 0;
 
-  navData = navbarData;
-  activeRoute: string = '';
+  public navData = navbarData;
+  public activeRoute: string = '';
+
+  public isSidebarCollapsed = false;
 
   constructor(
     private readonly router: Router,
@@ -59,6 +61,10 @@ export class HeaderComponent implements OnInit{
     this.router.events.subscribe(() => {
       this.activeRoute = this.router.url;
     });
+  }
+
+  public onSidebarToggle() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
   getIcon(routeLink: string): string {
