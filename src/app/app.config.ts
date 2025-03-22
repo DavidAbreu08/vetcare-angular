@@ -7,6 +7,7 @@ import { HttpClient, provideHttpClient, withFetch, withInterceptors } from '@ang
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { DatePipe } from '@angular/common';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

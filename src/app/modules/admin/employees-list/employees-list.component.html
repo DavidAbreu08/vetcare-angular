@@ -1,6 +1,63 @@
-<div class="employees-list">
-  <h1>Funcionarios</h1>
-  <div class="employees-list__top-bar">
+<div class="employees">
+  <div class="employees__top-bar">
     <app-top-bar></app-top-bar>
+  </div>
+  <div class="row">
+    <div class="column">
+      <div class="employees__togglebuttons">
+        <button>{{ 'common.buttons.addFunc' | translate }}</button>
+        <button>{{ 'common.buttons.addPermitions' | translate }}</button>
+      </div>
+    </div>
+    <div class="card-list header">
+      <div class="column-list id">
+        <input type="checkbox" />
+      </div>
+      <div class="column-list id">
+        #
+      </div>
+      <div class="column-list">
+        {{'employees.nome' | translate }}
+      </div>
+      <div class="column-list">
+        {{'employees.nif' | translate }}
+      </div>
+      <div class="column-list">
+        {{'employees.email' | translate }}
+      </div>
+      <div class="column-list">
+        {{'employees.tele' | translate }}
+      </div>
+      <div class="column-list">
+        {{'employees.func' | translate }}
+      </div>
+      <div class="column-list">
+        {{'employees.dataadmition' | translate }}
+      </div>
+      <div class="column-list">
+        {{'employees.status' | translate }}
+      </div>
+      <div class="column-list">
+        {{'employees.def' | translate }}
+      </div>
+    </div>
+
+    <!-- Employees Data -->
+    <div class="card-list" *ngFor="let employee of employees; let i = index">
+      <div class="column-list id"><input type="checkbox" /></div>
+      <div class="column-list id">{{ i + 1 }}</div>
+      <div class="column-list">{{ employee.firstName }}</div>
+      <div class="column-list">{{ employee.nif }}</div>
+      <div class="column-list">{{ employee.email }}</div>
+      <div class="column-list">{{ employee.phone }}</div>
+      <div class="column-list">{{ employee.function }}</div>
+      <div class="column-list">{{ employee.createdAt }}</div>
+      <div class="column-list" *ngIf="employee.isActive">Ativo</div>
+      <div class="column-list" *ngIf="!employee.isActive">Ferias</div>
+      <div class="column-list">
+        <button>✏️</button>
+        <button>🗑️</button>
+      </div>
+    </div>
   </div>
 </div>
