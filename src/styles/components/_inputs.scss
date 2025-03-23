@@ -40,6 +40,11 @@ input {
     transition: all 0.3s ease-in-out;
     box-sizing: border-box;  // Faz com que o padding seja incluído nas dimensões do input
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.20);
+
+    &.error {
+        border: 2px solid var(--ion-color-danger) !important;
+        color: var(--ion-color-danger) !important;
+    }
     
     &:hover {
         border-color: var(--ion-color-dark-contrast);
@@ -56,4 +61,28 @@ input {
         accent-color: var(--ion-color-secondary);
         cursor: pointer;
     }
-} 
+}
+
+.input {
+    position: relative;
+
+    &__icon {
+        position: absolute;
+        top: 55%;
+        transform: translate(-50%, -50%);
+        left: 3.5%; 
+        color: var(--ion-color-primary);
+    }
+}
+
+mat-error {
+    color: var(--ion-color-danger) !important;
+}
+
+::ng-deep mat-checkbox .mat-checkbox-frame {
+    border-color: red; // Change border color
+}
+
+::ng-deep .mdc-checkbox__background {
+    background-color: blue !important; // Change background when checked
+}

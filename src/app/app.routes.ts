@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { RoleAdminGuard } from './core/guards/role-admin.guard';
 import { RoleEmployeeGuard } from './core/guards/role-employee.guard';
-import { RoleClientGuard } from './core/guards/role-client.guard';
 
 export const routes: Routes = [
     {

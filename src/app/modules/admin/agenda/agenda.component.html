@@ -1,0 +1,40 @@
+<div class="agenda">
+    <div class="agenda__title">
+        <h1>Agenda</h1>
+    </div>
+    <div class="agenda__calendar-type-filter">
+        <ul>
+            <li (click)="changeCalendarType('month')" onkeydown="" [ngClass]="viewMode === 'month' ? 'active' : ''">Mensal</li>
+            <li (click)="changeCalendarType('week')" onkeydown="" [ngClass]="viewMode === 'week' ? 'active' : ''">Semanal</li>
+            <li (click)="changeCalendarType('day')" onkeydown="" [ngClass]="viewMode === 'day' ? 'active' : ''">Diário</li>
+        </ul>
+    </div>
+    <div class="agenda__calendar">
+        <div class="calendar__header">
+            <button mat-mini-fab (click)="previous()">
+                <mat-icon fontIcon="arrow_back" />
+            </button>
+            <span>{{ getTitle() }}</span>
+            <button mat-mini-fab (click)="next()">
+                <mat-icon fontIcon="arrow_forward" />
+            </button>
+        </div>
+        
+        <div class="calendar__weekdays">
+            <div *ngFor="let weekday of weekDays" class="calendar__weekday">{{ weekday | titlecase }}</div>
+        </div>
+
+        <div class="calendar__grid" [class.week]="viewMode === 'week'" [class.day]="viewMode === 'day'">
+            <div 
+                *ngFor="let day of days" 
+                class="day" 
+                [class.other-month]="!isCurrentMonth(day)" 
+                [class.today]="isToday(day)" 
+                (click)="isSelected(formatDateNormal(day))"
+                onkeydown=""
+            >
+                {{ formatDate(day) }}
+            </div>
+        </div>
+    </div>
+</div>

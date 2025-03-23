@@ -36,14 +36,13 @@ export class SidebarComponent {
       isOpen: false,
       children: [
         { icon: 'schedule', label: 'Horários', link: '/admin/clinic/schedule' },
-        { icon: 'badge', label: 'Funcionários' },
-        { icon: 'event', label: 'Agenda' },
+        { icon: 'badge', label: 'Funcionários', link: '/admin/employees-list'},
+        { icon: 'event', label: 'Agenda', link: '/admin/agenda' },
       ]
     },
     {
       icon: 'group',
-      label: 'Clientes',
-      link: '/admin/employees-list'
+      label: 'Clientes'
     },
     {
       icon: 'description',

@@ -30,6 +30,20 @@ button {
 } 
 
 .button {
+    padding: 10px;
+    text-align: center;
+    text-transform: uppercase !important;
+    font-weight: 500 !important;
+
+    &[disabled] {
+        opacity: 0.5 !important;
+    }
+    
+    &__primary {
+        background-color: var(--ion-color-secondary) !important;
+        color: var(--ion-color-light) !important;
+    }
+
     &--rounded {
         padding: 5px !important;
         background-color: var(--ion-color-primary) !important;

@@ -11,7 +11,11 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../auth.service';
 import { PasswordMatchValidator } from '../validators/password-match.validator';
 import { CommonModule } from '@angular/common';
-import { UserInterface } from '../../../core/interfaces/user.interface';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 /**
  * Register Component
@@ -24,7 +28,12 @@ import { UserInterface } from '../../../core/interfaces/user.interface';
   selector: 'app-register',
   imports: [
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -61,7 +70,6 @@ export class RegisterComponent implements OnInit {
         [
           Validators.required,
           Validators.email,
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
         ],
       ],
       password: [
@@ -97,6 +105,10 @@ export class RegisterComponent implements OnInit {
 
   get password() {
     return this.registerForm.get('password')
+  }
+
+  get confirmPassword() {
+    return this.registerForm.get('confirmPassword')
   }
 
   public submit() {

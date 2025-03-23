@@ -10,7 +10,9 @@
             <h1>Registar</h1>
             <p>Por-favor insira os seus dados.</p>
             <div class='form-group'>
-                <img src="/assets/images/mail.png" class='img' alt="Email Icon" />
+                <div class="input__icon">
+                    <mat-icon fontIcon="mail" [ngClass]="{'error' : (email?.dirty || email?.touched) && email?.hasError('required') }" />
+                </div>
                 <input 
                     type='email' 
                     name='email' 
@@ -18,9 +20,16 @@
                     formControlName="email" 
                     [ngClass]="{'error' : (email?.dirty || email?.touched) && email?.hasError('required') }"
                 />
-                <div *ngIf="(email?.dirty || email?.touched) && email?.hasError('required')" class="error-message">
-                    Email é um campo <strong>obrigatório</strong>!
-                </div>
+                @if ((email?.dirty || email?.touched) && email?.hasError('required')) {
+                    <mat-error class="error-message">
+                        Email é um campo obrigatório!
+                    </mat-error>
+                }
+                @if ((email?.dirty || email?.touched) && email?.hasError('email')) {
+                    <mat-error class="error-message">
+                        Email tem um formato inválido!
+                    </mat-error>
+                }
             </div>
             <div class="form__center">
                 <div class='form-group form-group--mid'>
@@ -57,17 +66,23 @@
                 <input 
                     type='password' 
                     name='password' 
-                    placeholder='Comfirmar a Password'
+                    placeholder='Confirmar a Password'
                     formControlName="confirmPassword"
                 />
             </div>
+            @if ((confirmPassword?.dirty || confirmPassword?.touched) && confirmPassword?.hasError('passwordMismatch')) {
+                <mat-error class="error-message">
+                    As password's não coincidem!
+                </mat-error>
+            }
             <div class='form__options'>
-                <label>
-                    <input type="checkbox" class="checkbox" />
+                <mat-checkbox class="example-margin">
                     <span>Ao criar uma conta, concordo com os <strong>Termos de Serviço</strong> e a <strong>Política de Privacidade</strong> da Vetcare</span>
-                </label>
+                </mat-checkbox>
             </div>
-            <button type='submit' class='form__details'>Registar</button>
+            <button mat-button type='submit' class='button button__primary'>
+                Registar
+            </button>
         </form>
         <div class='signup__register-link'>
             Já tem conta? <a href='auth/login'>Entre Aqui!</a>
