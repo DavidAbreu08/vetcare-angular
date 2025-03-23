@@ -1,10 +1,11 @@
 @import '../../../../styles/abstracts/variables';
 
 .dashboard {
-    padding: 30px 35px 0;
+    padding: 0 15px 0;
 
     &__welcome{
-        padding-bottom: 50px;
+        position: fixed;
+        top: 20px;
 
         h1{
             font-size: 25px;
@@ -27,6 +28,7 @@
 
     &__content{
         width: 100%;
+        padding-top: 55px;
         
         h1{
             padding: 20px 0 0 30px;

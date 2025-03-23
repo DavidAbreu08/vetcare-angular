@@ -1,5 +1,4 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
-import { TopBarComponent } from '../../../shared/top-bar/top-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { UserService } from '../../../core/services/user.service';
 import { CommonModule } from '@angular/common';
@@ -9,7 +8,6 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-employees-list',
   imports: [
-    TopBarComponent,
     TranslateModule,
     CommonModule,
     MatIconModule,
@@ -25,7 +23,7 @@ export class EmployeesListComponent implements OnInit {
   employees: any[] = [];
 
   constructor(
-    private elementRef: ElementRef,
+    private readonly elementRef: ElementRef,
     private readonly userService: UserService
   ) { }
 

@@ -18,14 +18,18 @@
         }
     },
     "employees": {
-        "nome": "Nome",
-        "nif": "NIF",
-        "email": "Email",
-        "tele": "Telemóvel",
-        "func": "Funcão",
-        "dataadmition": "Data de Admição",
-        "status":"status",
-        "def": "Definições"
+        "title": "Lista de Veterinários",
+        "table": {
+            "nome": "Nome",
+            "nif": "NIF",
+            "email": "Email",
+            "tele": "Telemóvel",
+            "func": "Funcão",
+            "dataadmition": "Data de Admição",
+            "status":"status",
+            "def": "Definições"
+        }
+        
 
     }
 }

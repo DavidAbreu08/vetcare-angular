@@ -27,11 +27,16 @@
     </div>
     <app-top-bar />
   }
-  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
-    <div class="content-inner">
-      <router-outlet></router-outlet>
-    </div>
-    <app-footer *ngIf="isLoggedIn || !isAuthPage" />
-  </main>
-  
+  @if (isLoggedIn || !isAuthPage) {
+    <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+      <div class="content-inner" >
+          <router-outlet></router-outlet>
+      </div>
+      <app-footer/>
+    </main>
+  } @else {
+    <main class="full-screen">
+        <router-outlet></router-outlet>
+    </main>
+  }
 </div>

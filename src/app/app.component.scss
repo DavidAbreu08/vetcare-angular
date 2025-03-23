@@ -11,7 +11,6 @@
     margin-left: 240px;
     transition: all 0.3s ease-in-out;
     overflow-y: auto;
-    margin-top: 55px;
   
     &-inner {
       padding: 70px;
@@ -19,8 +18,14 @@
     }
   
     &-expanded {
-      margin-left: 50px;
+      margin-left: 75px;
     }
+}
+
+.full-screen{
+  flex-grow: 1;
+  transition: all 0.3s ease-in-out;
+  overflow-y: auto;
 }
 
 .sidebar-toggle-btn {

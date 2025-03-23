@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       this.currentRoute = event.url;
-      this.checkIfAuthPage(event.url);
+      this.checkIfAuthPage(this.currentRoute);
       
       if (event.url === '/auth/login' && this.isLoggedIn) {
         this.router.navigate(['/home']);
@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
   }
 
   /** Método para verificar se a página atual é uma página de autenticação */
-  private checkIfAuthPage(url: string) {
+  private checkIfAuthPage(url: string): void {
     const authPages = [
       '/auth/login',
       '/auth/register',

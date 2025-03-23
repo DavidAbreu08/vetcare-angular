@@ -2,6 +2,19 @@
 
 .employees{
     width: 100%;
+    padding: 55px 15px 0;
+
+    &__title{
+        position: fixed;
+        top: 20px;
+
+        h1{
+            font-size: 25px;
+            font-weight: 600;
+            color: var(--ion-color-primary);
+        }
+
+    }
 
     &__top-bar{
         position: absolute;
