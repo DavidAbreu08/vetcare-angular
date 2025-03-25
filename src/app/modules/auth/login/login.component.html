@@ -11,28 +11,62 @@
       <h1>Bem Vindo de volta!</h1>
       <p>Por favor insira os seus dados.</p>
 
-      <div class='form-group' [class.error]="email?.invalid && email?.touched">
-        <img src="/assets/images/mail.png" class='img' alt="Email Icon" />
-        <input type='email' formControlName='email' placeholder='Email' />
-        <small *ngIf="email?.invalid && email?.touched">Email inválido</small>
+      <div class='form__group'>
+        <mat-icon class="input__icon" fontIcon="mail" />
+        <input 
+          class="input"
+          type='email' 
+          formControlName='email' 
+          placeholder='Email' 
+          [ngClass]="{'error' : (email?.dirty || email?.touched) && email?.hasError('required') }"
+        />
       </div>
+      @if ((email?.dirty || email?.touched) && email?.hasError('required')) {
+        <mat-error class="error-message">
+          Email é um campo obrigatório!
+        </mat-error>
+      }
+      @if ((email?.dirty || email?.touched) && email?.hasError('email')) {
+        <mat-error class="error-message">
+            Email tem um formato inválido!
+        </mat-error>
+      }
 
-      <div class='form-group form-group--no-bottom-margin' [class.error]="password?.invalid && password?.touched">
-        <img src="/assets/images/lockIcon.png" class='img' alt="Password Icon" />
-        <input type='password' formControlName='password' placeholder='Password' />
-        <small *ngIf="password?.invalid && password?.touched">Mínimo 8 caracteres</small>
+      <div class='form__group'>
+        <mat-icon class="input__icon" fontIcon="lock" />
+        <input 
+          class="input" 
+          type='password' 
+          formControlName='password' 
+          placeholder='Password' 
+          [ngClass]="{'error' : (password?.dirty || password?.touched) && password?.hasError('required') }"
+        />
       </div>
+      @if ((password?.dirty ||password?.touched) && password?.hasError('pattern')) {
+        <mat-error class="error-message">
+            A password deve conter uma letra maiúscula, um número e um caractere especial
+        </mat-error>
+      }
+      @if ((password?.dirty || password?.touched) && password?.hasError('required')) {
+        <mat-error class="error-message">
+            Password é um campo obrigatório!
+        </mat-error>
+      }
+      @if(errorMessage){
+        <mat-error class="error-message">
+          {{errorMessage}}
+        </mat-error>
+      }
 
       <div class='form__options'>
-        <label>
-          <input type="checkbox" class="checkbox" />
-          <span>Lembrar mais tarde</span>
-        </label>
+        <mat-checkbox>Lembrar-me mais tarde</mat-checkbox>
+          
         <a routerLink='/auth/recover-pass'>Esqueceu-se da password?</a>
       </div>
+      
 
-      <button type='submit' class='but' [disabled]="loginForm.invalid">Entrar</button>
-      <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <button type='submit' class='button button__primary' [disabled]="loginForm.invalid">Entrar</button>
+    
     </form>
 
     <div class='login__register-link'>

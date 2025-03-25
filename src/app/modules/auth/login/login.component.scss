@@ -48,6 +48,24 @@
             flex-direction: column;
             justify-content: center;
             align-items: left;
+
+            &__group {
+                position: relative;
+                width: 100%;
+                margin: 10px 0;
+            
+
+                &--no-bottom-margin {
+                    margin-bottom: 0 !important; 
+                }
+            }
+            
+            .error-message{
+                min-height: 20px;
+                color: var(--ion-color-danger) !important;
+                font-size: 14px;
+                padding-left: 25px;
+            }
             
             &__options {
                 width: 100%;

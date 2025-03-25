@@ -11,13 +11,22 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 
 @Component({
   selector: 'app-login',
   imports: [
     RouterLink,
     ReactiveFormsModule, 
-    CommonModule
+    CommonModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -41,7 +50,6 @@ export class LoginComponent implements OnInit{
         [
           Validators.required,
           Validators.email,
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
         ],
       ],
       password: [
@@ -63,6 +71,7 @@ export class LoginComponent implements OnInit{
     return this.loginForm.get('password');
   }
 
+
   public submit() {
     if (this.loginForm.invalid) {
       this.errorMessage = 'Por favor, preencha todos os campos corretamente.';
@@ -76,7 +85,7 @@ export class LoginComponent implements OnInit{
         this.router.navigate(['/user']);
       },
       error: (err) => {
-        this.errorMessage = 'Credenciais inválidas. Tente novamente!';
+        this.errorMessage = 'As suas credenciais estão inválidas. Por-favor tente novamente!';
         console.error('Login falhou:', err);
       },
     });

@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Router } from '@angular/router';
 
 /**
  * Register Component
@@ -29,7 +30,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
     MatInputModule,
@@ -53,7 +53,8 @@ export class RegisterComponent implements OnInit {
    */
   constructor(
     private readonly fb: FormBuilder,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly router: Router
   ) {}
 
   /**
@@ -76,7 +77,8 @@ export class RegisterComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/)
+          Validators.minLength(8),
+          Validators.pattern(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/),
         ]
       ],      
       confirmPassword: [
@@ -113,20 +115,33 @@ export class RegisterComponent implements OnInit {
 
   public submit() {
     if (this.registerForm.invalid) {
-      console.log(this.registerForm.value)
-      console.log("Por favor, preencha corretamente todos os campos.");
-      return;
+        console.log("Por favor, preencha corretamente todos os campos.");
+        return;
     }
+
     const { confirmPassword, ...formValues } = this.registerForm.value;
-    console.log(formValues);
-    this.authService.register(formValues).subscribe({
-      next: (response) => {
-        console.log('Registration successful', response);
-      },
-      error: (err) => {
-        this.errorMessage = 'Falha no registo. Tente novamente.';
-        console.log('Registration failed', err);
-      },
+
+    this.authService.checkEmailExists(formValues.email).subscribe({
+        next: (emailExists) => {
+            if (emailExists) {
+                this.errorMessage = 'Este email já está registrado.';
+            } else {
+                this.authService.register(formValues).subscribe({
+                    next: (response) => {
+                      this.router.navigate(['auth/login']);
+                      console.log(response)
+                    },
+                    error: (err) => {
+                      this.errorMessage = 'Verifique Se preencheu todos os campos corretor e tente novamente.';
+                      console.log(err)
+                    }
+                });
+            }
+        },
+        error: (err) => {
+            this.errorMessage = 'Erro ao verificar email. Tente novamente.';
+            console.log('Error checking email', err);
+        }
     });
-  }
+}
 }

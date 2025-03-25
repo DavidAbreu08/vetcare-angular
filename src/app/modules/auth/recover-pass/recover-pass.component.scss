@@ -52,6 +52,13 @@
             p {
                 align-self: center;
             }
+
+            &__group {
+                position: relative;
+                width: 100%;
+                margin: 50px 0 20px;
+            }
+            
             
         }
     }

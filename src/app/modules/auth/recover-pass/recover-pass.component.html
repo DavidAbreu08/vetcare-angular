@@ -9,11 +9,11 @@
         <form class='form'>
             <h1>Recuperar password</h1>
             <p>Por-favor insira os seus dados e verifique de seguida o seu email.</p>
-            <div class='form-group'>
-                <img src="/assets/images/mail.png" class='img' alt="Email Icon" />
-                <input type='email' name='email' placeholder='Email' />
+            <div class='form__group'>
+                <mat-icon class="input__icon" fontIcon="mail" />
+                <input class="input" type='email' name='email' placeholder='Email' />
             </div>
-            <button routerLink="auth/verify-email">Recuperar</button>
+            <button class="button button__primary" routerLink="auth/verify-email">Recuperar</button>
         </form>
         <div class='login__register-link'>
             Deseja voltar? <a routerLink='/auth/register'>Volte aqui!</a>

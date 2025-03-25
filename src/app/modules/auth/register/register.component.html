@@ -9,41 +9,44 @@
         <form class='form' [formGroup]="registerForm" (ngSubmit)="submit()">
             <h1>Registar</h1>
             <p>Por-favor insira os seus dados.</p>
-            <div class='form-group'>
-                <div class="input__icon">
-                    <mat-icon fontIcon="mail" [ngClass]="{'error' : (email?.dirty || email?.touched) && email?.hasError('required') }" />
-                </div>
+            <div class='form__group'>
+                <mat-icon class="input__icon" fontIcon="mail" />
                 <input 
+                    class="input"
                     type='email' 
                     name='email' 
                     placeholder='Email' 
                     formControlName="email" 
                     [ngClass]="{'error' : (email?.dirty || email?.touched) && email?.hasError('required') }"
                 />
-                @if ((email?.dirty || email?.touched) && email?.hasError('required')) {
-                    <mat-error class="error-message">
-                        Email é um campo obrigatório!
-                    </mat-error>
-                }
-                @if ((email?.dirty || email?.touched) && email?.hasError('email')) {
-                    <mat-error class="error-message">
-                        Email tem um formato inválido!
-                    </mat-error>
-                }
             </div>
-            <div class="form__center">
-                <div class='form-group form-group--mid'>
-                    <img src="/assets/images/user.png" class='img' alt="Nome Icon" />
+            @if ((email?.dirty || email?.touched) && email?.hasError('required')) {
+                <mat-error class="error-message">
+                    Email é um campo obrigatório!
+                </mat-error>
+            }
+            @if ((email?.dirty || email?.touched) && email?.hasError('email')) {
+                <mat-error class="error-message">
+                    Email tem um formato inválido!
+                </mat-error>
+            }
+            
+            <div class="align-input-center">
+                <div class='form__group'>
+                    <mat-icon class="input__icon" fontIcon="person"/>
                     <input 
+                        class="input"
                         type='text' 
                         name='nome' 
                         placeholder='Nome'
                         formControlName="firstName"
                     />
                 </div>
-                <div class='form-group form-group--mid'>
-                    <img src="/assets/images/user.png" class='img' alt="Apelido Icon" />
-                    <input 
+                
+                <div class='form__group'>
+                    <mat-icon class="input__icon" fontIcon="person"/>
+                    <input
+                        class="input"
                         type='text' 
                         name='apelido' 
                         placeholder='Apelido'
@@ -51,23 +54,37 @@
                     />
                 </div>
             </div>
-            
-            <div class='form-group'>
-                <img src="/assets/images/lockIcon.png" class='img' alt="Password Icon" />
-                <input 
+            <div class='form__group'>
+                <mat-icon class="input__icon" fontIcon="lock" />
+                <input
+                    class="input" 
                     type='password' 
                     name='password' 
                     placeholder='Password'
                     formControlName="password"
+                    [ngClass]="{'error' : (password?.dirty || password?.touched) && password?.hasError('required') }"
                 />
             </div>
-            <div class='form-group form-group--no-bottom-margin'>
-                <img src="/assets/images/lockIcon.png" class='img' alt="Password Icon" />
+            @if ((password?.dirty ||password?.touched) && password?.hasError('pattern')) {
+                <mat-error class="error-message">
+                    A password deve conter uma letra maiúscula, um número e um caractere especial
+                </mat-error>
+            }
+            @if ((password?.dirty || password?.touched) && password?.hasError('required')) {
+                <mat-error class="error-message">
+                    Password é um campo obrigatório!
+                </mat-error>
+            }
+
+            <div class='form__group'>
+                <mat-icon class="input__icon" fontIcon="lock" />
                 <input 
+                    class="input"
                     type='password' 
                     name='password' 
                     placeholder='Confirmar a Password'
                     formControlName="confirmPassword"
+                    [ngClass]="{'error' : (confirmPassword?.dirty || confirmPassword?.touched) && confirmPassword?.hasError('required') }"
                 />
             </div>
             @if ((confirmPassword?.dirty || confirmPassword?.touched) && confirmPassword?.hasError('passwordMismatch')) {
@@ -75,12 +92,17 @@
                     As password's não coincidem!
                 </mat-error>
             }
+            @if (errorMessage){
+                <mat-error class="error-message">
+                    {{errorMessage}}
+                </mat-error>
+            }
             <div class='form__options'>
                 <mat-checkbox class="example-margin">
                     <span>Ao criar uma conta, concordo com os <strong>Termos de Serviço</strong> e a <strong>Política de Privacidade</strong> da Vetcare</span>
                 </mat-checkbox>
             </div>
-            <button mat-button type='submit' class='button button__primary'>
+            <button type='submit' class='button button__primary' [disabled]="registerForm.invalid">
                 Registar
             </button>
         </form>

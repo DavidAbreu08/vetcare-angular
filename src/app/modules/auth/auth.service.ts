@@ -61,4 +61,8 @@ export class AuthService {
     return !!this.getToken();
   }
   
+  public checkEmailExists(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/users/check-email?email=${email}`);
+  }
+  
 }
