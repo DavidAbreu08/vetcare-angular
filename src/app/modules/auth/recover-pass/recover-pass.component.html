@@ -1,21 +1,31 @@
-<div class='login'>
-    <div class='login__left-side'>
+<div class='recover-pass'>
+    <div class='recover-pass__left-side'>
         <img src="/assets/images/logo.jpg" class='logo' alt='Logo' />
-        <div class="login__logo-name">
+        <div class="recover-pass__logo-name">
             <h1>VetCare <small>Systems</small></h1>
         </div>
     </div>
-    <div class='login__right-side'>
-        <form class='form'>
+    <div class='recover-pass__right-side'>
+        <form class='form' [formGroup]="forgotForm" (ngSubmit)="onSubmit()">
             <h1>Recuperar password</h1>
             <p>Por-favor insira os seus dados e verifique de seguida o seu email.</p>
             <div class='form__group'>
                 <mat-icon class="input__icon" fontIcon="mail" />
-                <input class="input" type='email' name='email' placeholder='Email' />
+                <input class="input" type='email' name='email' placeholder='Email' formControlName="email"/>
             </div>
-            <button class="button button__primary" routerLink="auth/verify-email">Recuperar</button>
+            @if ((email?.dirty || email?.touched) && email?.hasError('required')) {
+                <mat-error class="error-message">
+                  Email é um campo obrigatório!
+                </mat-error>
+              }
+              @if ((email?.dirty || email?.touched) && email?.hasError('email')) {
+                <mat-error class="error-message">
+                    Email tem um formato inválido!
+                </mat-error>
+              }
+            <button class="button button__primary" [disabled]="forgotForm.invalid">Enviar</button>
         </form>
-        <div class='login__register-link'>
+        <div class='recover-pass__register-link'>
             Deseja voltar? <a routerLink='/auth/register'>Volte aqui!</a>
         </div>
     </div>

@@ -1,17 +1,17 @@
 <div class='verify-email'>
     <div class='verify-email__left-side'>
-        <img src="/assets/images/logo.jpg" class='logo' alt='Logo Image'/>
+        <img src="/assets/images/logo.jpg" class='logo' alt='Logo'/>
         <div class="verify-email__logo-name">
             <h1>VetCare <small>Systems</small></h1>
         </div>
     </div>
     <div class='verify-email__right-side'>
-        <img src="assets/images/carryemail.png" class="image" alt="Top Image">
+        <img src="assets/images/carryemail.png" class="image" alt="Top">
         <div class='form'>
             <h1 >Verifique o seu email</h1>
             <p>Obrigado, verifique seu e-mail para obter instruções e redefinir sua password.</p>
             
-            <button type="button">Confirmado</button>
+            <button type="button" class="button button__primary button--margin" routerLink="auth/login">Confirmado</button>
             <div class="form__resend-link">
                 Nao recebeu o email?
                 <a href="#" (click)="resendEmail($event)">Reenviar.</a>

@@ -66,9 +66,11 @@ export class AppComponent implements OnInit {
       '/auth/register',
       '/auth/recover-pass',
       '/auth/verify-email',
+      '/auth/reset-password',
       '/home'
     ];
-    this.isAuthPage = authPages.includes(url);
+    const explodedUrl = url.split('?');
+    this.isAuthPage = authPages.includes(explodedUrl[0]);
   }
 
   public onSidebarToggle() {

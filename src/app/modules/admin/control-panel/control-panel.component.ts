@@ -4,6 +4,7 @@ import { UserInterface } from '../../../core/interfaces/user.interface';
 import { CommonModule } from '@angular/common';
 import { TopBarComponent } from '../../../shared/top-bar/top-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-control-panel',
@@ -11,6 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     TopBarComponent,
     TranslateModule,
+    MatIconModule,
   ],
   templateUrl: './control-panel.component.html',
   styleUrl: './control-panel.component.scss'

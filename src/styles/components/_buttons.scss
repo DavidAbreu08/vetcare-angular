@@ -27,6 +27,9 @@
             font-size: 20px !important; 
         }
     }
+    &--margin{
+        margin-top: 15px;
+    }
 
     &:hover {
         background-color: lighten($buttonsColor, 10%);

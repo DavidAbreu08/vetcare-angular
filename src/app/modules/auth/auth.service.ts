@@ -6,8 +6,9 @@ import { environment } from '../../../environments/environment';
 import { HttpResponse } from '../../core/interfaces/http-response.interface';
 import { LoginInterface } from './interfaces/login.interface';
 import { LoginResponse } from './interfaces/response.interface';
-import { ErrorService } from '../../core/services/error.service';
 import { isPlatformBrowser } from '@angular/common';
+import { ForgotPasswordInterface } from './interfaces/forgot-password.interface';
+import { ResetPasswordInterface } from './interfaces/reset-password.interface';
 
 
 @Injectable({
@@ -18,12 +19,11 @@ export class AuthService {
   private readonly apiUrl = environment.api.url;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(PLATFORM_ID) private readonly platformId: Object,
     private readonly http: HttpClient,
-    private errorService: ErrorService
   ) { }
 
-  login(loginValues: LoginInterface): Observable<LoginResponse> {
+  public login(loginValues: LoginInterface): Observable<LoginResponse> {
     return this.http
       .post<LoginResponse>(`${this.apiUrl}/auth/login`, loginValues)
       .pipe(
@@ -39,7 +39,7 @@ export class AuthService {
   }
   
 
-  register(registerValues: RegisterInterface): Observable<HttpResponse> {
+  public register(registerValues: RegisterInterface): Observable<HttpResponse> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.post<HttpResponse>(`${this.apiUrl}/users`, registerValues, { headers })
@@ -50,12 +50,11 @@ export class AuthService {
       );
   }
 
-  getToken(): any {
+  public getToken(): any {
     if (isPlatformBrowser(this.platformId)) {
       return localStorage.getItem('token')
     }
   }
-
 
   public isLoggedIn(): boolean {
     return !!this.getToken();
@@ -63,6 +62,18 @@ export class AuthService {
   
   public checkEmailExists(email: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.apiUrl}/users/check-email?email=${email}`);
+  }
+
+  public forgotPassword(forgotValues: ForgotPasswordInterface): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/forgot-password`, forgotValues);
+  }
+
+  public resetPassword(resetValues: ResetPasswordInterface): Observable<any> {
+    return this.http.put(`${this.apiUrl}/auth/reset-password`, {
+      resetToken: resetValues.token,
+      newPassword: resetValues.newPassword,
+      confirmNewPassword: resetValues.confirmNewPassword
+    });
   }
   
 }
