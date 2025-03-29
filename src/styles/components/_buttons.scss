@@ -1,11 +1,7 @@
 .button {
-    padding: 20px;
     text-align: center;
     text-transform: uppercase;
-    font-weight: 500;
-    border-radius: 30px;
     cursor: pointer !important;
-    font-size: 18px;
     border: none;
 
     &[disabled] {
@@ -13,8 +9,21 @@
     }
     
     &__primary {
+        padding: 20px;
+        border-radius: 30px;
+        font-size: 18px;
+        font-weight: 500;
         background-color: var(--ion-color-danger) !important;
         color: var(--ion-color-light) !important;
+    }
+    &__secondary{
+        background-color: var(--ion-color-danger) !important;
+        color: var(--ion-color-light) !important;
+
+        &:hover{
+            background-color: lighten($buttonsColor, 10%) !important;
+            box-shadow: none !important;
+        }
     }
 
     &--rounded {
