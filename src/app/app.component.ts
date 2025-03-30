@@ -62,6 +62,7 @@ export class AppComponent implements OnInit {
   /** Método para verificar se a página atual é uma página de autenticação */
   private checkIfAuthPage(url: string): void {
     const authPages = [
+      '/',
       '/auth/login',
       '/auth/register',
       '/auth/recover-pass',

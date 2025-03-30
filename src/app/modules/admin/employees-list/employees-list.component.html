@@ -8,87 +8,100 @@
         <button class="button button__secondary">{{ 'common.buttons.addFunc' | translate }}</button>
       </div>
     </div>
-    <div class="card-list header">
-      <div class="column-list id">
-        <input type="checkbox" />
+    <div class="card-list">
+      <div class="employees__filters">
+          <button class="button button--filter">
+            <mat-icon fontIcon="filter_alt" class="button--icon"/>
+          </button>
+          <div class="filter-input">
+            <mat-icon fontIcon="search" class="input-filter__icon"/>
+            <input class="input-filter" placeholder="Procurar Nome" (keyup)="applyFilter($event)">
+          </div>
+          <div class="filter-input">
+            <mat-icon fontIcon="search" class="input-filter__icon"/>
+            <input class="input-filter" placeholder="Procurar NIF" (keyup)="applyFilter($event)">
+          </div>
       </div>
-      <div class="column-list id">
-        #
-      </div>
-      <div class="column-list">
-        {{'employees.table.nome' | translate }}
-      </div>
-      <div class="column-list">
-        {{'employees.table.nif' | translate }}
-      </div>
-      <div class="column-list">
-        {{'employees.table.email' | translate }}
-      </div>
-      <div class="column-list">
-        {{'employees.table.tele' | translate }}
-      </div>
-      <div class="column-list">
-        {{'employees.table.func' | translate }}
-      </div>
-      <div class="column-list">
-        {{'employees.table.dataadmition' | translate }}
-      </div>
-      <div class="column-list">
-        {{'employees.table.status' | translate }} 
-      </div>
-      <div class="column-list">
-        {{'employees.table.def' | translate }}
-      </div>
-    </div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+        </ng-container>
 
-    <!-- Employees Data -->
-    <div class="card-list" *ngFor="let employee of employees; let i = index">
-      <div class="column-list id"><input type="checkbox" /></div>
-      <div class="column-list id">{{ i + 1 }}</div>
-      <div class="column-list">{{ employee.firstName }}</div>
-      <div class="column-list">{{ employee.nif }}</div>
-      <div class="column-list">{{ employee.email }}</div>
-      <div class="column-list">{{ employee.phone }}</div>
-      <div class="column-list">{{ employee.function }}</div>
-      <div class="column-list">{{ employee.createdAt }}</div>
-      <div class="column-list" *ngIf="employee.isActive">Ativo</div>
-      <div class="column-list" *ngIf="!employee.isActive">Ferias</div>
-      <div class="column-list">
-        <button mat-mini-fab aria-label="Button to open menu" class="button--rounded" (click)="openOptionsMenu(i)">
-          <mat-icon 
-            aria-hidden="false" 
-            aria-label="Menu" 
-            fontIcon="more_vert"
-          ></mat-icon>
-        </button>
-        <div class="card-list__options" id="options-menu-{{ i }}" [ngClass]="{'active': openedOptionsIndex === i.toString()}">
-          <ul>
-            <li>
-              <mat-icon 
-                aria-hidden="false" 
-                aria-label="Edit" 
-                fontIcon="edit"
-              ></mat-icon>
-              Editar
-            </li>
-            <li>
-              <mat-icon 
-                aria-hidden="false" 
-                aria-label="Settings" 
-                fontIcon="settings"
-              ></mat-icon>
-              Alterar permissões
-            </li>
-            <li class="danger">
-              <mat-icon 
-                aria-hidden="false" 
-                aria-label="Delete" 
-                fontIcon="delete"
-              ></mat-icon>
-              Apagar
-            </li>
-          </ul>
-        </div>
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <!-- Nif Column -->
+        <ng-container matColumnDef="nif">
+          <th mat-header-cell *matHeaderCellDef> NIF </th>
+          <td mat-cell *matCellDef="let element"> {{element.nif}} </td>
+        </ng-container>
+
+        <!-- Phone Column -->
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef> Telemovel </th>
+          <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+        </ng-container>
+
+        <!-- Function Column -->
+        <ng-container matColumnDef="function">
+          <th mat-header-cell *matHeaderCellDef> Função </th>
+          <td mat-cell *matCellDef="let element"> {{element.function}} </td>
+        </ng-container>
+
+        <!-- Admission Date Column -->
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef> Data de Admissao </th>
+          <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="isActive">
+          <th mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let element"> {{element.isActive}} </td>
+        </ng-container>
+
+        <!-- Options Column -->
+        <ng-container matColumnDef="options">
+          <th mat-header-cell *matHeaderCellDef> Options </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [matMenuTriggerFor]="menu" (click)="setCurrentRow(currentRow)">
+              <mat-icon fontIcon="more_vert"></mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="onEdit(currentRow)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="onChangePermissions(currentRow)">
+                <mat-icon>settings</mat-icon>
+                <span>Change Permissions</span>
+              </button>
+              <button mat-menu-item (click)="onDelete(currentRow)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
+      </table>
+      <div class="card-list__pagination">
+        <mat-paginator [length]="200" aria-label="Select page">
+        </mat-paginator>
       </div>
     </div>
   </div>

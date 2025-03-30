@@ -46,3 +46,25 @@ label {
 mat-checkbox{
     color: var(--ion-color-light);
 }
+
+.input-filter{
+    padding: 12px 35px;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    color: var(--ion-color-medium);
+    border: 1px solid var(--ion-color-light-shade);
+
+    &__icon{
+        position: absolute;
+        top: 15%;
+        transform: translate(-50%);
+        left: 20px; 
+        color: var(--ion-color-medium);
+        font-size: 25px;
+        font-weight: 100;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
