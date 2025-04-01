@@ -22,11 +22,32 @@
         background-color: var(--ion-color-danger) !important;
         color: var(--ion-color-light) !important;
         box-shadow: $box-shadow;
+        border-radius: $border-radius;
+        font-size: 18px;
+        padding: 15px;
 
         &:hover{
             background-color: lighten($buttonsColor, 10%) !important;
             box-shadow: none !important;
         }
+    }
+
+    &__form{
+        position: absolute;
+        right: 15px;
+        bottom: 15px;
+        background-color: var(--ion-color-danger) !important;
+        color: var(--ion-color-light) !important;
+        box-shadow: $box-shadow;
+        border-radius: $border-radius;
+        padding: 15px;
+        font-size: 18px;
+
+        &:hover{
+            background-color: lighten($buttonsColor, 10%) !important;
+            box-shadow: none !important;
+        }
+
     }
 
     &--rounded {
@@ -53,6 +74,10 @@
         padding: 0 10px;
         border-radius: $border-radius;
         border: 1px solid var(--ion-color-light-shade);
+    }
+
+    &--goback{
+        right: 320px !important;
     }
 
     &:hover {

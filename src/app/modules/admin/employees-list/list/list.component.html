@@ -1,0 +1,95 @@
+<div class="employees">
+    <div class="employees__filters">
+        <button class="button button--filter">
+            <mat-icon fontIcon="filter_alt" class="button--icon"/>
+        </button>
+        <div class="filter-input">
+            <mat-icon fontIcon="search" class="input-filter__icon"/>
+            <input class="input-filter" placeholder="Procurar Nome" (keyup)="applyFilter($event)">
+        </div>
+        <div class="filter-input">
+            <mat-icon fontIcon="search" class="input-filter__icon"/>
+            <input class="input-filter" placeholder="Procurar NIF" (keyup)="applyFilter($event)">
+        </div>
+    </div>
+    <table mat-table [dataSource]="tableDataSource" class="mat-elevation-z8">
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <!-- Nif Column -->
+        <ng-container matColumnDef="nif">
+        <th mat-header-cell *matHeaderCellDef> NIF </th>
+        <td mat-cell *matCellDef="let element"> {{element.nif}} </td>
+        </ng-container>
+
+        <!-- Phone Column -->
+        <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef> Telemovel </th>
+        <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+        </ng-container>
+
+        <!-- Function Column -->
+        <ng-container matColumnDef="function">
+        <th mat-header-cell *matHeaderCellDef> Função </th>
+        <td mat-cell *matCellDef="let element"> {{element.function}} </td>
+        </ng-container>
+
+        <!-- Admission Date Column -->
+        <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef> Data de Admissao </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="isActive">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.isActive}} </td>
+        </ng-container>
+
+        <!-- Options Column -->
+        <ng-container matColumnDef="options">
+        <th mat-header-cell *matHeaderCellDef> Options </th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [matMenuTriggerFor]="menu" (click)="setCurrentRow(currentRow)">
+            <mat-icon fontIcon="more_vert"></mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onEdit(currentRow)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="onChangePermissions(currentRow)">
+                <mat-icon>settings</mat-icon>
+                <span>Change Permissions</span>
+            </button>
+            <button mat-menu-item (click)="onDelete(currentRow)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+            </button>
+            </mat-menu>
+        </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
+    </table>
+    <div class="employees__pagination">
+        <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page"></mat-paginator>
+    </div>
+</div>

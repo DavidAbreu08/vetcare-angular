@@ -4,23 +4,12 @@ import { UserService } from '../../../core/services/user.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatMenuModule} from '@angular/material/menu';
-
-
-export interface PeriodicElement {
-  position: number;
-  firstName: string;
-  nif: number;
-  email: string;
-  phone: string;
-  function: string;
-  createdAt: string;
-  isActive: string;
-  options: boolean;
-}
+import { ListComponent } from './list/list.component';
+import { AddEmployeeComponent } from './add-employee/add-employee.component';
 
 
 @Component({
@@ -33,7 +22,9 @@ export interface PeriodicElement {
     MatTableModule,
     MatFormFieldModule,
     MatPaginatorModule,
-    MatMenuModule
+    MatMenuModule,
+    ListComponent,
+    AddEmployeeComponent
   ],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',
@@ -41,23 +32,17 @@ export interface PeriodicElement {
 })
 export class EmployeesListComponent implements OnInit {
 
-  public displayedColumns: string[] = ['position', 'firstName', 'email', 'nif', 'phone', 'function', 'createdAt', 'isActive', 'options'];
-  public dataSource = new MatTableDataSource<any>();
-
-  public openedOptionsIndex: string = '';
-  public currentRow: any;
-
+  public showForm: boolean = true;
+  public employees: any[] = [];
 
   constructor(
-    private readonly elementRef: ElementRef,
     private readonly userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.userService.getAllEmployees().subscribe({
       next: (data) => {
-        console.log(data);
-        this.dataSource.data = data;
+        this.employees = data;
       },
       error: (error) => {
         console.error("Error fetching employees:", error);
@@ -65,33 +50,8 @@ export class EmployeesListComponent implements OnInit {
     });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  toggleView() {
+    this.showForm = !this.showForm;
   }
 
-
-  setCurrentRow(row: any) {
-    this.currentRow = row;
-  }
-
-  onEdit(row: any) {
-    console.log('Edit:', row);
-  }
-
-  onChangePermissions(row: any) {
-    console.log('Change permissions:', row);
-  }
-
-  onDelete(row: any) {
-    console.log('Delete:', row);
-  }
-
-
-  @HostListener('document:click', ['$event'])
-  onClickOutside(event: Event) {
-    if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.openedOptionsIndex = '';
-    }
-  }
 }

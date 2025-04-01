@@ -1,0 +1,29 @@
+@import '../../../../../styles/abstracts/variables';
+
+.employees{
+    width: 100%;
+    height: 80vh;
+    background-color: var(--ion-color-light);
+    margin-top: 10px;
+    border-radius: $border-radius;
+    border: 1px solid var(--ion-color-light-shade);
+    position: relative;
+
+    &__filters{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 15px;
+        padding: 10px;
+
+        .filter-input{
+            position: relative;
+        }
+    }
+
+    &__pagination{
+        position: absolute;
+        bottom: 5px;
+        right: 0;
+    }
+}
