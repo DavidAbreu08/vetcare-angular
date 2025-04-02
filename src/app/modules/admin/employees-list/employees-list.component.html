@@ -5,15 +5,15 @@
   <div class="row">
     <div class="column">
       <div class="employees__togglebuttons">
-        <button class="button button__secondary" (click)="toggleView()">{{ 'common.buttons.addFunc' | translate }}</button>
+        <button class="button button__secondary" (click)="toggleView()" [disabled]="showForm">{{ 'common.buttons.addFunc' | translate }}</button>
       </div>
     </div>
     <div class="card">
-      @if(showForm){
+      @if(!showForm){
         <app-list [dataSource]="employees"></app-list>
       }
-      @if(!showForm){
-        <app-add-employee></app-add-employee>
+      @if(showForm){
+        <app-add-employee (goBack)="toggleView()"></app-add-employee>
       }
     </div>
   </div>

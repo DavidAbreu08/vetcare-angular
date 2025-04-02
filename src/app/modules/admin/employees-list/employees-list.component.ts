@@ -32,7 +32,7 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
 })
 export class EmployeesListComponent implements OnInit {
 
-  public showForm: boolean = true;
+  public showForm: boolean = false;
   public employees: any[] = [];
 
   constructor(

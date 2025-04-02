@@ -2,12 +2,10 @@
 
 .employees{
     width: 100%;
-    height: 80vh;
     background-color: var(--ion-color-light);
     margin-top: 10px;
     border-radius: $border-radius;
     border: 1px solid var(--ion-color-light-shade);
-    position: relative;
 
     &__filters{
         display: flex;
