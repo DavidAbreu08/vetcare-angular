@@ -9,17 +9,20 @@
     &__title {
         padding: 20px;
         background-color: var(--ion-color-secondary);
+        color: var(--ion-color-light);
     }
 
     &__content {
         padding: 20px;
         font-size: 12px !important;
+        overflow-y: hidden !important;
 
     }
     &__info{
         display: flex;
         align-items: center;
         color: var(--ion-color-primary);
+        padding: 5px;
         mat-icon{
             position: absolute;
         }
@@ -30,7 +33,5 @@
         a {
             color: var(--ion-color-secondary) !important;
         }
-
-
     }
 } 

@@ -9,9 +9,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { PasswordMatchValidator } from '../validators/password-match.validator';
+import { PasswordMatchValidator } from '../../../core/validators/password-match.validator';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -82,7 +81,7 @@ export class RegisterComponent implements OnInit {
         ]
       ],      
       confirmPassword: [
-        '',
+        '', 
         [
           Validators.required,
         ]
@@ -119,23 +118,25 @@ export class RegisterComponent implements OnInit {
         return;
     }
 
-    const { confirmPassword, ...formValues } = this.registerForm.value;
+    let { confirmPassword, firstName, lastName, ...restValues } = this.registerForm.value;
 
-    this.authService.checkEmailExists(formValues.email).subscribe({
+    this.authService.checkEmailExists(restValues.email).subscribe({
         next: (emailExists) => {
             if (emailExists) {
                 this.errorMessage = 'Este email já está registrado.';
             } else {
-                this.authService.register(formValues).subscribe({
-                    next: (response) => {
-                      this.router.navigate(['auth/login']);
-                      console.log(response)
-                    },
-                    error: (err) => {
-                      this.errorMessage = 'Verifique Se preencheu todos os campos corretor e tente novamente.';
-                      console.log(err)
-                    }
-                });
+              let formValues = { ...restValues, name: `${firstName} ${lastName}` };
+              console.log(formValues)
+              this.authService.register(formValues).subscribe({
+                  next: (response) => {
+                    this.router.navigate(['auth/login']);
+                    console.log(response)
+                  },
+                  error: (err) => {
+                    this.errorMessage = 'Verifique Se preencheu todos os campos corretor e tente novamente.';
+                    console.log(err)
+                  }
+              });
             }
         },
         error: (err) => {
@@ -143,5 +144,5 @@ export class RegisterComponent implements OnInit {
             console.log('Error checking email', err);
         }
     });
-}
+  }
 }

@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { PasswordMatchValidator } from '../validators/password-match.validator';
+import { PasswordMatchValidator } from '../../../core/validators/password-match.validator';
 import { ResetPasswordInterface } from '../interfaces/reset-password.interface';
 
 @Component({

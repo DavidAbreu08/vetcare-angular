@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { UserService } from '../../../core/services/user.service';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { AddEmployeeComponent } from './dialog/add-employee/add-employee.component';
 
 @Component({
   selector: 'app-employees-list',
@@ -23,7 +25,8 @@ import { MatMenuModule } from '@angular/material/menu';
   ],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class EmployeesListComponent implements OnInit {
 
@@ -33,6 +36,8 @@ export class EmployeesListComponent implements OnInit {
   public employees = new MatTableDataSource<any>();
 
   public currentRow: any;
+
+  public readonly dialog = inject(MatDialog);
 
   constructor(
     private readonly userService: UserService
@@ -48,6 +53,15 @@ export class EmployeesListComponent implements OnInit {
       }
     });
   }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AddEmployeeComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
+  }
+
+  
 
   public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

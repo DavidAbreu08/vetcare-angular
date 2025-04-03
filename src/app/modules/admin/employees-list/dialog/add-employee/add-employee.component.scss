@@ -1,38 +1,21 @@
-@import '../../../../../styles/abstracts/variables';
+@import '../../../../../../styles/abstracts/variables';
 
-.form-background{
-    position: relative;
-    width: 100%;
-    background-color: var(--ion-color-primary);
-    border-radius: $border-radius;
-    padding: 15px;
-
-    &__info{
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 0;
-        color: var(--ion-color-light);
-    }
-
+.form{
     h1{
         font-size: 18px !important;
+        color: var(--ion-color-primary);
+    }
+    &__input{
+        padding-top: 15px;
     }
 
-    .form{
-    
-        &__input{
-            padding-top: 15px;
-        }
-    
-        &--between{
-            display: flex;
-            gap: 15px;
-        }
-        &--padding{
-            padding: 40px 0 20px;
-        }
+    &--between{
+        display: flex;
+        gap: 15px;
     }
-    
+    &--padding{
+        padding: 40px 0 20px;
+    }
 }
+    
 
