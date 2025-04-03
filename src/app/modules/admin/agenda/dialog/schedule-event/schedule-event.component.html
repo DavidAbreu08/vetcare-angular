@@ -1,4 +1,18 @@
-<h2 mat-dialog-title class="dialog__title">Marcar evento para {{ date }}</h2>
-<mat-dialog-content class="dialog__content">
-    <h2>Olá mundo</h2>
-</mat-dialog-content>
+<div class="dialog">
+
+    <h2 mat-dialog-title class="dialog__title">Marcar evento para {{ date }}</h2>
+    <mat-dialog-content class="dialog__content">
+        <div class="dialog__info">
+            <mat-icon fontIcon="report"/>
+            <span>Preencha as informações abaixo para criar uma nova reserva. Caso ainda não tenha registrado o animal, <a>clique aqui</a> para cadastrá-lo antes de prosseguir.</span>
+        </div>
+        <form class="form-dialog">
+            <div class="form-dialog__input">
+                <input class="input-form"/>
+                <input class="input-form"/>
+            </div>
+        </form>
+
+    </mat-dialog-content>
+  
+</div>

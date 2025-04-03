@@ -1,16 +1,13 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { UserService } from '../../../core/services/user.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import {MatMenuModule} from '@angular/material/menu';
-import { ListComponent } from './list/list.component';
-import { AddEmployeeComponent } from './add-employee/add-employee.component';
-
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-employees-list',
@@ -22,9 +19,7 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
     MatTableModule,
     MatFormFieldModule,
     MatPaginatorModule,
-    MatMenuModule,
-    ListComponent,
-    AddEmployeeComponent
+    MatMenuModule
   ],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',
@@ -32,8 +27,12 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
 })
 export class EmployeesListComponent implements OnInit {
 
-  public showForm: boolean = false;
-  public employees: any[] = [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  public displayedColumns: string[] = ['position', 'firstName', 'email', 'nif', 'phone', 'function', 'createdAt', 'isActive', 'options'];
+  public employees = new MatTableDataSource<any>();
+
+  public currentRow: any;
 
   constructor(
     private readonly userService: UserService
@@ -42,7 +41,7 @@ export class EmployeesListComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getAllEmployees().subscribe({
       next: (data) => {
-        this.employees = data;
+        this.employees.data = data;
       },
       error: (error) => {
         console.error("Error fetching employees:", error);
@@ -50,8 +49,26 @@ export class EmployeesListComponent implements OnInit {
     });
   }
 
-  toggleView() {
-    this.showForm = !this.showForm;
+  public applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.employees.filter = filterValue.trim().toLowerCase();
+  }
+
+
+  public setCurrentRow(row: any) {
+    this.currentRow = row;
+  }
+
+  public onEdit(row: any) {
+    console.log('Edit:', row);
+  }
+
+  public onChangePermissions(row: any) {
+    console.log('Change permissions:', row);
+  }
+
+  public onDelete(row: any) {
+    console.log('Delete:', row);
   }
 
 }
