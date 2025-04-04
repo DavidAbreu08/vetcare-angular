@@ -26,78 +26,93 @@
         <table mat-table [dataSource]="employees" class="mat-elevation-z8">
             <!-- Position Column -->
             <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef> No. </th>
-            <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
+              <th mat-header-cell *matHeaderCellDef> No. </th>
+              <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
             </ng-container>
     
             <!-- Name Column -->
             <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
             </ng-container>
     
             <!-- Email Column -->
             <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef> Email </th>
-            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+              <th mat-header-cell *matHeaderCellDef> Email </th>
+              <td mat-cell *matCellDef="let element"> {{element.email}} </td>
             </ng-container>
     
             <!-- Nif Column -->
             <ng-container matColumnDef="nif">
-            <th mat-header-cell *matHeaderCellDef> NIF </th>
-            <td mat-cell *matCellDef="let element"> {{element.nif}} </td>
+              <th mat-header-cell *matHeaderCellDef> NIF </th>
+              <td mat-cell *matCellDef="let element"> {{element.nif}} </td>
             </ng-container>
     
             <!-- Phone Column -->
             <ng-container matColumnDef="phone">
-            <th mat-header-cell *matHeaderCellDef> Telemovel </th>
-            <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+              <th mat-header-cell *matHeaderCellDef> Telemovel </th>
+              <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
             </ng-container>
     
             <!-- Function Column -->
             <ng-container matColumnDef="function">
-            <th mat-header-cell *matHeaderCellDef> Função </th>
-            <td mat-cell *matCellDef="let element"> {{element.function}} </td>
+              <th mat-header-cell *matHeaderCellDef> Função </th>
+              <td mat-cell *matCellDef="let element"> {{element.function}} </td>
             </ng-container>
     
             <!-- Admission Date Column -->
             <ng-container matColumnDef="createdAt">
-            <th mat-header-cell *matHeaderCellDef> Data de Admissao </th>
-            <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
+              <th mat-header-cell *matHeaderCellDef> Data de Admissao </th>
+              <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
             </ng-container>
     
             <!-- Status Column -->
             <ng-container matColumnDef="isActive">
-            <th mat-header-cell *matHeaderCellDef> Status </th>
-            <td mat-cell *matCellDef="let element"> {{element.isActive}} </td>
+              <th mat-header-cell *matHeaderCellDef> Status </th>
+              <td mat-cell *matCellDef="let element"> {{element.isActive}} </td>
             </ng-container>
     
             <!-- Options Column -->
-            <!-- TODO: Make a sub-section for Options-->
             <ng-container matColumnDef="options">
-            <th mat-header-cell *matHeaderCellDef> Options </th>
-              <td class="options" mat-cell *matCellDef="let element">
-                <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{ row: element }">
-                <mat-icon fontIcon="more_vert"></mat-icon>
+              <th mat-header-cell *matHeaderCellDef> Options </th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                <button mat-mini-fab aria-label="Button to open menu" class="button--rounded" (click)="openOptionsMenu(i)">
+                  <mat-icon 
+                    aria-hidden="false" 
+                    aria-label="Menu" 
+                    fontIcon="more_vert"
+                  ></mat-icon>
                 </button>
-                <mat-menu #menu="matMenu">
-                  <button mat-menu-item (click)="onEdit(currentRow)">
-                      <mat-icon>edit</mat-icon>
-                      <span>Edit</span>
-                  </button>
-                  <button mat-menu-item (click)="onChangePermissions(currentRow)">
-                      <mat-icon>settings</mat-icon>
-                      <span>Change Permissions</span>
-                  </button>
-                  <button mat-menu-item (click)="onDelete(currentRow)" class="options__onDelete">
-                      <mat-icon>delete</mat-icon>
-                      <span>Delete</span>
-                  </button>
-                </mat-menu>
+                <div class="card__options" id="options-menu-{{ i }}" [ngClass]="{ 'active': openedOptionsIndex === i }">
+                  <ul>
+                    <li>
+                      <mat-icon 
+                        aria-hidden="false" 
+                        aria-label="Edit" 
+                        fontIcon="edit"
+                      ></mat-icon>
+                      Editar
+                    </li>
+                    <li>
+                      <mat-icon 
+                        aria-hidden="false" 
+                        aria-label="Settings" 
+                        fontIcon="settings"
+                      ></mat-icon>
+                      Alterar permissões
+                    </li>
+                    <li class="danger">
+                      <mat-icon 
+                        aria-hidden="false" 
+                        aria-label="Delete" 
+                        fontIcon="delete"
+                      ></mat-icon>
+                      Apagar
+                    </li>
+                  </ul>
+                </div>
               </td>
             </ng-container>
-    
-    
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
         </table>

@@ -39,6 +39,8 @@ export class EmployeesListComponent implements OnInit {
 
   public readonly dialog = inject(MatDialog);
 
+  public openedOptionsIndex: number | null = null;
+
   constructor(
     private readonly userService: UserService
   ) { }
@@ -61,28 +63,12 @@ export class EmployeesListComponent implements OnInit {
     });
   }
 
-  
-
   public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.employees.filter = filterValue.trim().toLowerCase();
   }
 
-
-  public setCurrentRow(row: any) {
-    this.currentRow = row;
+  openOptionsMenu(index: number) {
+    this.openedOptionsIndex = this.openedOptionsIndex === index ? null : index;
   }
-
-  public onEdit(row: any) {
-    console.log('Edit:', row);
-  }
-
-  public onChangePermissions(row: any) {
-    console.log('Change permissions:', row);
-  }
-
-  public onDelete(row: any) {
-    console.log('Delete:', row);
-  }
-
 }
