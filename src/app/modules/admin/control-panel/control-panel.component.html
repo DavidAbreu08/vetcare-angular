@@ -1,7 +1,7 @@
 <div class="dashboard">
   <div class="dashboard__welcome">
     <h1>{{ 'dashboard.welcome' | translate }}</h1>
-    <h4 *ngIf="userInfo">Olá {{userInfo.firstName}} {{userInfo.lastName}}. Bem-vindo de volta!</h4>
+    <h4 *ngIf="userInfo">Olá {{userInfo.name}}. Bem-vindo de volta!</h4>
   </div>
   <div class="dashboard__top-bar">
     <app-top-bar></app-top-bar>

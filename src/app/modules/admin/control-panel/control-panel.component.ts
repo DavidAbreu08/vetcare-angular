@@ -27,6 +27,7 @@ export class ControlPanelComponent implements OnInit{
   ngOnInit() {
     this.userService.getUserProfile()
       .subscribe((res: UserInterface) => {
+        console.log(res)
         this.userInfo = res;
       })
   }

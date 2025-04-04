@@ -5,32 +5,63 @@
         <span>Preencha as informações abaixo para registrar o seu animal. Não se preocupe, você poderá editar essas informações mais tarde, se necessário.</span>
     </div>
     <mat-dialog-content class="dialog__content">
-        <form class="form">
+        <form class="form" [formGroup]="addEmployeeForm" (ngSubmit)="onSubmit()">
             <h1>Informações Pessoais</h1>
             <div class="form__input">
-                <input type="text" class="input-form" placeholder="Nome Completo *">
+                <input 
+                    type="text" 
+                    class="input-form" 
+                    formControlName="name" 
+                    placeholder="Nome Completo *"
+                >
             </div>
             <div class="form__input">
-                <input type="text" class="input-form" placeholder="Email *">
+                <input 
+                    type="text" 
+                    class="input-form"
+                    formControlName="email" 
+                    placeholder="Email *"
+                >
             </div>
             <div class="form__input form--between">
-                <input type="password" class="input-form" placeholder="Password *">
-                <input type="password" matInput class="input-form" placeholder="Confirm password *">
-            </div>
-            <div class="form__input form--between">
-                <input type="text" class="input-form" placeholder="NIF *">
-                <input type="text" class="input-form" placeholder="Data de Nascimento *">
+                <input 
+                    type="text" 
+                    class="input-form" 
+                    formControlName="nif" 
+                    placeholder="NIF *"
+                >
+                <input 
+                    type="text" 
+                    class="input-form" 
+                    formControlName="dateBirth" 
+                    placeholder="Data de Nascimento *"
+                >
             </div>
             <div class="form__input">
-                <input type="tel" class="input-form" placeholder="Telemóvel *">
+                <input 
+                    type="text" 
+                    class="input-form" 
+                    formControlName="phone" 
+                    placeholder="Telemóvel *"
+                >
             </div>
             <h1 class="form--padding">Características de Trabalho</h1>
             <div class="form__input form--between">
-                <input type="tel" class="input-form" placeholder="Função *">
-                <input type="tel" class="input-form" placeholder="Jornada de Trabalho *">
+                <input 
+                    type="text" 
+                    class="input-form" 
+                    formControlName="function" 
+                    placeholder="Função *"
+                >
+                <input 
+                    type="text" 
+                    class="input-form" 
+                    formControlName="workLoad"
+                    placeholder="Jornada de Trabalho *"
+                >
             </div>
+            <button class="button button__form button--goback">Voltar</button>
+            <button class="button button__form"  [disabled]="addEmployeeForm.invalid" >Adicionar Funcionario</button>
         </form>
-        <button class="button button__form button--goback" (click)="onNoClick()" >Voltar</button>
-        <button class="button button__form">Adicionar Funcionario</button>
     </mat-dialog-content>
 </div>

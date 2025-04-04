@@ -32,7 +32,7 @@ export class EmployeesListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  public displayedColumns: string[] = ['position', 'firstName', 'email', 'nif', 'phone', 'function', 'createdAt', 'isActive', 'options'];
+  public displayedColumns: string[] = ['position', 'name', 'email', 'nif', 'phone', 'function', 'createdAt', 'isActive', 'options'];
   public employees = new MatTableDataSource<any>();
 
   public currentRow: any;

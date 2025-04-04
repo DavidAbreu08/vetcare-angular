@@ -42,10 +42,14 @@ export class UserService {
       map((employees: any[]) => 
         employees.map(employee => ({ 
           ...employee, 
-          createdAt: employee.createdAt.split("T")[0] // Extrai só a data
+          createdAt: employee.createdAt.split("T")[0]
         }))
       ),
     );
   }
 
+  public createEmployee(employeeData: any) {
+    return this.http.post(`${this.apiUrl}/users/employees`, employeeData);
+  }
+  
 }
