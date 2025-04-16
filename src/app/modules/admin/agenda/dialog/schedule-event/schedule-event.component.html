@@ -1,18 +1,55 @@
 <div class="dialog">
-
     <h2 mat-dialog-title class="dialog__title">Marcar evento para {{ date }}</h2>
     <mat-dialog-content class="dialog__content">
         <div class="dialog__info">
             <mat-icon fontIcon="report"/>
             <span>Preencha as informações abaixo para criar uma nova reserva. Caso ainda não tenha registrado o animal, <a>clique aqui</a> para cadastrá-lo antes de prosseguir.</span>
         </div>
-        <form class="form-dialog">
-            <div class="form-dialog__input">
-                <input class="input-form"/>
-                <input class="input-form"/>
+        <form class="form" [formGroup]="formEvent">
+            <div class="form__input">
+                <!-- CLIENT SELECT -->
+                <mat-form-field>
+                    <mat-label>Procurar Cliente</mat-label>
+                    <mat-select formControlName="clientId">
+                        <mat-option>
+                            <input
+                                matInput
+                                placeholder="Search..."
+                                (keyup)="filterOptions($event.target)"
+                                (click)="$event.stopPropagation()"  
+                                (keydown)="$event.stopPropagation()" 
+                            />
+                        </mat-option>
+                        <mat-option *ngFor="let client of clients" [value]="client.id">{{ client.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="form__input">
+                <!-- ANIMAL SELECT -->
+                <mat-form-field>
+                    <mat-label>Animal associado</mat-label>
+                    <mat-select formControlName="animalId" [disabled]="!animals.length">
+                        <mat-option *ngFor="let animal of animals" [value]="animal.id">{{ animal.name }}</mat-option>
+                        <mat-option *ngIf="!animals.length" disabled>Nenhum animal associado</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="form__input">
+                <input class="input-form" placeholder="Motivo da reserva" formControlName="description" />
+            </div>
+            <div class="form__input form--between">
+                <input class="input-form" placeholder="{{date}}" formControlName="dateInput" [disabled]="true"/>
+                <mat-form-field>
+                    <mat-label>Pick a time</mat-label>
+                    <input 
+                        matInput 
+                        [matTimepicker]="picker" 
+                        formControlName="time"
+                    >
+                    <mat-timepicker-toggle matIconSuffix [for]="picker"/>
+                    <mat-timepicker #picker/>
+                </mat-form-field>
             </div>
         </form>
-
     </mat-dialog-content>
-  
 </div>

@@ -37,6 +37,10 @@ export class UserService {
     return this.userInfo ? this.userInfo.role : null;
   }
 
+  public getAllClients(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/users/clients`);
+  }
+
   public getAllEmployees(): Observable<any> {
     return this.http.get<any[]>(`${this.apiUrl}/auth/employees`).pipe(
       map((employees: any[]) => 

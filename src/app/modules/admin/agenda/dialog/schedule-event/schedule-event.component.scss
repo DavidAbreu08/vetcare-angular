@@ -1,7 +1,54 @@
-.form-dialog{
+@import '../../../../../../styles/abstracts/variables';
 
+.form{
     &__input{
+        padding-top: 15px;
+    }
+    &--between{
         display: flex;
+        gap: 15px;
+    }
+}
 
+mat-form-field.example-full-width {
+    width: 100%;
+    
+    .mat-mdc-form-field-input-control {
+        font-size: 16px;
+    }
+}
+
+::ng-deep {
+    .cdk-overlay-pane {
+        background-color: white !important;
+
+        mat-option {
+            transition: all 0.3s ease;
+        }
+
+        mat-option:hover {
+            background-color: rgba(0, 0, 0, 0.04) !important;
+            transition: all 0.3s ease;
+        }
+    }
+}
+
+
+// TODO: Remove this later 
+::ng-deep .mat-datepicker-content {
+    background-color: var(--ion-color-dark-contrast) !important;
+    .mat-calendar-body-cell {
+        &.mat-calendar-body-active {
+            background-color: var(--ion-color-secondary);
+            color: var(--ion-color-light);
+        }
+        &:hover {
+            background-color: var(--ion-color-light); // Hover effect
+            color: var(--ion-color-dark)
+        }
+    }
+
+    ::ng-deep.mat-calendar-body-today{
+        border: none;
     }
 }
