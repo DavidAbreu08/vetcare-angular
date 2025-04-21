@@ -35,20 +35,25 @@
                 </mat-form-field>
             </div>
             <div class="form__input">
-                <input class="input-form" placeholder="Motivo da reserva" formControlName="description" />
+                <mat-form-field class="example-full-width">
+                    <mat-label>Motivo da Reserva</mat-label>
+                    <textarea matInput placeholder="Ex. O meu cao vomitou..."></textarea>
+                </mat-form-field>
             </div>
             <div class="form__input form--between">
-                <input class="input-form" placeholder="{{date}}" formControlName="dateInput" [disabled]="true"/>
+                <!-- Employee SELECT -->
                 <mat-form-field>
-                    <mat-label>Pick a time</mat-label>
-                    <input 
-                        matInput 
-                        [matTimepicker]="picker" 
-                        formControlName="time"
-                    >
-                    <mat-timepicker-toggle matIconSuffix [for]="picker"/>
-                    <mat-timepicker #picker/>
+                    <mat-label>Funcionarios disponiveis</mat-label>
+                    <mat-select formControlName="employee">
+                        <mat-option *ngFor="let employeesAll of employees" [value]="employeesAll.id">{{ employeesAll.name }}</mat-option>
+                        <mat-option *ngIf="!employees.length" disabled>Nenhum funcionário disponivel</mat-option>
+                    </mat-select>
                 </mat-form-field>
+                <app-time-picker
+                    [selectedDate]="formEvent.controls['dateInput'].value"
+                    [selectedEmployee]="formEvent.controls['employee'].value"
+                    (timeSelected)="onTimeSelected($event)">
+                </app-time-picker>
             </div>
         </form>
     </mat-dialog-content>

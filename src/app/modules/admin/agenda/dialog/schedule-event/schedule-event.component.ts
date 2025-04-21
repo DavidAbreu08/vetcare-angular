@@ -7,13 +7,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatTimepickerModule } from '@angular/material/timepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '../../../../../core/services/user.service';
 import { AnimalService } from '../../../../../core/services/animal.service';
 import { ReservationService } from '../../../../../core/services/reservation.service';
 import { CommonModule } from '@angular/common';
-import { filter, map, tap } from 'rxjs';
+import { map, tap } from 'rxjs';
+import { TimePickerComponent } from '../../../../../shared/time-picker/time-picker.component';
 
 export interface DialogData {
   date: Date;
@@ -31,10 +31,10 @@ export interface DialogData {
     MatIconModule,
     MatDatepickerModule,
     ReactiveFormsModule,
-    MatTimepickerModule,
     MatSelectModule,
     CommonModule,
-    MatDialogModule
+    MatDialogModule,
+    TimePickerComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './schedule-event.component.html',
@@ -47,8 +47,12 @@ export class ScheduleEventComponent implements OnInit {
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
   readonly date = this.data.date;
 
+  public selectedTime: string | null = null;
+
   public clients: any[] = [];
   public animals: any[] = [];
+  public employees: any[] = [];
+  public dataString: string = '';
 
   public filterValue: string = '';
 
@@ -66,11 +70,14 @@ export class ScheduleEventComponent implements OnInit {
       clientId: ['', Validators.required],
       animalId: ['', Validators.required],
       description: ['', Validators.required],
+      employee: [null, Validators.required],
       dateInput: [this.date, Validators.required],
       time: ['', Validators.required],
     });
 
     this.loadClients();
+
+    this.loadEmployeesAvailable(this.date); 
 
     this.formEvent.get('clientId')?.valueChanges.subscribe(clientId => {
       this.animals = [];
@@ -80,6 +87,7 @@ export class ScheduleEventComponent implements OnInit {
         });
       }
     });
+
   }
 
   public filterOptions(event: any) {
@@ -109,9 +117,24 @@ export class ScheduleEventComponent implements OnInit {
       });
     }
   }
-  
 
-  submitReservation() {
+  public loadEmployeesAvailable(date: Date) {
+    this.dataString = date.toISOString().split('T')[0];
+    this.reservationService.getEmployees(this.dataString).pipe(
+      tap((employees) => {
+        console.log('All Employees:', employees);
+        this.employees = employees;
+      })
+    ).subscribe();
+  }
+
+  public onTimeSelected(time: string) {
+    this.selectedTime = time;
+    this.formEvent.controls['time'].setValue(time);
+  }
+
+
+  public submitReservation() {
     if (this.formEvent.invalid) return;
 
     const { clientId, animalId, description, dateInput, time } = this.formEvent.value;

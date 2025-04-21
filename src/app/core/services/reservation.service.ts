@@ -31,4 +31,16 @@ export class ReservationService {
   updateReservationStatus(id: string, dto: any): Observable<any> {
     return this.http.patch(`${this.apiUrl}/reservation/update-status/${id}`, dto);
   }
+
+  public getEmployees(date: string): Observable<any[]> {
+    return this.http.get<any[]>(`api/users/available/${date}`);
+  }
+
+  getReservations(employeeId: string, date: string): Observable<any[]> {
+    return this.http.get<any[]>(`/reservation/${employeeId}/${date}`);
+  }
+
+  getClinicHours(): Observable<{ start: string, end: string }> {
+    return this.http.get<any>(`/clinic/hours`);
+  }
 }

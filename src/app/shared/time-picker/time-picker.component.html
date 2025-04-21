@@ -1,0 +1,27 @@
+  <div *ngIf="error" class="error">
+    {{ error }} <button (click)="fetchAvailableSlots()">Tentar novamente</button>
+  </div>
+  
+  <div *ngIf="!selectedEmployee">
+    <p>Nenhum funcionário selecionado.</p>
+  </div>
+  
+  <select
+    *ngIf="selectedEmployee && !loading && availableSlots.length"
+    (change)="handleSelect($event)"
+    aria-label="Selecionar horário"
+  >
+    <option value="" disabled selected>Escolha um horário</option>
+    <option *ngFor="let time of availableSlots" [value]="time">
+      {{ time }}
+    </option>
+</select>
+
+  
+  <div *ngIf="!loading && selectedEmployee && !availableSlots.length && !error">
+    <p>Nenhum horário disponível.</p>
+  </div>
+  
+  <div *ngIf="loading">
+    <p>Carregando horários...</p>
+  </div>
