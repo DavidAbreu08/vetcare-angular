@@ -19,7 +19,6 @@ export interface DialogData {
   date: Date;
 }
 
-
 @Component({
   selector: 'app-schedule-event',
   imports: [
@@ -70,14 +69,12 @@ export class ScheduleEventComponent implements OnInit {
       clientId: ['', Validators.required],
       animalId: ['', Validators.required],
       description: ['', Validators.required],
-      employee: [null, Validators.required],
+      employee: [this.employees, Validators.required],
       dateInput: [this.date, Validators.required],
       time: ['', Validators.required],
     });
 
     this.loadClients();
-
-    this.loadEmployeesAvailable(this.date); 
 
     this.formEvent.get('clientId')?.valueChanges.subscribe(clientId => {
       this.animals = [];
@@ -87,7 +84,11 @@ export class ScheduleEventComponent implements OnInit {
         });
       }
     });
+    this.loadEmployeesAvailable(this.date);
+  }
 
+  get description() {
+    return this.formEvent.get('description')
   }
 
   public filterOptions(event: any) {
@@ -101,7 +102,6 @@ export class ScheduleEventComponent implements OnInit {
   
       this.userService.getAllClients()
         .pipe(
-          tap((result: any) => console.log('All Clients:', result)),
           map((clients: any[]) =>
             clients.filter(client =>
               client.name.toLowerCase().includes(searchTerm)
@@ -119,10 +119,9 @@ export class ScheduleEventComponent implements OnInit {
   }
 
   public loadEmployeesAvailable(date: Date) {
-    this.dataString = date.toISOString().split('T')[0];
-    this.reservationService.getEmployees(this.dataString).pipe(
+    this.reservationService.getEmployees(date)
+    .pipe(
       tap((employees) => {
-        console.log('All Employees:', employees);
         this.employees = employees;
       })
     ).subscribe();
@@ -131,28 +130,20 @@ export class ScheduleEventComponent implements OnInit {
   public onTimeSelected(time: string) {
     this.selectedTime = time;
     this.formEvent.controls['time'].setValue(time);
+    console.log(this.formEvent.value.description)
   }
 
 
   public submitReservation() {
-    if (this.formEvent.invalid) return;
+    if (this.formEvent.invalid){
+      console.error('Form is invalid:', this.formEvent.errors);
+      console.log('Form values:', this.formEvent.value);
+      return;
+    }
 
-    const { clientId, animalId, description, dateInput, time } = this.formEvent.value;
+    const { clientId, animalId, description, dateInput, time, employee } = this.formEvent.value;
 
-    const formattedDate = new Date(dateInput).toISOString().split('T')[0]; // 'YYYY-MM-DD'
-    const formattedTime = new Date(time).toTimeString().split(' ')[0].substring(0, 5); // 'HH:MM'
-
-    const dto = {
-      clientId,
-      animalId,
-      description,
-      dateInput: formattedDate,
-      time: formattedTime,
-    };
-
-    this.reservationService.createReservation(dto).subscribe({
-      next: () => this.dialogRef.close(true),
-      error: err => console.error(err)
-    });
+    console.log('Form values:', this.formEvent.value);
   }
+
 }

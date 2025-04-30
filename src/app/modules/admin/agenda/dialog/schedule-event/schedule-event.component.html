@@ -40,7 +40,7 @@
                     <textarea matInput placeholder="Ex. O meu cao vomitou..."></textarea>
                 </mat-form-field>
             </div>
-            <div class="form__input form--between">
+            <div class="form__input">
                 <!-- Employee SELECT -->
                 <mat-form-field>
                     <mat-label>Funcionarios disponiveis</mat-label>
@@ -49,12 +49,15 @@
                         <mat-option *ngIf="!employees.length" disabled>Nenhum funcionário disponivel</mat-option>
                     </mat-select>
                 </mat-form-field>
+            </div>
+            <div class="form__input">
                 <app-time-picker
                     [selectedDate]="formEvent.controls['dateInput'].value"
                     [selectedEmployee]="formEvent.controls['employee'].value"
                     (timeSelected)="onTimeSelected($event)">
                 </app-time-picker>
             </div>
+            <button class="button button__form">Adicionar Funcionario</button>
         </form>
     </mat-dialog-content>
 </div>

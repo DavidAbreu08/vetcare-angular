@@ -21,47 +21,38 @@ export class TimePickerComponent implements OnChanges {
   @Output() timeSelected = new EventEmitter<string>();
 
   availableSlots: string[] = [];
-  loading = false;
   error: string | null = null;
-
-  readonly CLINIC_START = '09:00';
-  readonly CLINIC_END = '18:00';
 
   constructor(private readonly reservationService: ReservationService) {}
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.selectedDate && this.selectedEmployee) {
+  public ngOnChanges(changes: SimpleChanges) {
+    const employeeChanged = changes['selectedEmployee'];
+    if (employeeChanged && this.selectedEmployee && Array.isArray(this.selectedEmployee) === false) {
       this.fetchAvailableSlots();
-    } else {
-      this.availableSlots = [];
     }
   }
 
-  fetchAvailableSlots() {
-    this.loading = true;
+  public fetchAvailableSlots() {
     this.error = null;
 
-    this.reservationService.getReservations(this.selectedEmployee.id, this.selectedDate)
+    this.reservationService.getReservations(this.selectedEmployee, this.selectedDate)
       .pipe(
         catchError(() => {
           this.error = 'Erro ao carregar horários';
           return of([]);
         })
       )
-      .subscribe(reservations => {
-        this.loading = false;
-        const booked = reservations.map(r => r.time);
-        const allSlots = generateTimeSlots(this.CLINIC_START, this.CLINIC_END);
-        this.availableSlots = allSlots.filter(slot => !booked.includes(slot));
+      .subscribe(slots => {
+        this.availableSlots = slots;
       });
   }
 
-  onSelect(time: string) {
+  public onSelect(time: string) {
     console.log('Horário selecionado:', time);
     this.timeSelected.emit(time);
   }
 
-  handleSelect(event: Event) {
+  public handleSelect(event: Event) {
     const target = event.target as HTMLSelectElement;
     const value = target?.value;
   
@@ -69,22 +60,4 @@ export class TimePickerComponent implements OnChanges {
       this.onSelect(value);
     }
   }
-}
-
-function generateTimeSlots(start: string, end: string): string[] {
-  const slots: string[] = [];
-  const [startH, startM] = start.split(':').map(Number);
-  const [endH, endM] = end.split(':').map(Number);
-
-  const slot = new Date();
-  slot.setHours(startH, startM, 0, 0);
-  const endTime = new Date();
-  endTime.setHours(endH, endM, 0, 0);
-
-  while (slot < endTime) {
-    slots.push(slot.toTimeString().substring(0, 5));
-    slot.setMinutes(slot.getMinutes() + 15);
-  }
-
-  return slots;
 }

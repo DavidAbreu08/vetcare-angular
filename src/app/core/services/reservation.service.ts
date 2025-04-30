@@ -32,15 +32,16 @@ export class ReservationService {
     return this.http.patch(`${this.apiUrl}/reservation/update-status/${id}`, dto);
   }
 
-  public getEmployees(date: string): Observable<any[]> {
-    return this.http.get<any[]>(`api/users/available/${date}`);
+  public getEmployees(date: Date): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/users/available/${date}`);
   }
+  
 
-  getReservations(employeeId: string, date: string): Observable<any[]> {
-    return this.http.get<any[]>(`/reservation/${employeeId}/${date}`);
+  public getReservations(employeeId: string, date: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/reservation/${employeeId}/${date}`);
   }
 
   getClinicHours(): Observable<{ start: string, end: string }> {
-    return this.http.get<any>(`/clinic/hours`);
+    return this.http.get<any>(`${this.apiUrl}/clinic/hours`);
   }
 }
