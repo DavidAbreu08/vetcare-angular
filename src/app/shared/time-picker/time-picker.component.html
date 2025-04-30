@@ -2,6 +2,7 @@
   *ngIf="selectedEmployee && availableSlots.length"
   (change)="handleSelect($event)"
   aria-label="Selecionar horário"
+  class="input-form"
 >
   <option value="" disabled selected>Escolha um horário</option>
   <option *ngFor="let time of availableSlots" [value]="time">

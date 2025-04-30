@@ -35,7 +35,7 @@ export class SidebarComponent {
       label: 'Clinica',
       isOpen: false,
       children: [
-        { icon: 'schedule', label: 'Horários', link: '/admin/clinic/schedule' },
+        { icon: 'schedule', label: 'Horários', link: '/admin/schedule' },
         { icon: 'badge', label: 'Funcionários', link: '/admin/employees-list'},
         { icon: 'event', label: 'Agenda', link: '/admin/agenda' },
       ]

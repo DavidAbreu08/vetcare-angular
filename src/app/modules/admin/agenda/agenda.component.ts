@@ -117,7 +117,7 @@ export class AgendaComponent {
   }
 
   public isSelected(date: string): void {
-    const dialogRef = this.dialog.open(ScheduleEventComponent, {
+    this.dialog.open(ScheduleEventComponent, {
       data: { date },
     });
   }

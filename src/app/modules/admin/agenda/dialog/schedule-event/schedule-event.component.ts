@@ -41,6 +41,8 @@ export interface DialogData {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
+//TODO: Restrict the information that can be entered in the form fields. Right now everything has Any type
 export class ScheduleEventComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<ScheduleEventComponent>);
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
@@ -68,7 +70,7 @@ export class ScheduleEventComponent implements OnInit {
     this.formEvent = this.fb.group({
       clientId: ['', Validators.required],
       animalId: ['', Validators.required],
-      description: ['', Validators.required],
+      reason: ['', Validators.required],
       employee: [this.employees, Validators.required],
       dateInput: [this.date, Validators.required],
       time: ['', Validators.required],
@@ -87,8 +89,8 @@ export class ScheduleEventComponent implements OnInit {
     this.loadEmployeesAvailable(this.date);
   }
 
-  get description() {
-    return this.formEvent.get('description')
+  get reason() {
+    return this.formEvent.get('reason')
   }
 
   public filterOptions(event: any) {
@@ -130,20 +132,35 @@ export class ScheduleEventComponent implements OnInit {
   public onTimeSelected(time: string) {
     this.selectedTime = time;
     this.formEvent.controls['time'].setValue(time);
-    console.log(this.formEvent.value.description)
   }
 
 
   public submitReservation() {
     if (this.formEvent.invalid){
       console.error('Form is invalid:', this.formEvent.errors);
-      console.log('Form values:', this.formEvent.value);
       return;
     }
 
-    const { clientId, animalId, description, dateInput, time, employee } = this.formEvent.value;
+    const { clientId, animalId, reason, dateInput, employee } = this.formEvent.value;
 
-    console.log('Form values:', this.formEvent.value);
+    const reservationPayload = {
+      ownerId: clientId,
+      animalId,
+      reason,
+      date: dateInput,
+      time: this.selectedTime,
+      employeeId: employee,
+    };
+    console.log('Submitting reservation with payload:', reservationPayload);
+
+    this.reservationService.createReservation(reservationPayload).subscribe({
+      next: (response) => {
+        console.log('Reservation created successfully:', response);
+        this.dialogRef.close(true);
+      },
+      error: (error) => {
+        console.error('Error creating reservation:', error);
+      },
+    });
   }
-
 }

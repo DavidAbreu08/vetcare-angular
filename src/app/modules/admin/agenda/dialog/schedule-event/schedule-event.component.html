@@ -5,7 +5,7 @@
             <mat-icon fontIcon="report"/>
             <span>Preencha as informações abaixo para criar uma nova reserva. Caso ainda não tenha registrado o animal, <a>clique aqui</a> para cadastrá-lo antes de prosseguir.</span>
         </div>
-        <form class="form" [formGroup]="formEvent">
+        <form class="form" [formGroup]="formEvent" (ngSubmit)="submitReservation()">
             <div class="form__input">
                 <!-- CLIENT SELECT -->
                 <mat-form-field>
@@ -37,7 +37,7 @@
             <div class="form__input">
                 <mat-form-field class="example-full-width">
                     <mat-label>Motivo da Reserva</mat-label>
-                    <textarea matInput placeholder="Ex. O meu cao vomitou..."></textarea>
+                    <textarea matInput placeholder="Ex. O meu cao vomitou..." formControlName="reason"></textarea>
                 </mat-form-field>
             </div>
             <div class="form__input">
@@ -57,7 +57,7 @@
                     (timeSelected)="onTimeSelected($event)">
                 </app-time-picker>
             </div>
-            <button class="button button__form">Adicionar Funcionario</button>
+            <button class="button button__form" type="submit" [disabled]="formEvent.invalid">Adicionar Funcionario</button>
         </form>
     </mat-dialog-content>
 </div>
