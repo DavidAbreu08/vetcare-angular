@@ -3,4 +3,13 @@
   <div class="schedule__top-bar">
     <app-top-bar></app-top-bar>
   </div>
+
+  <div class="calendar">
+    <full-calendar *ngIf='calendarVisible()' [options]='calendarOptions()'>
+      <ng-template #eventContent let-arg>
+        <b>{{ arg.timeText }}</b>
+        <i>{{ arg.event.title }}</i>
+      </ng-template>
+    </full-calendar>
+  </div>
 </div>

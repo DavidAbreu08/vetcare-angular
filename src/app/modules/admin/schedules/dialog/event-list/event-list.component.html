@@ -1,0 +1,10 @@
+<h2>Events on {{ data.date }}</h2>
+<ul *ngIf="data.events.length > 0; else noEvents">
+    <li *ngFor="let event of data.events">
+    <b>{{ event.title }}</b> ({{ event.start?.toLocaleTimeString() }} - {{ event.end?.toLocaleTimeString() }})
+    </li>
+</ul>
+<ng-template #noEvents>
+    <p>No events for this day.</p>
+</ng-template>
+<button mat-button (click)="close()">Close</button>

@@ -1,42 +1,43 @@
 <div class="app-container">
-  @if (!isAuthPage) {
-    <div class="position-relative">
-      <app-sidebar 
-        [isSidebarCollapsed]="isSidebarCollapsed"
-        (sidebarToggle)="onSidebarToggle()"
-      />
-      <button
-        class="sidebar-toggle-btn"
-        [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
-        (click)="onSidebarToggle()"
-      >
-        @if (isSidebarCollapsed) {
-          <mat-icon 
-            aria-hidden="false" 
-            aria-label="Arrow back" 
-            fontIcon="arrow_forward"
-          ></mat-icon>
-        }@else {
-          <mat-icon 
-            aria-hidden="false" 
-            aria-label="Arrow back" 
-            fontIcon="arrow_backward"
-          ></mat-icon>  
-        }
-      </button>
+  <!-- Admin Layout -->
+  <div *ngIf="!isAuthPage" class="position-relative">
+    <app-sidebar 
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    ></app-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <mat-icon 
+        *ngIf="isSidebarCollapsed"
+        aria-hidden="false" 
+        aria-label="Arrow back" 
+        fontIcon="arrow_forward"
+      ></mat-icon>
+      <mat-icon 
+        *ngIf="!isSidebarCollapsed"
+        aria-hidden="false" 
+        aria-label="Arrow back" 
+        fontIcon="arrow_backward"
+      ></mat-icon>
+    </button>
+    <app-top-bar></app-top-bar>
+  </div>
+
+  <!-- Main Content -->
+  <main *ngIf="isLoggedIn || !isAuthPage; else authPage" class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="content-inner">
+      <router-outlet></router-outlet>
     </div>
-    <app-top-bar />
-  }
-  @if (isLoggedIn || !isAuthPage) {
-    <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
-      <div class="content-inner" >
-          <router-outlet></router-outlet>
-      </div>
-      <app-footer/>
-    </main>
-  } @else {
+    <app-footer></app-footer>
+  </main>
+
+  <!-- Authentication Layout -->
+  <ng-template #authPage>
     <main class="full-screen">
-        <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </main>
-  }
+  </ng-template>
 </div>

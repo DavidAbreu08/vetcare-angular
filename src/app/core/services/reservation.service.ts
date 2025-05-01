@@ -24,7 +24,7 @@ export class ReservationService {
     return this.http.get<any[]>(`${this.apiUrl}/reservation/employee`);
   }
 
-  getAllReservations(): Observable<any[]> {
+  public getAllReservations(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/reservation/all`);
   }
 

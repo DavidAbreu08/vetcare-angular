@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SidebarComponent } from "./shared/sidebar/sidebar.component";
 import { MatIconModule } from '@angular/material/icon';
 import { TopBarComponent } from "./shared/top-bar/top-bar.component";
+import { AuthService } from './modules/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ import { TopBarComponent } from "./shared/top-bar/top-bar.component";
     RouterOutlet,
     SidebarComponent,
     MatIconModule,
-    TopBarComponent
+    TopBarComponent,
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -40,13 +41,17 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService,
+    private readonly authService: AuthService
   ) {
     this.translate.addLangs(['en', 'pt']);
     this.translate.setDefaultLang('pt');
   }
 
   ngOnInit() {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    
+    
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
@@ -70,8 +75,8 @@ export class AppComponent implements OnInit {
       '/auth/reset-password',
       '/home'
     ];
-    const explodedUrl = url.split('?');
-    this.isAuthPage = authPages.includes(explodedUrl[0]);
+    const explodedUrl = url.split('?')[0];
+    this.isAuthPage = authPages.includes(explodedUrl);
   }
 
   public onSidebarToggle() {

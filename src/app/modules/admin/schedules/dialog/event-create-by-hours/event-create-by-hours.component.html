@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Create Reservation</h2>
+<mat-dialog-content>
+  <form [formGroup]="formEvent">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Client</mat-label>
+      <mat-select formControlName="clientId">
+        <mat-option *ngFor="let client of clients" [value]="client.id">
+          {{ client.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Animal</mat-label>
+      <mat-select formControlName="animalId">
+        <mat-option *ngFor="let animal of animals" [value]="animal.id">
+          {{ animal.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Reason</mat-label>
+      <input matInput formControlName="reason" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Employee</mat-label>
+      <mat-select formControlName="employeeId">
+        <mat-option *ngFor="let employee of employees" [value]="employee.id">
+          {{ employee.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <p><b>Date:</b> {{ formEvent.get('date')?.value }}</p>
+    <p><b>Start Time:</b> {{ formEvent.get('startTime')?.value }}</p>
+    <p><b>End Time:</b> {{ formEvent.get('endTime')?.value }}</p>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

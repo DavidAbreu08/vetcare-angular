@@ -23,6 +23,18 @@ export class AuthService {
     private readonly http: HttpClient,
   ) { }
 
+  private setToken(token: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('token', token);
+    }
+  }
+  
+  private clearToken(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+    }
+  }
+
   public login(loginValues: LoginInterface): Observable<LoginResponse> {
     return this.http
       .post<LoginResponse>(`${this.apiUrl}/auth/login`, loginValues)
@@ -30,7 +42,7 @@ export class AuthService {
         retry(2),
         tap((response) => {
           if (response?.token) {
-            localStorage.setItem('token', response.token);
+            this.setToken(response.token);
           } else {
             console.warn('Resposta do servidor não contém token ou user.');
           }
@@ -38,6 +50,9 @@ export class AuthService {
       );
   }
   
+  public logout(): void {
+    this.clearToken();
+  }
 
   public register(registerValues: RegisterInterface): Observable<HttpResponse> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -50,14 +65,27 @@ export class AuthService {
       );
   }
 
-  public getToken(): any {
+  public getToken(): string | null {
     if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('token')
+      return localStorage.getItem('token') ?? null;
     }
+    return null;
   }
 
   public isLoggedIn(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    return !!token && !this.isTokenExpired(token);
+  }
+  
+  private isTokenExpired(token: string): boolean {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp * 1000;
+      return Date.now() > expiry;
+    } catch (error) {
+      console.error('Erro ao verificar expiração do token:', error);
+      return true;
+    }
   }
   
   public checkEmailExists(email: string): Observable<boolean> {
