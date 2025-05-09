@@ -10,6 +10,7 @@ import { ReservationService } from '../../../../../core/services/reservation.ser
 import { AnimalService } from '../../../../../core/services/animal.service';
 import { UserService } from '../../../../../core/services/user.service';
 import { tap } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-event-create-by-hours',
@@ -22,6 +23,7 @@ import { tap } from 'rxjs';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
+    MatIconModule
   ],
   templateUrl: './event-create-by-hours.component.html',
   styleUrl: './event-create-by-hours.component.scss',
@@ -32,6 +34,9 @@ export class EventCreateByHoursComponent implements OnInit{
   public clients: any[] = [];
   public animals: any[] = [];
   public employees: any[] = [];
+
+  
+  public filterValue: string = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { start: string; end: string; allDay: boolean },
@@ -67,6 +72,11 @@ export class EventCreateByHoursComponent implements OnInit{
     this.loadEmployeesAvailable(new Date(this.data.start));
   }
 
+  public filterOptions(event: any) {
+    this.filterValue = event.value;
+    this.loadClients();
+  }
+
   private formatTime(dateTime: string): string {
     // Extract the time part and format it as HH:mm
     return dateTime.split('T')[1].slice(0, 5); // Removes seconds (e.g., "11:00:00" -> "11:00")
@@ -94,10 +104,11 @@ export class EventCreateByHoursComponent implements OnInit{
     if (this.formEvent.valid) {
       const formValue = this.formEvent.getRawValue();
       const dto = {
-        ownerId: formValue.clientId,
         animalId: formValue.animalId,
-        date: new Date(`${formValue.date}T${formValue.startTime}:00`),
-        time: formValue.startTime,
+        ownerId: formValue.clientId,
+        date: formValue.date,
+        timeStart: formValue.startTime,
+        timeEnd: formValue.endTime,
         reason: formValue.reason,
         employeeId: formValue.employeeId
       };

@@ -1,44 +1,63 @@
-<h2 mat-dialog-title>Create Reservation</h2>
-<mat-dialog-content>
-  <form [formGroup]="formEvent">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Client</mat-label>
-      <mat-select formControlName="clientId">
-        <mat-option *ngFor="let client of clients" [value]="client.id">
-          {{ client.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Animal</mat-label>
-      <mat-select formControlName="animalId">
-        <mat-option *ngFor="let animal of animals" [value]="animal.id">
-          {{ animal.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Reason</mat-label>
-      <input matInput formControlName="reason" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Employee</mat-label>
-      <mat-select formControlName="employeeId">
-        <mat-option *ngFor="let employee of employees" [value]="employee.id">
-          {{ employee.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <p><b>Date:</b> {{ formEvent.get('date')?.value }}</p>
-    <p><b>Start Time:</b> {{ formEvent.get('startTime')?.value }}</p>
-    <p><b>End Time:</b> {{ formEvent.get('endTime')?.value }}</p>
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button color="primary" (click)="onSave()">Save</button>
-</mat-dialog-actions>
+<div class="dialog">
+  <h2 mat-dialog-title class="dialog__title">Marcar evento para o dia {{ formEvent.get('date')?.value }}</h2>
+  <mat-dialog-content class="dialog__content">
+      <div class="dialog__info">
+          <mat-icon fontIcon="report"/>
+          <span>Preencha as informações abaixo para criar uma nova reserva. Caso ainda não tenha registrado o animal, <a>clique aqui</a> para cadastrá-lo antes de prosseguir.</span>
+      </div>
+      <div class="information">
+        Esta reserva foi selecionada para o dia {{ formEvent.get('date')?.value }} entre as horas {{ formEvent.get('startTime')?.value }} e {{ formEvent.get('endTime')?.value }}.
+      </div>
+      <form class="form" [formGroup]="formEvent" (ngSubmit)="onSave()">
+          <div class="form__input">
+              <!-- CLIENT SELECT -->
+              <mat-form-field>
+                  <mat-label>Procurar Cliente</mat-label>
+                  <mat-select formControlName="clientId">
+                      <mat-option>
+                          <input
+                              matInput
+                              placeholder="Search..."
+                              (keyup)="filterOptions($event.target)"
+                              (click)="$event.stopPropagation()"  
+                              (keydown)="$event.stopPropagation()" 
+                          />
+                      </mat-option>
+                      <mat-option *ngFor="let client of clients" [value]="client.id">
+                        {{ client.name }}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="form__input">
+              <!-- ANIMAL SELECT -->
+              <mat-form-field>
+                <mat-label>Animal associado</mat-label>
+                <mat-select formControlName="animalId" [disabled]="!animals.length">
+                  <mat-option *ngFor="let animal of animals" [value]="animal.id">
+                    {{ animal.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="form__input">
+              <mat-form-field class="example-full-width">
+                  <mat-label>Motivo da Reserva</mat-label>
+                  <textarea matInput placeholder="Ex. O meu cao vomitou..." formControlName="reason"></textarea>
+              </mat-form-field>
+          </div>
+          <div class="form__input">
+              <!-- Employee SELECT -->
+              <mat-form-field>
+                  <mat-label>Funcionarios disponiveis</mat-label>
+                  <mat-select formControlName="employeeId">
+                      <mat-option *ngFor="let employee of employees" [value]="employee.id">{{ employee.name }}</mat-option>
+                      <mat-option *ngIf="!employees.length" disabled>Nenhum funcionário disponivel</mat-option>
+                  </mat-select>
+              </mat-form-field>
+          </div>
+          <button class="button button__form button--goback" (click)="onCancel()">Cancel</button>
+          <button class="button button__form" type="submit" [disabled]="formEvent.invalid">Adicionar Funcionario</button>
+      </form>
+  </mat-dialog-content>
+</div>
