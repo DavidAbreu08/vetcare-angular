@@ -89,54 +89,27 @@ export class EventCreateByHoursComponent implements OnInit{
   onCancel(): void {
     this.dialogRef.close();
   }
-
-  private convertToLisbonTime(localDateTime: string): string {
-    try {
-      const localDate = new Date(localDateTime);
-  
-      // Convert to Europe/Lisbon time zone
-      const lisbonDateTime = new Date(
-        localDate.toLocaleString('en-US', { timeZone: 'Europe/Lisbon' })
-      );
-  
-      // Format as ISO string (YYYY-MM-DDTHH:mm:ss)
-      return lisbonDateTime.toISOString().slice(0, 19);
-    } catch (error) {
-      console.error('Error converting to Lisbon time zone:', { localDateTime, error });
-      throw error;
-    }
-  }
   
   public onSave(): void {
-    if (this.formEvent.invalid) {
-      console.error('Form is invalid:', this.formEvent.errors);
-      return;
+    if (this.formEvent.valid) {
+      const formValue = this.formEvent.getRawValue();
+      const dto = {
+        ownerId: formValue.clientId,
+        animalId: formValue.animalId,
+        date: new Date(`${formValue.date}T${formValue.startTime}:00`),
+        time: formValue.startTime,
+        reason: formValue.reason,
+        employeeId: formValue.employeeId
+      };
+  
+      this.reservationService.createReservation(dto).subscribe({
+        next: (reservation) => {
+          this.dialogRef.close(reservation);
+        },
+        error: (err) => {
+          console.error('Error creating reservation:', err);
+        }
+      });
     }
-  
-    const { clientId, animalId, reason, employeeId } = this.formEvent.value;
-  
-    // Convert local date and time to Europe/Lisbon time zone
-    const lisbonDateTime = this.convertToLisbonTime(this.data.start);
-  
-    const reservationPayload = {
-      ownerId: clientId,
-      animalId,
-      reason,
-      date: lisbonDateTime.split('T')[0], // Extract the Lisbon date (YYYY-MM-DD)
-      time: lisbonDateTime.split('T')[1], // Extract the Lisbon time (HH:mm:ss)
-      employeeId,
-    };
-  
-    console.log('Submitting reservation with payload:', reservationPayload);
-  
-    this.reservationService.createReservation(reservationPayload).subscribe({
-      next: (response) => {
-        console.log('Reservation created successfully:', response);
-        this.dialogRef.close(true);
-      },
-      error: (error) => {
-        console.error('Error creating reservation:', error);
-      },
-    });
   }
 }

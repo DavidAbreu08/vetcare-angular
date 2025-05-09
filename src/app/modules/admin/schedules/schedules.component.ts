@@ -102,41 +102,49 @@ export class SchedulesComponent implements OnInit {
   }
 
   private loadReservations(): void {
-    this.reservationService.getAllReservations().subscribe((reservations) => {
-      console.log('Reservations:', reservations); // Log all reservations
-  
-      const events: EventInput[] = reservations.map((reservation) => {
-        console.log('Processing reservation:', reservation); // Log each reservation
-  
-        if (!reservation.date || !reservation.time) {
-          console.error('Invalid reservation date or time:', reservation);
-          return null;
-        }
-  
-        // Combine date and time into a single ISO 8601 string
-        const lisbonDateTime = `${reservation.date}T${reservation.time}`;
-        console.log('Lisbon Date-Time:', lisbonDateTime);
-  
-        return {
-          id: reservation.id,
-          title: `${reservation.reason} - ${reservation.animal.name}`,
-          start: lisbonDateTime, // Use the stored Lisbon date-time
-          extendedProps: {
-            client: reservation.client.name,
-            employee: reservation.employee.name,
-            status: reservation.status,
-            rescheduleNote: reservation.rescheduleNote,
-          },
-        };
-      }).filter(event => event !== null); // Filter out invalid events
-  
-      this.calendarOptions.update((options) => ({
+    this.reservationService.getAllReservations().subscribe(reservations => {
+      const events = reservations.map(reservation => this.mapReservationToEvent(reservation));
+      this.calendarOptions.update(options => ({
         ...options,
-        events, // Update events dynamically
+        events: events
       }));
-  
-      this.changeDetector.detectChanges(); // Trigger change detection
     });
+  }
+
+  private mapReservationToEvent(reservation: any): EventInput {
+    // Convert your API date/time to a format FullCalendar understands
+    const startDateTime = new Date(reservation.date);
+    const [hours, minutes] = reservation.time.split(':').map(Number);
+    startDateTime.setHours(hours, minutes, 0, 0);
+    
+    // Calculate end time (assuming 30-minute appointments by default)
+    const endDateTime = new Date(startDateTime);
+    endDateTime.setMinutes(endDateTime.getMinutes() + 30);
+  
+    return {
+      id: reservation.id,
+      title: `${reservation.reason} - ${reservation.animal.name}`,
+      start: startDateTime.toISOString(),
+      end: endDateTime.toISOString(),
+      extendedProps: {
+        client: reservation.client.name,
+        employee: reservation.employee.name,
+        status: reservation.status,
+        rescheduleNote: reservation.rescheduleNote,
+        animal: reservation.animal.name
+      },
+      backgroundColor: this.getStatusColor(reservation.status),
+      borderColor: this.getStatusColor(reservation.status)
+    };
+  }
+  
+  private getStatusColor(status: string): string {
+    switch(status) {
+      case 'confirmed': return '#28a745';
+      case 'pending': return '#ffc107';
+      case 'cancelled': return '#dc3545';
+      default: return '#007bff';
+    }
   }
 
 
@@ -151,7 +159,7 @@ export class SchedulesComponent implements OnInit {
     }));
   }
 
-  handleDateSelect(selectInfo: DateSelectArg) {
+  public handleDateSelect(selectInfo: DateSelectArg) {
     const dialogRef = this.dialog.open(EventCreateByHoursComponent, {
       data: {
         start: selectInfo.startStr,
@@ -164,16 +172,10 @@ export class SchedulesComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const calendarApi = selectInfo.view.calendar;
-  
-        calendarApi.unselect(); // Clear date selection
-  
-        calendarApi.addEvent({
-          id: createEventId(),
-          title: result.title,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-          allDay: selectInfo.allDay,
-        });
+        calendarApi.unselect();
+        
+        // Refresh events after creation
+        this.loadReservations();
       }
     });
   }

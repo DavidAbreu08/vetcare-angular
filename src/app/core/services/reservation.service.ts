@@ -12,7 +12,7 @@ export class ReservationService {
   constructor(
     private readonly http: HttpClient,
   ) { }
-  createReservation(dto: any): Observable<any> {
+  public createReservation(dto: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/reservation/create`, dto);
   }
 
