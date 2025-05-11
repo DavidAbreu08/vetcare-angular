@@ -1,13 +1,11 @@
 import { Component, signal, ChangeDetectorRef, OnInit } from '@angular/core';
 import { TopBarComponent } from '../../../shared/top-bar/top-bar.component';
 import { CommonModule } from '@angular/common';
-
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventInput } from '@fullcalendar/core';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventInput, DateSpanApi } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import { INITIAL_EVENTS, createEventId } from '../../../core/utils/event-utils';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { MatDialog } from '@angular/material/dialog';
 import { EventListComponent } from './dialog/event-list/event-list.component';
@@ -28,6 +26,9 @@ import { ReservationService } from '../../../core/services/reservation.service';
 })
 export class SchedulesComponent implements OnInit {
   calendarVisible = signal(true);
+  isLoading = signal(false);
+  error = signal<string | null>(null);
+
   calendarOptions = signal<CalendarOptions>({
     plugins: [
       interactionPlugin,
@@ -47,46 +48,31 @@ export class SchedulesComponent implements OnInit {
     selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
-    height: 800,
-    timeZone: 'Europe/Lisbon',
+    height: 'auto',
+    aspectRatio: 1.8,
+    timeZone: 'local',
     businessHours: {
       daysOfWeek: [1, 2, 3, 4, 5],
       startTime: '07:00',
       endTime: '20:00',
     },
-    slotMinTime: '07:00',
+    slotMinTime: '06:00',
     slotMaxTime: '21:00',
-    eventContent: (arg) => {
-      return {
-        html: `
-          <div class="custom-event">
-            <b>${arg.timeText}</b>
-            <span>${arg.event.title}</span>
-          </div>
-        `
-      };
+    slotDuration: '00:30:00',
+    allDaySlot: false,
+    eventTimeFormat: {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
     },
-    selectAllow: (selectInfo) => {
-      // Restrict selection to business hours
-      const startHour = selectInfo.start.getHours();
-      const endHour = selectInfo.end.getHours();
-      const dayOfWeek = selectInfo.start.getDay();
-      return (
-        startHour >= 7 &&
-        endHour <= 20 &&
-        dayOfWeek >= 1 && // Monday (1) to Friday (5)
-        dayOfWeek <= 5
-      );
-    },
-    eventAllow: (event) => {
-      // Allow events to be created or edited only on weekdays
-      const dayOfWeek = event.start.getDay();
-      return dayOfWeek >= 1 && dayOfWeek <= 5;
-    },
+    eventDisplay: 'block',
+    eventContent: this.customEventContent.bind(this),
+    selectAllow: this.validateSelection.bind(this),
+    eventAllow: this.validateEvent.bind(this),
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    dateClick: this.handleDateClick.bind(this),
+    datesSet: this.handleDateRangeChange.bind(this)
   });
   currentEvents = signal<EventApi[]>([]);
 
@@ -102,61 +88,104 @@ export class SchedulesComponent implements OnInit {
   }
 
   private loadReservations(): void {
-    this.reservationService.getAllReservations().subscribe(reservations => {
-      const events = reservations.map(reservation => this.mapReservationToEvent(reservation));
+  this.isLoading.set(true);
+  this.error.set(null);
+
+  this.reservationService.getAllReservations().subscribe({
+    next: (reservations) => {
+      const events = reservations.map(reservation => 
+        this.mapReservationToEvent(reservation)
+      ).filter(event => event !== null);
+      
       this.calendarOptions.update(options => ({
         ...options,
         events: events
       }));
-    });
+    },
+    error: (err) => {
+      console.error('Failed to load reservations:', err);
+      this.error.set('Failed to load reservations. Please try again later.');
+    },
+    complete: () => {
+      this.isLoading.set(false);
+    }
+  });
   }
 
-  private mapReservationToEvent(reservation: any): EventInput {
-    // Convert your API date/time to a format FullCalendar understands
-    const startDateTime = new Date(reservation.date);
-    const [hours, minutes] = reservation.time.split(':').map(Number);
-    startDateTime.setHours(hours, minutes, 0, 0);
+  private mapReservationToEvent(reservation: any): EventInput | null {
     
-    // Calculate end time (assuming 30-minute appointments by default)
-    const endDateTime = new Date(startDateTime);
-    endDateTime.setMinutes(endDateTime.getMinutes() + 30);
-  
+    // Combine with time strings
+    const startDateTime = new Date(reservation.start);
+    const endDateTime = new Date(reservation.end);
+
+    // Validate dates
+    if (isNaN(startDateTime.getTime())) {
+      console.error('Invalid start date/time:', reservation.date, reservation.timeStart);
+      return null;
+    }
+    if (isNaN(endDateTime.getTime())) {
+      console.error('Invalid end date/time:', reservation.date, reservation.timeEnd);
+      return null;
+    }
+
     return {
       id: reservation.id,
-      title: `${reservation.reason} - ${reservation.animal.name}`,
-      start: startDateTime.toISOString(),
-      end: endDateTime.toISOString(),
+      title: `${reservation.reason} - ${reservation.animal?.name ?? 'Unknown'}`,
+      start: startDateTime,
+      end: endDateTime,
       extendedProps: {
-        client: reservation.client.name,
-        employee: reservation.employee.name,
+        client: reservation.client?.name ?? 'Unknown',
+        employee: reservation.employee?.name ?? 'Unknown',
         status: reservation.status,
         rescheduleNote: reservation.rescheduleNote,
-        animal: reservation.animal.name
+        animal: reservation.animal?.name ?? 'Unknown',
+        reason: reservation.reason
       },
       backgroundColor: this.getStatusColor(reservation.status),
-      borderColor: this.getStatusColor(reservation.status)
+      borderColor: this.getStatusColor(reservation.status),
+      classNames: ['custom-event']
     };
   }
-  
-  private getStatusColor(status: string): string {
-    switch(status) {
-      case 'confirmed': return '#28a745';
-      case 'pending': return '#ffc107';
-      case 'cancelled': return '#dc3545';
-      default: return '#007bff';
-    }
+
+  private customEventContent(arg: any): { html: string } {
+    const timeText = arg.timeText;
+    const title = arg.event.title;
+    const status = arg.event.extendedProps.status;
+    
+    return {
+      html: `
+        <div class="fc-event-content" data-status="${status}">
+          <div class="fc-event-time">${timeText}</div>
+          <div class="fc-event-title">${title}</div>
+        </div>
+      `
+    };
   }
 
-
-  handleCalendarToggle() {
-    this.calendarVisible.update((bool) => !bool);
+  private validateSelection(span: DateSpanApi): boolean {
+    const start = span.start;
+    const end = span.end;
+    const durationMs = end.getTime() - start.getTime();
+    
+    // Validate business hours
+    const dayOfWeek = start.getDay();
+    const startHour = start.getHours();
+    const endHour = end.getHours();
+    
+    return (
+      dayOfWeek >= 1 && 
+      dayOfWeek <= 5 &&
+      startHour >= 7 &&
+      endHour <= 20 &&
+      durationMs >= 30 * 60 * 1000 && // Minimum 30 minutes
+      durationMs <= 4 * 60 * 60 * 1000 // Maximum 4 hours
+    );
   }
 
-  handleWeekendsToggle() {
-    this.calendarOptions.update((options) => ({
-      ...options,
-      weekends: !options.weekends,
-    }));
+  private validateEvent(event: any): boolean {
+    const start = event.start;
+    const dayOfWeek = start.getDay();
+    return dayOfWeek >= 1 && dayOfWeek <= 5;
   }
 
   public handleDateSelect(selectInfo: DateSelectArg) {
@@ -180,33 +209,39 @@ export class SchedulesComponent implements OnInit {
     });
   }
 
-  handleEventClick(clickInfo: EventClickArg): void {
-    const event = clickInfo.event;
-    alert(`
-      Title: ${event.title}
-      Client: ${event.extendedProps['client']}
-      Employee: ${event.extendedProps['employee']}
-      Status: ${event.extendedProps['status']}
-      Note: ${event.extendedProps['rescheduleNote']}
-    `);
+  private handleEventClick(clickInfo: EventClickArg): void {
+    const dialogRef = this.dialog.open(EventListComponent, {
+      data: {
+        event: clickInfo.event.toPlainObject(),
+        events: this.currentEvents()
+      },
+      width: '600px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'refresh') {
+        this.loadReservations();
+      }
+    });
   }
 
-  handleEvents(events: EventApi[]) {
+  private handleEvents(events: EventApi[]): void {
     this.currentEvents.set(events);
-    this.changeDetector.detectChanges(); // workaround for pressionChangedAfterItHasBeenCheckedError
+    this.changeDetector.detectChanges();
   }
 
-  handleDateClick(dateClickInfo: any) {
-    // Filter events for the clicked day
-    const selectedDate = dateClickInfo.dateStr;
-    const eventsForDay = this.currentEvents().filter((event) => {
-      return event.startStr.startsWith(selectedDate); // Match events by date
-    });
+  private handleDateRangeChange(info: any): void {
+    // Optional: Load events for visible range
+    //console.log('Date range changed', info.start, info.end);
+  }
 
-    // Open the popup with the list of events
-    this.dialog.open(EventListComponent, {
-      data: { events: eventsForDay, date: selectedDate },
-      width: '400px',
-    });
+  private getStatusColor(status: string): string {
+    const mapStatus = status.toLowerCase();
+    switch(mapStatus) {
+      case 'confirmed': return '#28a745';
+      case 'pending': return '#ffc107';
+      case 'cancelled': return '#dc3545';
+      default: return '#007bff';
+    }
   }
 }

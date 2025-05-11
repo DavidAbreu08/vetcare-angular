@@ -96,7 +96,7 @@ export class EventCreateByHoursComponent implements OnInit{
     ).subscribe();
   }
 
-  onCancel(): void {
+  public onCancel(): void {
     this.dialogRef.close();
   }
   
@@ -112,6 +112,8 @@ export class EventCreateByHoursComponent implements OnInit{
         reason: formValue.reason,
         employeeId: formValue.employeeId
       };
+
+      console.log('Reservation Data:', dto);
   
       this.reservationService.createReservation(dto).subscribe({
         next: (reservation) => {
