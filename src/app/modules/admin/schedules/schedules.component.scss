@@ -23,13 +23,13 @@
         }
     }
 }
-
-.custom-event {
-    background-color: #ffc107;
-    color: black !important;
-    padding: 5px;
-    border-radius: 4px;
-    font-size: 12px;
+::ng-deep .fc-event-content{
+    ::ng-deep .fc-event-time{
+        color: black !important;
+    }
+    ::ng-deep .fc-event-title{
+        color: black !important;
+    }
 }
 
 

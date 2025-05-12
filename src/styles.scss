@@ -30,7 +30,6 @@ body {
   padding: 0 4px;
 }
 
-
 .column {
   flex: 50%;
   padding: 0 4px;
@@ -38,4 +37,9 @@ body {
 
 .position-relative {
   position: relative;
+}
+
+.box {
+  background-color: var(--ion-color-dark-contrast);
+  border-radius: $border-radius;
 }

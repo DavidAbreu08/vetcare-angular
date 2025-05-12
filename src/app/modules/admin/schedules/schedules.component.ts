@@ -149,14 +149,15 @@ export class SchedulesComponent implements OnInit {
 
   private customEventContent(arg: any): { html: string } {
     const timeText = arg.timeText;
-    const title = arg.event.title;
+    const client = arg.event.extendedProps.client;
+    const animal = arg.event.extendedProps.animal;
     const status = arg.event.extendedProps.status;
     
     return {
       html: `
         <div class="fc-event-content" data-status="${status}">
           <div class="fc-event-time">${timeText}</div>
-          <div class="fc-event-title">${title}</div>
+          <div class="fc-event-title">${client} - ${animal}</div>
         </div>
       `
     };

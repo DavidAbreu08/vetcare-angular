@@ -34,7 +34,7 @@ export class SidebarComponent {
     {
       icon: 'monitor_heart',
       label: 'Clinica',
-      isOpen: false,
+      isOpen: true,
       children: [
         { icon: 'schedule', label: 'Horários', link: '/admin/schedule' },
         { icon: 'badge', label: 'Funcionários', link: '/admin/employees-list'},
@@ -47,7 +47,8 @@ export class SidebarComponent {
     },
     {
       icon: 'description',
-      label: 'Validação'
+      label: 'Validação',
+      link: '/admin/validation'
     },
     {
       icon: 'mark_chat_unread',

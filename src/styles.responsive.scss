@@ -3,6 +3,14 @@
       flex: 33.33% !important;
       max-width: 33.33% !important;
     }
+    .other-column {
+      flex: 33.33% !important;
+      max-width: 33.33% !important;
+    }
+    .other-column-2 {
+      flex: 33.33% !important;
+      max-width: 33.33% !important;
+    }
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */
@@ -11,11 +19,28 @@
       flex: 50% !important;
       max-width: 50% !important;
     }
+    .other-column {
+      flex: 65% !important;
+      max-width: 65% !important;
+    }
+    .other-column-2 {
+      flex: 35% !important;
+      max-width: 35% !important;
+    }
 }
+
   
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
 @media (max-width: 1050px) {
     .column {
+      flex: 100% !important;
+      max-width: 100% !important;
+    }
+    .other-column {
+      flex: 100% !important;
+      max-width: 100% !important;
+    }
+    .other-column-2 {
       flex: 100% !important;
       max-width: 100% !important;
     }

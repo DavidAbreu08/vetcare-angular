@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'app-control-panel',
   imports: [
     CommonModule,
-    TopBarComponent,
     TranslateModule,
     MatIconModule,
   ],
