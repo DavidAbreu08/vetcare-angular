@@ -7,7 +7,6 @@ h1 {
 p {
     color: var(--ion-color-dark-contrast);
     font-size: 16px;
-    align-self: flex-start;
     font-weight: 100;
 }
 
@@ -19,4 +18,11 @@ a {
 
 .title-primary{
     color: var(--ion-color-primary)!important;
+}
+
+.paragraph {
+    color: var(--ion-color-dark-contrast);
+    font-size: 16px;
+    align-self: flex-start;
+    font-weight: 100;
 }

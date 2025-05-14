@@ -41,7 +41,7 @@ export class ReservationService {
     return this.http.get<any[]>(`${this.apiUrl}/reservation/${employeeId}/${date}`);
   }
 
-  getClinicHours(): Observable<{ start: string, end: string }> {
+  public getClinicHours(): Observable<{ start: string, end: string }> {
     return this.http.get<any>(`${this.apiUrl}/clinic/hours`);
   }
 }

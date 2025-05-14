@@ -1,0 +1,24 @@
+<div class="dialog">
+    <h2 mat-dialog-title class="dialog__title">Detalhes da Consulta</h2>
+    <div class="dialog__content">
+        <p class="dialog__text"><strong>Nome do Cliente:</strong> {{data.reservation.client.name}}</p>
+        <p class="dialog__text"><strong>Nome do Animal:</strong> {{data.reservation.animal.name}}</p>
+        <p class="dialog__text"><strong>Data:</strong> {{data.reservation.timeStart}} - {{data.reservation.timeEnd}}</p>
+        <p class="dialog__text"><strong>Motivo:</strong> {{ data.reservation.reason || 'Nenhum motivo apresentado' }}</p>
+    </div>
+    <h2 class="dialog__title-mid-screen">Detalhes Adicionais</h2>
+    <div class="dialog__content">
+        <p class="dialog__text"><strong>Nome do Cliente:</strong> {{data.reservation.additionalDetails || 'Sem detalhes adicionais'}}</p>
+    </div>
+    <h2 class="dialog__title-bottom-screen">Consultas Agendadas</h2>
+    <div class="dialog__content">
+        <div class="block">
+            <div class="block__box1">
+                {{ formatedDate }} | {{data.reservation.timeStart}} - {{data.reservation.timeEnd}}
+            </div>
+            <div class="block__box2">
+                {{ data.reservation.client.name }} - {{ data.reservation.reason || 'Exame' }}
+            </div>
+        </div>
+    </div>
+</div>

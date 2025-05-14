@@ -4,28 +4,46 @@
     </div>
     <div class="validation__content">
         <div class="validation__left-column">
-        <div class="box top">
-            <h1>Novas Validaçoes</h1>
-            <div class="top__circle-pending">
-                <h2>40</h2>
-                <h5>Pendentes</h5>
+            <div class="box top">
+                <h1>Novas Validaçoes</h1>
+                <div class="top__circle-pending">
+                    <h2>{{ countPending }}</h2>
+                    <h5>Pendentes</h5>
+                </div>
+                <div class="top__circle-canceled">
+                    <h2>{{ countCancelled }}</h2>
+                    <h5>Canceladas</h5>
+                </div>
+                <div class="top__circle-rescheduled">
+                    <h2>{{ countRescheduled }}</h2>
+                    <h5>Reenviadas</h5>
+                </div>
             </div>
-            <div class="top__circle-canceled">
-                <h2>20</h2>
-                <h5>Canceladas</h5>
-            </div>
-            <div class="top__circle-rescheduled">
-                <h2>2</h2>
-                <h5>Reenviadas</h5>
-            </div>
-        </div>
-        <div class="box bottom">
+            <div class="box bottom">
             <h1 class="title-primary">Lista Pendentes</h1>
-            <div class="list">
-
+            <div class="list" *ngFor="let reservation of reservationsPending; let i = index" >
+                <p>Cliente: {{ reservation.client?.name }}</p>
+                <p>Data: {{ reservation.date | date:'dd/MM/yyyy' }}</p>
+                <p>Hora: {{ reservation.timeStart }} - {{ reservation.timeEnd }}</p>
+                <div class="list__toggle" (click)="toggle(reservation, i); $event.stopPropagation()" >
+                    <button mat-mini-fab aria-label="Example icon button with a menu icon">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                </div>
+            </div>
             </div>
         </div>
-    </div>
-    <div class="validation__right-column"></div>
+        <div class="box validation__right-column">
+            <h1 class="title-primary">Consultas Propostas</h1>
+            <div class="reascheduled" *ngFor="let reservation of reservationsRescheduled; let i = index" (click)="openDialog(reservation, i)">
+                <div class="reascheduled__box1">
+                    <p class="reascheduled__confirmation"*ngIf="reservation.status === 'accepted'">Aceite</p>
+                    <p class="reascheduled__confirmation"*ngIf="reservation.status === 'rescheduled'">Nova Proposta</p>
+                </div>
+                <div class="reascheduled__box2">
+                    <p class="reascheduled__info">{{ reservation.client?.name }} - {{ reservation.reason || 'Exame' }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
