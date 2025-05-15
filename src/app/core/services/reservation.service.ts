@@ -40,8 +40,16 @@ export class ReservationService {
   public getReservations(employeeId: string, date: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/reservation/${employeeId}/${date}`);
   }
-
+  
   public getClinicHours(): Observable<{ start: string, end: string }> {
     return this.http.get<any>(`${this.apiUrl}/clinic/hours`);
+  }
+
+  public confirmPendingReservation(employeeId: string, dto:any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/reservation/${employeeId}/confirm-pending`, dto);
+  }
+
+  public confirmRescheduledReservation(employeeId: string, dto:any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/reservation/${employeeId}/confirm-rescheduled`, dto);
   }
 }

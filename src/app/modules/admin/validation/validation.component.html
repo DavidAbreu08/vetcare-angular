@@ -21,11 +21,11 @@
             </div>
             <div class="box bottom">
             <h1 class="title-primary">Lista Pendentes</h1>
-            <div class="list" *ngFor="let reservation of reservationsPending; let i = index" >
+            <div class="list" *ngFor="let reservation of reservationsPending; let i = index">
                 <p>Cliente: {{ reservation.client?.name }}</p>
                 <p>Data: {{ reservation.date | date:'dd/MM/yyyy' }}</p>
                 <p>Hora: {{ reservation.timeStart }} - {{ reservation.timeEnd }}</p>
-                <div class="list__toggle" (click)="toggle(reservation, i); $event.stopPropagation()" >
+                <div class="list__toggle" (click)="openDialogUpdate(reservation, i);" >
                     <button mat-mini-fab aria-label="Example icon button with a menu icon">
                         <mat-icon>menu</mat-icon>
                     </button>
@@ -35,7 +35,7 @@
         </div>
         <div class="box validation__right-column">
             <h1 class="title-primary">Consultas Propostas</h1>
-            <div class="reascheduled" *ngFor="let reservation of reservationsRescheduled; let i = index" (click)="openDialog(reservation, i)">
+            <div class="reascheduled" *ngFor="let reservation of reservationsRescheduled; let i = index" (click)="openDialogInfo(reservation, i)">
                 <div class="reascheduled__box1">
                     <p class="reascheduled__confirmation"*ngIf="reservation.status === 'accepted'">Aceite</p>
                     <p class="reascheduled__confirmation"*ngIf="reservation.status === 'rescheduled'">Nova Proposta</p>

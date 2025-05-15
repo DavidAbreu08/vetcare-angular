@@ -67,7 +67,7 @@ export class ValidationComponent implements OnInit{
   }
 
 
-  public openDialog(reservation: any, index: number): void {
+  public openDialogInfo(reservation: any, index: number): void {
     this.dialog.open(ReservationInfoComponent, {
       data: {
         reservation,
@@ -75,10 +75,12 @@ export class ValidationComponent implements OnInit{
       }
     });
   }
-
-  public toggle(reservation: any, index: number): void {
-    console.log('Toggled reservation:', reservation);
-    console.log('Reservation index:', index);
-    // You can now use the reservation object or index as needed
+  public openDialogUpdate(reservation: any, index: number): void {
+    this.dialog.open(ReservationInfoComponent, {
+      data: {
+        reservation,
+        index
+      }
+    });
   }
 }

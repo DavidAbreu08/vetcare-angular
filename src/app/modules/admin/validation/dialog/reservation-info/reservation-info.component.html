@@ -10,15 +10,44 @@
     <div class="dialog__content">
         <p class="dialog__text"><strong>Nome do Cliente:</strong> {{data.reservation.additionalDetails || 'Sem detalhes adicionais'}}</p>
     </div>
-    <h2 class="dialog__title-bottom-screen">Consultas Agendadas</h2>
+    <h2 class="dialog__title-bottom-screen" *ngIf="reservationsAtDate.length > 0">
+        Existem {{ reservationsAtDate.length }} reservas Agendadas
+    </h2>
+    <h2 class="dialog__title-bottom-screen" *ngIf="reservationsAtDate.length === 0">
+        Nenhuma reserva agendada para este dia
+    </h2>
     <div class="dialog__content">
-        <div class="block">
+        <div class="block" *ngFor="let reservation of reservationsAtDate">
             <div class="block__box1">
-                {{ formatedDate }} | {{data.reservation.timeStart}} - {{data.reservation.timeEnd}}
+                {{ formatedDate }} | {{reservation.timeStart}} - {{reservation.timeEnd}}
             </div>
             <div class="block__box2">
-                {{ data.reservation.client.name }} - {{ data.reservation.reason || 'Exame' }}
+                {{ reservation.client.name }} - {{ reservation.reason || 'Exame' }} - {{ reservation.employee.name }}
             </div>
         </div>
     </div>
+
+    <form [formGroup]="formSelectEmployee" (ngSubmit)="acceptReservation()">
+       <div class="form__input" *ngIf="data.reservation.status === 'pending'">
+            <mat-form-field>
+                <mat-label>Funcionarios disponiveis</mat-label>
+                <mat-select formControlName="employeeId">
+                    <mat-option *ngFor="let employee of employees" [value]="employee.id">{{ employee.name }}</mat-option>
+                    <mat-option *ngIf="!employees.length" disabled>Nenhum funcionário disponivel</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <button
+            mat-button
+            type="button"
+            class="button button__form button--new"
+            *ngIf="data.reservation.status === 'pending'"
+            (click)="newDateDialog()"
+        >
+            Adicionar Proposta
+        </button>
+        <button class="button button__form button--goback button--Dialog" (click)="closeDialog()">Voltar</button>
+        <button class="button button__form" type="submit" *ngIf="data.reservation.status === 'pending'" [disabled]="formSelectEmployee.invalid">Aceitar Reserva</button>
+        <button class="button button__form" type="submit" *ngIf="data.reservation.status === 'rescheduled'">Aceitar Reserva</button>
+    </form>
 </div>

@@ -28,6 +28,8 @@
     &__content {
         padding: 20px;
         overflow-y: hidden !important;
+        max-height: 600px;
+        overflow-y: auto;
     }
 
     &__info{
