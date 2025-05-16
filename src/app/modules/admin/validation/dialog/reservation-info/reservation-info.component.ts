@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, model } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ReservationService } from '../../../../../core/services/reservation.service';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { UpdateReservationComponent } from '../update-reservation/update-reservation.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-reservation-info',
@@ -20,6 +22,8 @@ import { UpdateReservationComponent } from '../update-reservation/update-reserva
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './reservation-info.component.html',
   styleUrl: './reservation-info.component.scss',
@@ -31,8 +35,10 @@ export class ReservationInfoComponent {
   public employees: any[] = [];
   public reservationsAtDate: any[] = [];
 
-
+  
   dialog = inject(MatDialog);
+  selectedDate = model<Date | null>(null);
+
 
   readonly dialogRef = inject(MatDialogRef<ReservationInfoComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
@@ -122,11 +128,13 @@ export class ReservationInfoComponent {
   }
 
   public newDateDialog(): void {
-    this.dialog.open(UpdateReservationComponent, {
+    const dialogRef = this.dialog.open(UpdateReservationComponent, {
       minWidth: '500px',
-      data: {
-        reservation: this.data.reservation,
-      }
+      data: {selectedDate: this.selectedDate()},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.selectedDate.set(result);
     });
   }
 }
