@@ -43,6 +43,8 @@ export class ReservationInfoComponent {
   readonly dialogRef = inject(MatDialogRef<ReservationInfoComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
 
+  rescheduleData: { newDate?: Date, newTimeStart?: string, newTimeEnd?: string } | null = null;
+
   constructor(
     private readonly reservationService: ReservationService,
     private readonly fb: FormBuilder,
@@ -52,7 +54,7 @@ export class ReservationInfoComponent {
 
     this.formSelectEmployee = this.fb.group({
       employeeId: ['', Validators.required],
-      rescheduleNote: [''],
+      rescheduleNote: ['']
     });
 
     const isoDate = this.data.reservation.date;
@@ -95,17 +97,53 @@ export class ReservationInfoComponent {
     ).subscribe();
   }
 
+  public openRescheduleDialog(): void {
+    const dialogRef = this.dialog.open(UpdateReservationComponent, {
+      width: '500px',
+      data: { 
+        currentDate: this.data.reservation.date,
+        currentStart: this.data.reservation.startTime,
+        currentEnd: this.data.reservation.endTime
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        this.rescheduleData = result;
+      }
+    });
+  }
+
   public acceptReservation(): void {
-    if( this.data.reservation.status === 'pending' ) {
-      const employeeId = this.formSelectEmployee.value.employeeId;
-      const reservationId = this.data.reservation.id;
+     if (this.formSelectEmployee.invalid) return;
+
+    const formValue = this.formSelectEmployee.value;
+    const reservationId = this.data.reservation.id;
+  
+    if( this.data.reservation.status === 'pending' && this.rescheduleData === null ) {
       const dto = {
-        employeeId: employeeId,
+        employeeId: formValue.employeeId,
         status: 'confirmed',
-        confirmationNote: this.formSelectEmployee.value.rescheduleNote,
+        confirmationNote: formValue.rescheduleNote,
       };
 
       this.reservationService.confirmPendingReservation(reservationId, dto).pipe(
+        tap(() => {
+          this.dialogRef.close(true);
+        })
+      ).subscribe();
+    }
+
+    if(this.rescheduleData){
+      const dto = {
+        ...this.rescheduleData,
+        employeeId: formValue.employeeId,
+        status: 'rescheduled',
+        rescheduleNote: formValue.rescheduleNote,
+      }
+
+      this.reservationService.updateReservationStatus(reservationId, dto).pipe(
         tap(() => {
           this.dialogRef.close(true);
         })
@@ -116,7 +154,7 @@ export class ReservationInfoComponent {
       const reservationId = this.data.reservation.id;
       const dto = {
         status: 'confirmed',
-        confirmationNote: this.formSelectEmployee.value.rescheduleNote,
+        confirmationNote: formValue.rescheduleNote,
       };
 
       this.reservationService.confirmRescheduledReservation(reservationId, dto).pipe(
@@ -127,14 +165,5 @@ export class ReservationInfoComponent {
     }
   }
 
-  public newDateDialog(): void {
-    const dialogRef = this.dialog.open(UpdateReservationComponent, {
-      minWidth: '500px',
-      data: {selectedDate: this.selectedDate()},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.selectedDate.set(result);
-    });
-  }
+  
 }

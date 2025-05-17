@@ -1,13 +1,34 @@
-<h2 mat-dialog-title>Datepicker in a Dialog</h2>
-<mat-dialog-content align="center">
-  <mat-form-field>
-    <mat-label>Selecione uma data</mat-label>
-    <input matInput [matDatepicker]="picker" [formControl]="formDate" />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+<h2 mat-dialog-title>Propor Novo Horário</h2>
+<mat-dialog-content>
+  <form [formGroup]="rescheduleForm">
+    <mat-form-field>
+      <mat-label>Nova Data</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="newDate" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="newDate?.hasError('required')">Data é obrigatória</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Hora de Início</mat-label>
+      <input matInput formControlName="newTimeStart" placeholder="HH:MM" required>
+      <mat-error *ngIf="newTimeStart?.hasError('required')">
+        Formato inválido (use HH:MM)
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Hora de Término</mat-label>
+      <input matInput formControlName="newTimeEnd" placeholder="HH:MM" required>
+      <mat-error *ngIf="newTimeEnd?.hasError('required')">
+        Formato inválido (use HH:MM)
+      </mat-error>
+    </mat-form-field>
+  </form>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Clear</button>
-  <button mat-button [mat-dialog-close]="formDate.value" cdkFocusInitial>Ok</button>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button (click)="onSubmit()" [disabled]="rescheduleForm.invalid" color="primary">
+    Confirmar
+  </button>
 </mat-dialog-actions>

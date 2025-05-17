@@ -28,29 +28,52 @@
     </div>
 
     <form [formGroup]="formSelectEmployee" (ngSubmit)="acceptReservation()">
-       <div class="form__input" *ngIf="data.reservation.status === 'pending'">
+        <!-- Employee Selection -->
+        <div class="form__input" *ngIf="data.reservation.status === 'pending'">
             <mat-form-field>
-                <mat-label>Funcionarios disponiveis</mat-label>
-                <mat-select formControlName="employeeId">
-                    <mat-option *ngFor="let employee of employees" [value]="employee.id">{{ employee.name }}</mat-option>
-                    <mat-option *ngIf="!employees.length" disabled>Nenhum funcionário disponivel</mat-option>
-                </mat-select>
+            <mat-label>Funcionários disponíveis</mat-label>
+            <mat-select formControlName="employeeId" required>
+                <mat-option *ngFor="let employee of employees" [value]="employee.id">
+                {{ employee.name }}
+                </mat-option>
+            </mat-select>
             </mat-form-field>
         </div>
 
-        <div>Nova data selecionada: {{ selectedDate }}</div>
+        <!-- Reschedule Info (only shown if rescheduleData exists) -->
+        <div *ngIf="rescheduleData" class="reschedule-info">
+            <h4>Nova proposta:</h4>
+            <p>
+            Data: {{ rescheduleData.newDate | date:'dd/MM/yyyy' }}<br>
+            Horário: {{ rescheduleData.newTimeStart }} - {{ rescheduleData.newTimeEnd }}
+            </p>
+        </div>
 
+        <!-- Notes -->
+        <mat-form-field>
+            <mat-label>Observações</mat-label>
+            <textarea matInput formControlName="rescheduleNote"></textarea>
+        </mat-form-field>
+
+        <!-- Reschedule Button -->
         <button
             mat-button
             type="button"
             class="button button__form button--new"
-            *ngIf="data.reservation.status === 'pending'"
-            (click)="newDateDialog()"
+            *ngIf="data.reservation.status === 'pending' || data.reservation.status === 'rescheduled'"
+            (click)="openRescheduleDialog()"
         >
-            Adicionar Proposta
+            {{ rescheduleData ? 'Alterar Proposta' : 'Propor Nova Data/Horário' }}
         </button>
-        <button class="button button__form button--goback button--Dialog" (click)="closeDialog()">Voltar</button>
-        <button class="button button__form" type="submit" *ngIf="data.reservation.status === 'pending'" [disabled]="formSelectEmployee.invalid">Aceitar Reserva</button>
-        <button class="button button__form" type="submit" *ngIf="data.reservation.status === 'rescheduled'">Aceitar Reserva</button>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+            <button class="button button__form button--goback" type="button" (click)="closeDialog()">
+            Voltar
+            </button>
+            <button class="button button__form" type="submit" [disabled]="formSelectEmployee.invalid">
+            {{ data.reservation.status === 'rescheduled' ? 'Confirmar Nova Data' : 'Confirmar Reserva' }}
+            </button>
+        </div>
     </form>
 </div>

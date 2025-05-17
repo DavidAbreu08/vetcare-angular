@@ -1,15 +1,18 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-update-reservation',
+  standalone: true,
   imports: [
+    CommonModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatDialogModule,
@@ -20,28 +23,57 @@ import { MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, MatNativeDateModule, provide
   ],
   providers: [
     provideNativeDateAdapter(),
-    {provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS},
+    { provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS },
   ],
   templateUrl: './update-reservation.component.html',
   styleUrl: './update-reservation.component.scss'
 })
 export class UpdateReservationComponent implements OnInit {
-  dialogRef = inject<MatDialogRef<UpdateReservationComponent>>(
-    MatDialogRef<UpdateReservationComponent>,
-  );
-  data = inject(MAT_DIALOG_DATA);
 
-  readonly formDate = new FormControl(new Date());
+  rescheduleForm: FormGroup;
 
   constructor(
-  ) {}
-
-  ngOnInit(): void {
-    this.onSubmitUpdateReservation();
+    private readonly fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: {
+      currentDate: Date,
+      currentStart: string,
+      currentEnd: string
+    },
+    private readonly dialogRef: MatDialogRef<UpdateReservationComponent>
+  ) {
+    // Initialize form in constructor after fb is available
+    this.rescheduleForm = this.fb.group({
+      newDate: [null as Date | null, Validators.required],
+      newTimeStart: ['', [Validators.required]],
+      newTimeEnd: ['', [Validators.required]]
+    });
   }
 
-  public onSubmitUpdateReservation(): void {
-    const data = this.data;
-    this.formDate.setValue(data.selectedDate);
+  get newDate() {
+    return this.rescheduleForm.get('newDate');
+  }
+
+  get newTimeStart() {
+    return this.rescheduleForm.get('newTimeStart');
+  }
+
+  get newTimeEnd() {
+    return this.rescheduleForm.get('newTimeEnd');
+  }
+
+
+  ngOnInit(): void {
+    this.rescheduleForm.patchValue({
+      newDate: this.data.currentDate,
+      newTimeStart: this.data.currentStart,
+      newTimeEnd: this.data.currentEnd
+    });
+  }
+
+  public onSubmit(): void {
+    if (this.rescheduleForm.valid) {
+      console.log('Submitting:', this.rescheduleForm.value);
+      this.dialogRef.close(this.rescheduleForm.value);
+    }
   }
 }
