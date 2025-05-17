@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReservationService } from '../../../../../core/services/reservation.service';
 import { AnimalService } from '../../../../../core/services/animal.service';
 import { UserService } from '../../../../../core/services/user.service';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -83,9 +83,25 @@ export class EventCreateByHoursComponent implements OnInit{
   }
 
   private loadClients(): void {
-    this.userService.getAllClients().subscribe((clients) => {
-      this.clients = clients;
-    });
+    if (this.filterValue) {
+          const searchTerm = this.filterValue.toLowerCase();
+      
+          this.userService.getAllClients()
+            .pipe(
+              map((clients: any[]) =>
+                clients.filter(client =>
+                  client.name.toLowerCase().includes(searchTerm)
+                )
+              )
+            )
+            .subscribe((filteredClients) => {
+              this.clients = filteredClients;
+            });
+        } else {
+          this.userService.getAllClients().subscribe((clients) => {
+            this.clients = clients;
+          });
+        }
   }
 
   private loadEmployeesAvailable(date: Date): void {

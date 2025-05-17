@@ -213,8 +213,7 @@ export class SchedulesComponent implements OnInit {
   private handleEventClick(clickInfo: EventClickArg): void {
     const dialogRef = this.dialog.open(EventListComponent, {
       data: {
-        event: clickInfo.event.toPlainObject(),
-        events: this.currentEvents()
+        event: clickInfo.event.toPlainObject()
       },
       width: '600px'
     });

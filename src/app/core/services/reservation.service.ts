@@ -16,11 +16,11 @@ export class ReservationService {
     return this.http.post(`${this.apiUrl}/reservation/create`, dto);
   }
 
-  getReservationsByClient(): Observable<any[]> {
+  public getReservationsByClient(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/reservation/client`);
   }
 
-  getReservationsByEmployee(): Observable<any[]> {
+  public getReservationsByEmployee(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/reservation/employee`);
   }
 
@@ -28,7 +28,7 @@ export class ReservationService {
     return this.http.get<any[]>(`${this.apiUrl}/reservation/all`);
   }
 
-  updateReservationStatus(id: string, dto: any): Observable<any> {
+  public updateReservationStatus(id: string, dto: any): Observable<any> {
     return this.http.patch(`${this.apiUrl}/reservation/update-status/${id}`, dto);
   }
 
