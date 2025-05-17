@@ -1,25 +1,43 @@
 <h2 mat-dialog-title>Propor Novo Horário</h2>
 <mat-dialog-content>
-  <form [formGroup]="rescheduleForm">
+  <form [formGroup]="rescheduleForm" class="form">
     <mat-form-field>
       <mat-label>Nova Data</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="newDate" required>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="newDate"
+        required
+      />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngIf="newDate?.hasError('required')">Data é obrigatória</mat-error>
+      <mat-error *ngIf="newDate?.hasError('required')"
+        >Data é obrigatória</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Hora de Início</mat-label>
-      <input matInput formControlName="newTimeStart" placeholder="HH:MM" required>
+      <input
+        matInput
+        formControlName="newTimeStart"
+        placeholder="HH:MM"
+        required
+      />
       <mat-error *ngIf="newTimeStart?.hasError('required')">
+        <mat-icon>error</mat-icon>
         Formato inválido (use HH:MM)
       </mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Hora de Término</mat-label>
-      <input matInput formControlName="newTimeEnd" placeholder="HH:MM" required>
+      <input
+        matInput
+        formControlName="newTimeEnd"
+        placeholder="HH:MM"
+        required
+      />
       <mat-error *ngIf="newTimeEnd?.hasError('required')">
         Formato inválido (use HH:MM)
       </mat-error>
@@ -28,7 +46,12 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-button (click)="onSubmit()" [disabled]="rescheduleForm.invalid" color="primary">
+  <button
+    mat-button
+    (click)="onSubmit()"
+    [disabled]="rescheduleForm.invalid"
+    color="primary"
+  >
     Confirmar
   </button>
 </mat-dialog-actions>

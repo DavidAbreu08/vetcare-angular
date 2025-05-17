@@ -1,79 +1,128 @@
 <div class="dialog">
-    <h2 mat-dialog-title class="dialog__title">Detalhes da Consulta</h2>
-    <div class="dialog__content">
-        <p class="dialog__text"><strong>Nome do Cliente:</strong> {{data.reservation.client.name}}</p>
-        <p class="dialog__text"><strong>Nome do Animal:</strong> {{data.reservation.animal.name}}</p>
-        <p class="dialog__text"><strong>Data:</strong> {{data.reservation.timeStart}} - {{data.reservation.timeEnd}}</p>
-        <p class="dialog__text"><strong>Motivo:</strong> {{ data.reservation.reason || 'Nenhum motivo apresentado' }}</p>
+  <h2 mat-dialog-title class="dialog__title">Detalhes da Consulta</h2>
+  <div class="dialog__content">
+    <p class="dialog__text">
+      <strong>Nome do Cliente:</strong> {{ data.reservation.client.name }}
+    </p>
+    <p class="dialog__text">
+      <strong>Nome do Animal:</strong> {{ data.reservation.animal.name }}
+    </p>
+    <p class="dialog__text">
+      <strong>Data:</strong> {{ data.reservation.timeStart }} -
+      {{ data.reservation.timeEnd }}
+    </p>
+    <p class="dialog__text">
+      <strong>Motivo:</strong>
+      {{ data.reservation.reason || "Nenhum motivo apresentado" }}
+    </p>
+  </div>
+  <h2 class="dialog__title-mid-screen">Detalhes Adicionais</h2>
+  <div class="dialog__content">
+    <p class="dialog__text">
+      <strong>Nome do Cliente:</strong>
+      {{ data.reservation.additionalDetails || "Sem detalhes adicionais" }}
+    </p>
+  </div>
+  <h2 class="dialog__title-bottom-screen" *ngIf="reservationsAtDate.length > 0">
+    Existem {{ reservationsAtDate.length }} reservas Agendadas
+  </h2>
+  <h2
+    class="dialog__title-bottom-screen"
+    *ngIf="reservationsAtDate.length === 0"
+  >
+    Nenhuma reserva agendada para este dia
+  </h2>
+  <div class="dialog__content">
+    <div class="block" *ngFor="let reservation of reservationsAtDate">
+      <div class="block__box1">
+        {{ formatedDate }} | {{ reservation.timeStart }} -
+        {{ reservation.timeEnd }}
+      </div>
+      <div class="block__box2">
+        {{ reservation.client.name }} - {{ reservation.reason || "Exame" }} -
+        {{ reservation.employee.name }}
+      </div>
     </div>
-    <h2 class="dialog__title-mid-screen">Detalhes Adicionais</h2>
-    <div class="dialog__content">
-        <p class="dialog__text"><strong>Nome do Cliente:</strong> {{data.reservation.additionalDetails || 'Sem detalhes adicionais'}}</p>
-    </div>
-    <h2 class="dialog__title-bottom-screen" *ngIf="reservationsAtDate.length > 0">
-        Existem {{ reservationsAtDate.length }} reservas Agendadas
-    </h2>
-    <h2 class="dialog__title-bottom-screen" *ngIf="reservationsAtDate.length === 0">
-        Nenhuma reserva agendada para este dia
-    </h2>
-    <div class="dialog__content">
-        <div class="block" *ngFor="let reservation of reservationsAtDate">
-            <div class="block__box1">
-                {{ formatedDate }} | {{reservation.timeStart}} - {{reservation.timeEnd}}
-            </div>
-            <div class="block__box2">
-                {{ reservation.client.name }} - {{ reservation.reason || 'Exame' }} - {{ reservation.employee.name }}
-            </div>
-        </div>
-    </div>
+  </div>
 
-    <form [formGroup]="formSelectEmployee" (ngSubmit)="acceptReservation()">
-        <!-- Employee Selection -->
+  <div class="form__content">
+    <form
+      class="form"
+      [formGroup]="formSelectEmployee"
+      (ngSubmit)="acceptReservation()"
+    >
+      <!-- Employee Selection -->
+      <div class="form__info">
         <div class="form__input" *ngIf="data.reservation.status === 'pending'">
-            <mat-form-field>
+          <mat-form-field>
             <mat-label>Funcionários disponíveis</mat-label>
             <mat-select formControlName="employeeId" required>
-                <mat-option *ngFor="let employee of employees" [value]="employee.id">
+              <mat-option
+                *ngFor="let employee of employees"
+                [value]="employee.id"
+              >
                 {{ employee.name }}
-                </mat-option>
+              </mat-option>
             </mat-select>
-            </mat-form-field>
+          </mat-form-field>
         </div>
 
         <!-- Reschedule Info (only shown if rescheduleData exists) -->
         <div *ngIf="rescheduleData" class="reschedule-info">
-            <h4>Nova proposta:</h4>
-            <p>
-            Data: {{ rescheduleData.newDate | date:'dd/MM/yyyy' }}<br>
-            Horário: {{ rescheduleData.newTimeStart }} - {{ rescheduleData.newTimeEnd }}
-            </p>
+          <h4>Nova proposta:</h4>
+          <p>
+            Data: {{ rescheduleData.newDate | date : "dd/MM/yyyy" }}<br />
+            Horário: {{ rescheduleData.newTimeStart }} -
+            {{ rescheduleData.newTimeEnd }}
+          </p>
         </div>
 
         <!-- Notes -->
         <mat-form-field>
-            <mat-label>Observações</mat-label>
-            <textarea matInput formControlName="rescheduleNote"></textarea>
+          <mat-label>Observações</mat-label>
+          <textarea matInput formControlName="rescheduleNote"></textarea>
         </mat-form-field>
+      </div>
 
+      <div class="form__buttons">
         <!-- Reschedule Button -->
         <button
-            mat-button
-            type="button"
-            class="button button__form button--new"
-            *ngIf="data.reservation.status === 'pending' || data.reservation.status === 'rescheduled'"
-            (click)="openRescheduleDialog()"
+          mat-button
+          type="button"
+          class="button button__form"
+          *ngIf="
+            data.reservation.status === 'pending' ||
+            data.reservation.status === 'rescheduled'
+          "
+          (click)="openRescheduleDialog()"
         >
-            {{ rescheduleData ? 'Alterar Proposta' : 'Propor Nova Data/Horário' }}
+          {{ rescheduleData ? "Alterar Proposta" : "Propor Nova Data/Horário" }}
         </button>
 
         <!-- Form Actions -->
         <div class="form-actions">
-            <button class="button button__form button--goback" type="button" (click)="closeDialog()">
+          <button
+            mat-button
+            class="button button__form"
+            type="button"
+            (click)="closeDialog()"
+          >
             Voltar
-            </button>
-            <button class="button button__form" type="submit" [disabled]="formSelectEmployee.invalid">
-            {{ data.reservation.status === 'rescheduled' ? 'Confirmar Nova Data' : 'Confirmar Reserva' }}
-            </button>
+          </button>
+          <button
+            mat-button
+            class="button button__form"
+            type="submit"
+            [disabled]="formSelectEmployee.invalid"
+          >
+            {{
+              data.reservation.status === "rescheduled"
+                ? "Confirmar Nova Data"
+                : "Confirmar Reserva"
+            }}
+          </button>
         </div>
+      </div>
     </form>
+  </div>
 </div>

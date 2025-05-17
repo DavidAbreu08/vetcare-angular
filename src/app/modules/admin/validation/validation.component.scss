@@ -230,6 +230,9 @@
                 border-radius: $border-radius;
                 background-color: var(--ion-color-secondary);
                 
+                mat-icon {
+                  color: var(--ion-color-light);
+                }
             }
         }
     }

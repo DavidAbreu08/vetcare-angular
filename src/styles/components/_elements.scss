@@ -26,3 +26,16 @@ a {
     align-self: flex-start;
     font-weight: 100;
 }
+
+mat-error {
+    color: var(--ion-color-danger) !important;
+    font-size: 12px;
+    padding-top: 5px;
+
+    mat-icon {
+        font-size: 20px !important; 
+        vertical-align: middle;
+        width: auto !important;
+        height: auto !important;
+    }
+}

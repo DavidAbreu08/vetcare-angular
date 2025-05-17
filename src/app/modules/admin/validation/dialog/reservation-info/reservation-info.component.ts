@@ -1,8 +1,18 @@
 import { Component, inject, model } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { ReservationService } from '../../../../../core/services/reservation.service';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { tap } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -10,6 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { UpdateReservationComponent } from '../update-reservation/update-reservation.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-reservation-info',
@@ -24,37 +35,38 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatButtonModule,
   ],
   templateUrl: './reservation-info.component.html',
   styleUrl: './reservation-info.component.scss',
 })
 export class ReservationInfoComponent {
-
   public formSelectEmployee!: FormGroup;
   public formatedDate!: string;
   public employees: any[] = [];
   public reservationsAtDate: any[] = [];
 
-  
   dialog = inject(MatDialog);
   selectedDate = model<Date | null>(null);
-
 
   readonly dialogRef = inject(MatDialogRef<ReservationInfoComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
 
-  rescheduleData: { newDate?: Date, newTimeStart?: string, newTimeEnd?: string } | null = null;
+  rescheduleData: {
+    newDate?: Date;
+    newTimeStart?: string;
+    newTimeEnd?: string;
+  } | null = null;
 
   constructor(
     private readonly reservationService: ReservationService,
-    private readonly fb: FormBuilder,
+    private readonly fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-
     this.formSelectEmployee = this.fb.group({
       employeeId: ['', Validators.required],
-      rescheduleNote: ['']
+      rescheduleNote: [''],
     });
 
     const isoDate = this.data.reservation.date;
@@ -77,37 +89,48 @@ export class ReservationInfoComponent {
     const selectedDate = new Date(this.data.reservation.date);
     const selectedDateString = selectedDate.toISOString().split('T')[0];
 
-    this.reservationService.getAllReservations().pipe(
-      tap((reservations) => {
-        const reservationsOnDate = reservations.filter((r: any) => {
-          const reservationDateString = new Date(r.date).toISOString().split('T')[0];
-          return reservationDateString === selectedDateString && r.status === 'confirmed';
-        });
+    this.reservationService
+      .getAllReservations()
+      .pipe(
+        tap((reservations) => {
+          const reservationsOnDate = reservations.filter((r: any) => {
+            const reservationDateString = new Date(r.date)
+              .toISOString()
+              .split('T')[0];
+            return (
+              reservationDateString === selectedDateString &&
+              r.status === 'confirmed'
+            );
+          });
 
-        this.reservationsAtDate = reservationsOnDate;
-      })
-    ).subscribe();
+          this.reservationsAtDate = reservationsOnDate;
+        })
+      )
+      .subscribe();
   }
 
   private loadEmployeesAvailable(date: Date): void {
-    this.reservationService.getEmployees(date).pipe(
-      tap((employees) => {
-        this.employees = employees;
-      })
-    ).subscribe();
+    this.reservationService
+      .getEmployees(date)
+      .pipe(
+        tap((employees) => {
+          this.employees = employees;
+        })
+      )
+      .subscribe();
   }
 
   public openRescheduleDialog(): void {
     const dialogRef = this.dialog.open(UpdateReservationComponent, {
       width: '500px',
-      data: { 
+      data: {
         currentDate: this.data.reservation.date,
         currentStart: this.data.reservation.startTime,
-        currentEnd: this.data.reservation.endTime
-      }
+        currentEnd: this.data.reservation.endTime,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log(result);
         this.rescheduleData = result;
@@ -116,54 +139,68 @@ export class ReservationInfoComponent {
   }
 
   public acceptReservation(): void {
-     if (this.formSelectEmployee.invalid) return;
+    if (this.formSelectEmployee.invalid) return;
 
     const formValue = this.formSelectEmployee.value;
     const reservationId = this.data.reservation.id;
-  
-    if( this.data.reservation.status === 'pending' && this.rescheduleData === null ) {
+
+    if (
+      this.data.reservation.status === 'pending' &&
+      this.rescheduleData === null
+    ) {
       const dto = {
         employeeId: formValue.employeeId,
         status: 'confirmed',
         confirmationNote: formValue.rescheduleNote,
       };
 
-      this.reservationService.confirmPendingReservation(reservationId, dto).pipe(
-        tap(() => {
-          this.dialogRef.close(true);
-        })
-      ).subscribe();
+      this.reservationService
+        .confirmPendingReservation(reservationId, dto)
+        .pipe(
+          tap(() => {
+            this.dialogRef.close(true);
+          })
+        )
+        .subscribe();
     }
 
-    if(this.rescheduleData){
+    if (this.rescheduleData) {
       const dto = {
         ...this.rescheduleData,
         employeeId: formValue.employeeId,
         status: 'rescheduled',
         rescheduleNote: formValue.rescheduleNote,
-      }
+      };
 
-      this.reservationService.updateReservationStatus(reservationId, dto).pipe(
-        tap(() => {
-          this.dialogRef.close(true);
-        })
-      ).subscribe();
+      this.reservationService
+        .updateReservationStatus(reservationId, dto)
+        .pipe(
+          tap(() => {
+            this.dialogRef.close(true);
+          })
+        )
+        .subscribe();
     }
 
-    if( this.data.reservation.status === 'rescheduled' ) {
+    if (this.data.reservation.status === 'rescheduled') {
       const reservationId = this.data.reservation.id;
       const dto = {
         status: 'confirmed',
         confirmationNote: formValue.rescheduleNote,
       };
 
-      this.reservationService.confirmRescheduledReservation(reservationId, dto).pipe(
-        tap(() => {
-          this.dialogRef.close(true);
-        })
-      ).subscribe();
+      this.reservationService
+        .confirmRescheduledReservation(reservationId, dto)
+        .pipe(
+          tap(() => {
+            this.dialogRef.close(true);
+          })
+        )
+        .subscribe();
     }
   }
 
-  
+  public canShowButton(): boolean {
+    return !!(this.data.reservation.status === 'pending' || this.data.reservation.status === 'rescheduled')
+  }
 }
