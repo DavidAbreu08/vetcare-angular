@@ -33,6 +33,19 @@
         mat-form-field {
             width: 100% !important;
         }
+
+        .reschedule-info{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap:10px;
+
+
+            &__content{
+                font-weight: 400;
+                font-size: 16px;
+            }
+        }
     }
 
     &__buttons {

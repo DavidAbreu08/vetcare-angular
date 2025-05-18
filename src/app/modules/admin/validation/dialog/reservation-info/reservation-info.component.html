@@ -72,10 +72,10 @@
 
         <!-- Reschedule Info (only shown if rescheduleData exists) -->
         <div *ngIf="rescheduleData" class="reschedule-info">
-          <h4>Nova proposta:</h4>
-          <p>
-            Data: {{ rescheduleData.newDate | date : "dd/MM/yyyy" }}<br />
-            Horário: {{ rescheduleData.newTimeStart }} -
+          <h4 class="dialog__title-mid-screen dialog--no-padding">Nova proposta</h4>
+          <p class="reschedule-info__content text-black">
+            <strong>Data: </strong>{{ rescheduleData.newDate | date : "dd/MM/yyyy" }}<br />
+            <strong>Horário: </strong>{{ rescheduleData.newTimeStart }} -
             {{ rescheduleData.newTimeEnd }}
           </p>
         </div>

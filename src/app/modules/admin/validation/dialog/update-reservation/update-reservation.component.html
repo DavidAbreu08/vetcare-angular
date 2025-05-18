@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Propor Novo Horário</h2>
+<h2 mat-dialog-title class="text-primary">Propor Novo Horário</h2>
 <mat-dialog-content>
   <form [formGroup]="rescheduleForm" class="form">
     <mat-form-field>
@@ -12,7 +12,9 @@
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="newDate?.hasError('required')"
-        >Data é obrigatória</mat-error
+        >
+        <mat-icon>error</mat-icon>
+        Data é obrigatória</mat-error
       >
     </mat-form-field>
 
@@ -39,6 +41,7 @@
         required
       />
       <mat-error *ngIf="newTimeEnd?.hasError('required')">
+        <mat-icon>error</mat-icon>
         Formato inválido (use HH:MM)
       </mat-error>
     </mat-form-field>
