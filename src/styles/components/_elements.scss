@@ -7,7 +7,7 @@ h1 {
 p {
     color: var(--ion-color-dark-contrast);
     font-size: 16px;
-    font-weight: 100;
+    font-weight: 400;
 }
 
 a {
@@ -16,8 +16,23 @@ a {
     text-decoration: underline;
 }
 
-.title-primary{
+.text-primary{
     color: var(--ion-color-primary)!important;
+}
+.text-secondary{
+    color: var(--ion-color-secondary)!important;
+}
+
+.text-tertiary{
+    color: var(--ion-color-tertiary)!important;
+}
+
+.text-white{
+    color: var(--ion-color-dark-contrast)!important;
+}
+
+.text-black{
+    color: var(--ion-color-dark)!important;
 }
 
 .paragraph {

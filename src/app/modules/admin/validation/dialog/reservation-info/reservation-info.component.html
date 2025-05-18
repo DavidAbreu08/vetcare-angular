@@ -8,7 +8,10 @@
       <strong>Nome do Animal:</strong> {{ data.reservation.animal.name }}
     </p>
     <p class="dialog__text">
-      <strong>Data:</strong> {{ data.reservation.timeStart }} -
+      <strong>Data:</strong> {{ formatedDate || 'dd/MM/yyyy' }} 
+    </p>
+    <p class="dialog__text">
+      <strong>Horário:</strong> {{ data.reservation.timeStart }} -
       {{ data.reservation.timeEnd }}
     </p>
     <p class="dialog__text">
@@ -19,15 +22,15 @@
   <h2 class="dialog__title-mid-screen">Detalhes Adicionais</h2>
   <div class="dialog__content">
     <p class="dialog__text">
-      <strong>Nome do Cliente:</strong>
+      <strong>Detalhes :</strong>
       {{ data.reservation.additionalDetails || "Sem detalhes adicionais" }}
     </p>
   </div>
-  <h2 class="dialog__title-bottom-screen" *ngIf="reservationsAtDate.length > 0">
+  <h2 class="dialog__title-mid-screen" *ngIf="reservationsAtDate.length > 0">
     Existem {{ reservationsAtDate.length }} reservas Agendadas
   </h2>
   <h2
-    class="dialog__title-bottom-screen"
+    class="dialog__title-mid-screen"
     *ngIf="reservationsAtDate.length === 0"
   >
     Nenhuma reserva agendada para este dia
@@ -89,7 +92,7 @@
         <button
           mat-button
           type="button"
-          class="button button__form"
+          class="button button__dialog secondary"
           *ngIf="
             data.reservation.status === 'pending' ||
             data.reservation.status === 'rescheduled'
@@ -100,10 +103,10 @@
         </button>
 
         <!-- Form Actions -->
-        <div class="form-actions">
+        <div class="form__actions">
           <button
             mat-button
-            class="button button__form"
+            class="button button__dialog secondary"
             type="button"
             (click)="closeDialog()"
           >
@@ -111,7 +114,7 @@
           </button>
           <button
             mat-button
-            class="button button__form"
+            class="button button__dialog danger"
             type="submit"
             [disabled]="formSelectEmployee.invalid"
           >

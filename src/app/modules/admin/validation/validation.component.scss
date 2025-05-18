@@ -9,7 +9,6 @@
         h1{
             font-size: 25px;
             font-weight: 600;
-            color: var(--ion-color-primary);
         }
     }
 
@@ -23,10 +22,8 @@
         box-sizing: border-box;
         
         h1{
-            padding: 20px 0 0 30px;
-            font-size: 20px;
-            font-weight: 400;
-            color: var(--ion-color-dark-contrast);
+            font-size: 24px;
+            font-weight: 600;
         }
     }
 
@@ -216,15 +213,20 @@
         flex-direction: column;
         
         .list {
-            gap:25px;
+            gap:80px;
             display: flex;
             align-items: center;
             flex-direction: row;
             justify-content: center;
             padding: 5px;
-            margin: 4px 10px 4px;
             background-color: var(--ion-color-tertiary);
             border-radius: $border-radius;
+
+            &__content{
+              color: var(--ion-color-dark-contrast);
+              font-size: 22px;
+              font-weight: 300;
+            }
 
             &__toggle{
                 border-radius: $border-radius;
@@ -238,33 +240,32 @@
     }
 
     &__right-column {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
 
       .reascheduled{
         display: flex;
         flex-direction: row;
-        margin: 0 4px;
 
         &__box1{
+          display: flex;
+          align-items: center;
           width: 40%;
-          background-color: var(--ion-color-primary);
           border-radius: 8px 0 0 8px;
           padding: 8px;
         }
         &__box2{
+          display: flex;
+          align-items: center;
           width: 60%;
-          background-color: var(--ion-color-tertiary);
           border-radius: 0 8px 8px 0;
           padding: 8px;
         }
 
         &__confirmation{
           font-weight: 600;
+          font-size: 20px;
         }
         &__info{
-          font-weight: 400;
+          font-weight: 600;
           font-size: 14px;
         }
       }

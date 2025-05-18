@@ -1,6 +1,6 @@
 .button {
     text-align: center;
-    text-transform: uppercase;
+    text-transform: uppercase !important;
     cursor: pointer !important;
     border: none;
 
@@ -50,6 +50,12 @@
 
     }
 
+    &__dialog{
+        border-radius: $border-radius !important;
+        color: var(--ion-color-light) !important;
+    }
+
+
     &--rounded {
         padding: 5px !important;
         background-color: var(--ion-color-primary) !important;
@@ -86,10 +92,6 @@
         }
 
     }
-    &--Dialog{
-        right: 190px !important;
-
-    }
     &--new{
         background-color: var(--ion-color-success) !important;
         right: 400px !important;
@@ -114,4 +116,18 @@
         background-color: darken($buttonsColor, 10%);
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.20);
     }
+}
+
+.primary{
+    background-color: var(--ion-color-primary) !important;
+}
+.secondary{
+    background-color: var(--ion-color-secondary) !important;
+}
+.tertiary{
+    background-color: var(--ion-color-tertiary) !important;
+}
+
+.danger{
+    background-color: var(--ion-color-danger) !important;
 }
