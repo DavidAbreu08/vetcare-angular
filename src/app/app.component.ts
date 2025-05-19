@@ -15,6 +15,7 @@ import { SidebarComponent } from "./shared/sidebar/sidebar.component";
 import { MatIconModule } from '@angular/material/icon';
 import { TopBarComponent } from "./shared/top-bar/top-bar.component";
 import { AuthService } from './modules/auth/auth.service';
+import { NotificationComponent } from './shared/notification/notification.component';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ import { AuthService } from './modules/auth/auth.service';
     SidebarComponent,
     MatIconModule,
     TopBarComponent,
+    NotificationComponent
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

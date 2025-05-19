@@ -1,0 +1,43 @@
+@import '../../../../../../styles/abstracts/variables';
+
+.form{
+    h1{
+        font-size: 18px !important;
+        color: var(--ion-color-primary);
+    }
+    &__input{
+        padding-top: 15px;
+    }
+
+    &--between{
+        display: flex;
+        gap: 15px;
+    }
+    &--padding{
+        padding: 40px 0 20px;
+    }
+
+    &__actions{
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        button{
+            position: relative;
+            color: var(--ion-color-light) !important;
+            box-shadow: $box-shadow;
+            border-radius: $border-radius;
+            padding: 10px;
+            font-size: 16px;
+
+            &:hover{
+                background-color: lighten($buttonsColor, 10%) !important;
+                box-shadow: none !important;
+            }
+        }
+    }
+}
+    
+

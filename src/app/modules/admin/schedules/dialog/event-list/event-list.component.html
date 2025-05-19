@@ -1,15 +1,16 @@
-<h2>Detalhes do Evento</h2>
-<div>
-  <b>{{ data.event.title }}</b><br>
-  <span>
-    {{ data.event.start | date:'short' }} - {{ data.event.end | date:'short' }}
-  </span>
-  <div *ngIf="data.event.extendedProps">
-    <div>Cliente: {{ data.event.extendedProps.client }}</div>
-    <div>Animal: {{ data.event.extendedProps.animal }}</div>
-    <div>Funcionário: {{ data.event.extendedProps.employee }}</div>
-    <div>Status: {{ data.event.extendedProps.status }}</div>
-    <div *ngIf="data.event.extendedProps.rescheduleNote">Nota: {{ data.event.extendedProps.rescheduleNote }}</div>
+<div class="content">
+  <h2 class="text-primary">{{ 'schedules.details-event.title' | translate }}</h2>
+  <div *ngIf="data.event.extendedProps" class="content__details">
+    <div><strong>{{ 'schedules.details-event.data' | translate }}:</strong> {{ data.event.start | date:'dd-MM-yyyy' }}</div>
+    <div><strong>{{ 'schedules.details-event.hora' | translate }}:</strong> {{ data.event.start | date:'HH:mm' }} - {{ data.event.end | date:'HH:mm' }}</div>
+    <div><strong>{{ 'schedules.details-event.cliente' | translate }}:</strong> {{ data.event.extendedProps.client }}</div>
+    <div><strong>{{ 'schedules.details-event.animal' | translate }}:</strong> {{ data.event.extendedProps.animal }}</div>
+    <div *ngIf="data.event.extendedProps.employee === 'Unknown'"><strong>{{ 'schedules.details-event.funcionario' | translate }}:</strong> Ainda por Definir...</div>
+    <div *ngIf="data.event.extendedProps.employee !== 'Unknown'"><strong>{{ 'schedules.details-event.funcionario' | translate }}:</strong> {{ data.event.extendedProps.employee }}</div>
+    <div><strong>{{ 'schedules.details-event.status' | translate }}:</strong> {{ data.event.extendedProps.status }}</div>
+    <div *ngIf="data.event.extendedProps.rescheduleNote"><strong>{{ 'schedules.details-event.observacoes' | translate }}:</strong> {{ data.event.extendedProps.rescheduleNote }}</div>
+  </div>
+  <div class="content__action">
+    <button mat-button class="button secondary" (click)="close()">{{ 'common.buttons.goBack' | translate }}</button>
   </div>
 </div>
-<button mat-button (click)="close()">Fechar</button>

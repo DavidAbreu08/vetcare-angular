@@ -1,12 +1,12 @@
 <div class="dialog">
-  <h2 mat-dialog-title class="dialog__title">Marcar evento para o dia {{ formEvent.get('date')?.value }}</h2>
+  <h2 mat-dialog-title class="dialog__title">Marcar evento para o dia {{ formEvent.get('date')?.value | date: 'dd/MM/yyyy' }}</h2>
   <mat-dialog-content class="dialog__content">
       <div class="dialog__info">
           <mat-icon fontIcon="report"/>
           <span>Preencha as informações abaixo para criar uma nova reserva. Caso ainda não tenha registrado o animal, <a>clique aqui</a> para cadastrá-lo antes de prosseguir.</span>
       </div>
       <div class="information">
-        Esta reserva foi selecionada para o dia {{ formEvent.get('date')?.value }} entre as horas {{ formEvent.get('startTime')?.value }} e {{ formEvent.get('endTime')?.value }}.
+        Esta reserva foi selecionada para o dia {{ formEvent.get('date')?.value | date: 'dd/MM/yyyy' }} entre as horas {{ formEvent.get('startTime')?.value | date: 'HH:mm' }} e {{ formEvent.get('endTime')?.value | date: 'HH:mm' }}.
       </div>
       <form class="form" [formGroup]="formEvent" (ngSubmit)="onSave()">
           <div class="form__input">

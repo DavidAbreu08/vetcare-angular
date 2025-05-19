@@ -19,10 +19,10 @@
     }
 
     &__content {
-        padding: 20px;
+        padding: 10px !important;
         overflow-y: hidden !important;
-        max-height: 600px;
-        overflow-y: auto;
+        max-height: 650px !important;
+        overflow-y: auto !important;
     }
 
     &__info{

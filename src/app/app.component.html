@@ -30,6 +30,7 @@
   <main *ngIf="isLoggedIn || !isAuthPage; else authPage" class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
     <div class="content-inner">
       <router-outlet></router-outlet>
+      <app-notification></app-notification>
     </div>
     <app-footer></app-footer>
   </main>

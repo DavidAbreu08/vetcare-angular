@@ -1,15 +1,15 @@
-<div class="employees" (document:click)="closeOptionsMenu()">
-  <div class="employees__title">
-    <h1>{{ 'employees.title' | translate }}</h1>
+<div class="clients" (document:click)="closeOptionsMenu()">
+  <div class="clients__title">
+    <h1>{{ 'clients.title' | translate }}</h1>
   </div>
   <div class="row">
     <div class="column">
-      <div class="employees__togglebuttons">
-        <button class="button button__secondary" (click)="openDialog()" >{{ 'common.buttons.addFunc' | translate }}</button>
+      <div class="clients__togglebuttons">
+        <button class="button button__secondary" (click)="openDialog()" >{{ 'common.buttons.addCli' | translate }}</button>
       </div>
     </div>
     <div class="card">
-      <div class="card__employees">
+      <div class="card__clients">
         <div class="card__filters">
             <button class="button button--filter">
                 <mat-icon fontIcon="filter_alt" class="button--icon"/>
@@ -23,7 +23,7 @@
                 <input class="input-filter" placeholder="Procurar NIF" (keyup)="applyFilter($event)">
             </div>
         </div>
-        <table mat-table [dataSource]="employees" class="mat-elevation-z8">
+        <table mat-table [dataSource]="clients" class="mat-elevation-z8">
             <!-- Position Column -->
             <ng-container matColumnDef="position">
               <th mat-header-cell *matHeaderCellDef> No. </th>
@@ -45,31 +45,20 @@
             <!-- Nif Column -->
             <ng-container matColumnDef="nif">
               <th mat-header-cell *matHeaderCellDef> NIF </th>
-              <td mat-cell *matCellDef="let element"> {{element.nif}} </td>
+              <td mat-cell *matCellDef="let element"> {{element.nif || 'Por Atualizar'}} </td>
             </ng-container>
     
             <!-- Phone Column -->
             <ng-container matColumnDef="phone">
               <th mat-header-cell *matHeaderCellDef> Telemovel </th>
-              <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+              <td mat-cell *matCellDef="let element"> {{element.phone || 'Por Atualizar'}}</td>
             </ng-container>
     
-            <!-- Function Column -->
-            <ng-container matColumnDef="function">
-              <th mat-header-cell *matHeaderCellDef> Função </th>
-              <td mat-cell *matCellDef="let element"> {{element.function}} </td>
-            </ng-container>
     
             <!-- Admission Date Column -->
             <ng-container matColumnDef="createdAt">
-              <th mat-header-cell *matHeaderCellDef> Data de Admissao </th>
-              <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
-            </ng-container>
-    
-            <!-- Status Column -->
-            <ng-container matColumnDef="isActive">
-              <th mat-header-cell *matHeaderCellDef> Status </th>
-              <td mat-cell *matCellDef="let element"> {{element.isActive}} </td>
+              <th mat-header-cell *matHeaderCellDef> Data de Criação </th>
+              <td mat-cell *matCellDef="let element"> {{element.createdAt | date:'dd/MM/yyyy'}} </td>
             </ng-container>
     
             <!-- Options Column -->

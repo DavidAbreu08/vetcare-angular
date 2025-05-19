@@ -56,7 +56,7 @@ export class EmployeesListComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
+  public openDialog(): void {
     const dialogRef = this.dialog.open(AddEmployeeComponent);
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
@@ -68,7 +68,14 @@ export class EmployeesListComponent implements OnInit {
     this.employees.filter = filterValue.trim().toLowerCase();
   }
 
-  openOptionsMenu(index: number) {
+  public openOptionsMenu(index: number, event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+    }
     this.openedOptionsIndex = this.openedOptionsIndex === index ? null : index;
+  }
+  
+  public closeOptionsMenu() {
+    this.openedOptionsIndex = null;
   }
 }

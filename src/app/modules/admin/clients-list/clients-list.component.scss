@@ -1,6 +1,6 @@
 @import '../../../../styles/abstracts/variables';
 
-.employees{
+.clients{
     width: 100%;
     padding: 55px 15px 0;
 
@@ -27,7 +27,7 @@
         width: 100%;
         height: 95vh;
 
-        &__employees{
+        &__clients{
             width: 100%;
             background-color: var(--ion-color-light);
             margin-top: 10px;
@@ -74,7 +74,6 @@
                         vertical-align: middle;
                         padding-right: 20px;
                     }
-    
                 }
     
                 li:hover {

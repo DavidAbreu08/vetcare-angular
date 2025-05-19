@@ -55,5 +55,9 @@ export class UserService {
   public createEmployee(employeeData: any) {
     return this.http.post(`${this.apiUrl}/users/employees`, employeeData);
   }
-  
+
+  public createClient(clientData: any) {
+    return this.http.post(`${this.apiUrl}/users/create-clients`, clientData);
+  }
+
 }

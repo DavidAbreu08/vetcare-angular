@@ -1,0 +1,22 @@
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 4px;
+  color: white;
+  z-index: 9999;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.notification--success {
+  background-color: #4caf50;
+}
+
+.notification--error {
+  background-color: #f44336;
+}
+
+.notification--info {
+  background-color: #2196f3;
+}

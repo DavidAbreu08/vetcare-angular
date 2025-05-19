@@ -43,7 +43,12 @@ export class SidebarComponent {
     },
     {
       icon: 'group',
-      label: 'Clientes'
+      label: 'Clientes',
+      isOpen: true,
+      children: [
+        { icon: 'person', label: 'Lista de Clientes', link: '/admin/clients-list' },
+        { icon: 'pets', label: 'Lista de Animais', link: '/admin/animals-list' },
+      ]
     },
     {
       icon: 'description',

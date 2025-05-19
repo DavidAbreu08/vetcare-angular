@@ -1,17 +1,20 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule} from '@angular/material/button';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import { MatInputModule} from '@angular/material/input';
-import { MatFormFieldModule} from '@angular/material/form-field';
-import { MatDatepickerModule} from '@angular/material/datepicker';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import { nifValidator } from '../../../../../core/validators/nif-validator';
 import { UserService } from '../../../../../core/services/user.service';
+import { nifValidator } from '../../../../../core/validators/nif-validator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { TranslateModule } from '@ngx-translate/core';
+import { NotificationService } from '../../../../../core/services/notification.service';
 
 @Component({
-  selector: 'app-add-employee',
+  selector: 'app-add-clients',
   imports: [
+    TranslateModule,
     MatFormFieldModule, 
     MatInputModule, 
     FormsModule, 
@@ -21,18 +24,19 @@ import { UserService } from '../../../../../core/services/user.service';
     MatDialogContent,
     ReactiveFormsModule,
   ],
-  templateUrl: './add-employee.component.html',
-  styleUrl: './add-employee.component.scss',
-  standalone: true
+  templateUrl: './add-clients.component.html',
+  styleUrl: './add-clients.component.scss',
+  standalone: true,
 })
-export class AddEmployeeComponent implements OnInit{
-  public readonly dialogRef = inject(MatDialogRef<AddEmployeeComponent>);
+export class AddClientsComponent {
+  public readonly dialogRef = inject(MatDialogRef<AddClientsComponent>);
   public addEmployeeForm!: FormGroup;
   public errorMessage = '';
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private notificationService: NotificationService
   ){
   }
 
@@ -65,18 +69,6 @@ export class AddEmployeeComponent implements OnInit{
           Validators.required,
         ]
       ],
-      function: [
-        '',
-        [
-          Validators.required,
-        ]
-      ],
-      workLoad: [
-        '',
-        [
-          Validators.required,
-        ]
-      ],
     })
   }
 
@@ -101,32 +93,25 @@ export class AddEmployeeComponent implements OnInit{
     return this.addEmployeeForm.get('phone')
   }
 
-  get function() {
-    return this.addEmployeeForm.get('function')
-  }
 
-  get workLoad() {
-    return this.addEmployeeForm.get('workLoad')
-  }
 
   public onSubmit(){
     if (this.addEmployeeForm.invalid) {
-      //this.errorMessage = "Por favor, preencha corretamente todos os campos.";
-      console.log("Por favor, preencha corretamente todos os campos.");
+      this.notificationService.showError('Por favor, preencha corretamente todos os campos.');
       return;
     }
 
     const formData = this.addEmployeeForm.value;
 
 
-    this.userService.createEmployee(formData).subscribe({
+    this.userService.createClient(formData).subscribe({
       next: (response) => {
-        console.log('Funcionário criado com sucesso:', response);
+        this.notificationService.showSuccess('Cliente criado com sucesso!');
         this.dialogRef.close(true);
       },
       error: (error) => {
-        console.error('Erro ao criar funcionário:', error);
-        this.errorMessage = 'Erro ao adicionar funcionário. Tente novamente.';
+        const backendMessage = error?.error?.message || 'Erro ao adicionar cliente. Tente novamente.';
+        this.notificationService.showError(backendMessage);
       }
     });
 
@@ -135,4 +120,5 @@ export class AddEmployeeComponent implements OnInit{
   public onNoClick(): void {
     this.dialogRef.close(true);
   }
+
 }

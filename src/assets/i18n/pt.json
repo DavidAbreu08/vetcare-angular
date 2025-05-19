@@ -3,7 +3,10 @@
         "buttons": {
             "logout": "Terminar sessão",
             "addFunc": "Adicionar Funcionário",
-            "addPermitions": "Adicionar Permicões"
+            "addCli": "Adicionar Clientes",
+            "addPermitions": "Adicionar Permicões",
+            "goBack": "Voltar",
+            "save": "Guardar"
         },
         "inputs": {
     
@@ -31,5 +34,46 @@
         }
         
 
+    },
+    "clients": {
+        "title": "Lista de Clientes",
+        "dialog":{
+            "title": "Adicionar um Cliente Novo",
+            "info": "Preencha as informações abaixo para registrar o seu cliente. Não se preocupe, você poderá editar essas informações mais tarde, se necessário.",
+            "personalInfo": "Informações Pessoais",
+            "name": "Nome Completo *",
+            "email": "Email *",
+            "phone": "Telemóvel *",
+            "nif": "NIF *",
+            "dateBirth": "Data de Nascimento *",
+            "address": "Morada *"
+
+
+        },
+        "table": {
+            "nome": "Nome",
+            "nif": "NIF",
+            "email": "Email",
+            "tele": "Telemóvel",
+            "func": "Funcão",
+            "dataadmition": "Data de Admição",
+            "status":"status",
+            "def": "Definições"
+        }
+        
+
+    },
+    "schedules":{
+        "details-event":{
+            "title":"Detalhes do evento",
+            "cliente": "Cliente",
+            "animal": "Animal",
+            "data": "Data",
+            "hora": "Hora",
+            "funcionario": "Funcionário",
+            "servico": "Serviço",
+            "status": "Status",
+            "observacoes": "Observações"
+        }
     }
 }

@@ -1,18 +1,18 @@
 <div class="dialog">
-    <h2 class="dialog__title">Adicionar um funcionario novo</h2>
+    <h2 class="dialog__title">{{ 'clients.dialog.title' | translate }}</h2>
     <div class="dialog__info">
         <mat-icon fontIcon="report"/>
-        <span>Preencha as informações abaixo para registrar o seu animal. Não se preocupe, você poderá editar essas informações mais tarde, se necessário.</span>
+        <span>{{ 'clients.dialog.info' | translate }}</span>
     </div>
     <mat-dialog-content class="dialog__content">
         <form class="form" [formGroup]="addEmployeeForm" (ngSubmit)="onSubmit()">
-            <h1>Informações Pessoais</h1>
+            <h1>{{ 'clients.dialog.personalInfo' | translate }}</h1>
             <div class="form__input">
                 <input 
                     type="text" 
                     class="input-form" 
                     formControlName="name" 
-                    placeholder="Nome Completo *"
+                    placeholder="{{ 'clients.dialog.name' | translate }}"
                 >
             </div>
             <div class="form__input">
@@ -20,7 +20,7 @@
                     type="text" 
                     class="input-form"
                     formControlName="email" 
-                    placeholder="Email *"
+                    placeholder="{{ 'clients.dialog.email' | translate }}"
                 >
             </div>
             <div class="form__input form--between">
@@ -28,13 +28,13 @@
                     type="text" 
                     class="input-form" 
                     formControlName="nif" 
-                    placeholder="NIF *"
+                    placeholder="{{ 'clients.dialog.nif' | translate }}"
                 >
                 <input 
                     type="text" 
                     class="input-form" 
                     formControlName="dateBirth" 
-                    placeholder="Data de Nascimento *"
+                    placeholder="{{ 'clients.dialog.dateBirth' | translate }}"
                 >
             </div>
             <div class="form__input">
@@ -42,26 +42,13 @@
                     type="text" 
                     class="input-form" 
                     formControlName="phone" 
-                    placeholder="Telemóvel *"
+                    placeholder="{{ 'clients.dialog.phone' | translate }}"
                 >
             </div>
-            <h1 class="form--padding">Características de Trabalho</h1>
-            <div class="form__input form--between">
-                <input 
-                    type="text" 
-                    class="input-form" 
-                    formControlName="function" 
-                    placeholder="Função *"
-                >
-                <input 
-                    type="text" 
-                    class="input-form" 
-                    formControlName="workLoad"
-                    placeholder="Jornada de Trabalho *"
-                >
+            <div class="form__actions">
+                <button class="button secondary" type="button" (click)="onNoClick()">{{ 'common.buttons.goBack' | translate }}</button>
+                <button class="button danger"  [disabled]="addEmployeeForm.invalid" >{{ 'common.buttons.addCli' | translate }}</button>
             </div>
-            <button class="button button__form button--goback" type="button" (click)="onNoClick()">Voltar</button>
-            <button class="button button__form"  [disabled]="addEmployeeForm.invalid" >Adicionar Funcionario</button>
         </form>
     </mat-dialog-content>
 </div>
