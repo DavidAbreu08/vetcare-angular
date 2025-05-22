@@ -1,6 +1,56 @@
 <div class="profile" *ngIf="userInfo as variable">
-    <div class="profile__header"></div>
+
+    <div class="profile__title">
+        <h1 class="text-primary">Informações de Conta</h1>
+    </div>
+
     <div class="profile__content">
-        {{ userInfo.email }}
+        <div class="profile__alert" *ngIf="!userInfo.phone || !userInfo.dateBirth || !userInfo.nif">
+            <mat-icon>warning</mat-icon>
+            <span>Algumas informações do seu perfil estão incompletas. <b>Atualize seu perfil</b> para uma melhor experiência.</span>
+        </div>
+        <form
+            class="profile__form"
+            [formGroup]="userForm"
+            (ngSubmit)="onSubmit()"
+        >
+            <div class="profile__header">
+                <img [src]="selectedImage || defaultAvatar" alt="Profile" class="profile__img" />
+
+                <button mat-mini-fab color="primary" class="upload-btn" (click)="fileInput.click()" type="button">
+                    <mat-icon>edit</mat-icon>
+                </button>
+
+                <input #fileInput type="file" accept="image/*" hidden (change)="onImageSelected($event)" />
+            </div>
+            <div class="form">
+                <div class="field field--margin-bottom">
+                    <label class="text-primary">Nome</label>
+                    <input type="text" formControlName="name" placeholder="Preencha o seu nome" />
+                </div>
+                <div class="form__grid">
+                    <div class="field">
+                        <label class="text-primary">Email</label>
+                        <input type="email" formControlName="email" placeholder="Preencha o seu email" />
+                    </div>
+                    <div class="field">
+                        <label class="text-primary">Número de identificação fiscal</label>
+                        <input type="text" formControlName="nif" placeholder="Preencha o seu NIF" />
+                    </div>
+                    <div class="field">
+                        <label class="text-primary">Telefone</label>
+                        <input type="text" formControlName="phone" placeholder="Preencha o seu número de telefone" />
+                    </div>
+                    <div class="field">
+                        <label class="text-primary">Data de Nascimento</label>
+                        <input type="text" formControlName="dateBirth" placeholder="Preencha sua data de nascimento" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form__actions">
+                <button class="button danger" type="submit">{{ 'common.buttons.atualizarPerfil' | translate }}</button>
+            </div>
+        </form>
     </div>
 </div>

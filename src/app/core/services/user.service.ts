@@ -3,6 +3,7 @@ import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable, tap } from 'rxjs';
+import { UserInterface } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,10 @@ export class UserService {
 
   public createClient(clientData: any) {
     return this.http.post(`${this.apiUrl}/users/create-clients`, clientData);
+  }
+
+  public updateUser(userId: string, userData: UserInterface){
+    return this.http.patch(`${this.apiUrl}/users/${userId}`, userData);
   }
 
 }

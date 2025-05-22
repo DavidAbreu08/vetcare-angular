@@ -4,6 +4,7 @@
             "logout": "Terminar sessão",
             "addFunc": "Adicionar Funcionário",
             "addCli": "Adicionar Clientes",
+            "atualizarPerfil": "Atualizar Perfil",
             "addPermitions": "Adicionar Permicões",
             "goBack": "Voltar",
             "save": "Guardar"

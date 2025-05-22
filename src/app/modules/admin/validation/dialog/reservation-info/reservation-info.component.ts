@@ -21,6 +21,7 @@ import { UpdateReservationComponent } from '../update-reservation/update-reserva
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
+import { NotificationService } from '../../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-reservation-info',
@@ -60,7 +61,8 @@ export class ReservationInfoComponent {
 
   constructor(
     private readonly reservationService: ReservationService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly notificationService: NotificationService,
   ) {}
 
   ngOnInit(): void {
@@ -142,6 +144,7 @@ export class ReservationInfoComponent {
     if (this.formSelectEmployee.invalid) return;
 
     const formValue = this.formSelectEmployee.value;
+    console.log(formValue);
     const reservationId = this.data.reservation.id;
 
     if (
@@ -158,6 +161,7 @@ export class ReservationInfoComponent {
         .confirmPendingReservation(reservationId, dto)
         .pipe(
           tap(() => {
+            this.notificationService.showSuccess('A sua reserva foi confirmada com sucesso!');
             this.dialogRef.close(true);
           })
         )
@@ -176,6 +180,7 @@ export class ReservationInfoComponent {
         .updateReservationStatus(reservationId, dto)
         .pipe(
           tap(() => {
+            this.notificationService.showSuccess('A sua reserva foi reenviada com sucesso!');
             this.dialogRef.close(true);
           })
         )
@@ -193,6 +198,7 @@ export class ReservationInfoComponent {
         .confirmRescheduledReservation(reservationId, dto)
         .pipe(
           tap(() => {
+            this.notificationService.showSuccess('A sua reserva foi confirmada com sucesso!');
             this.dialogRef.close(true);
           })
         )

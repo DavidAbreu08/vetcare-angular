@@ -11,6 +11,7 @@ import { AnimalService } from '../../../../../core/services/animal.service';
 import { UserService } from '../../../../../core/services/user.service';
 import { map, tap } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { Notification, NotificationService } from '../../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-event-create-by-hours',
@@ -44,7 +45,8 @@ export class EventCreateByHoursComponent implements OnInit{
     private readonly fb: FormBuilder,
     private readonly userService: UserService,
     private readonly animalService: AnimalService,
-    private readonly reservationService: ReservationService
+    private readonly reservationService: ReservationService,
+    private readonly notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -117,6 +119,10 @@ export class EventCreateByHoursComponent implements OnInit{
   }
   
   public onSave(): void {
+    if (this.formEvent.invalid) {
+      this.notificationService.showError('Por favor, preencha corretamente todos os campos.');
+      return;
+    }
     if (this.formEvent.valid) {
       const formValue = this.formEvent.getRawValue();
       const dto = {
@@ -131,10 +137,12 @@ export class EventCreateByHoursComponent implements OnInit{
   
       this.reservationService.createReservation(dto).subscribe({
         next: (reservation) => {
+          this.notificationService.showSuccess('Evento adicionado com sucesso!');
           this.dialogRef.close(reservation);
         },
-        error: (err) => {
-          console.error('Error creating reservation:', err);
+        error: (error) => {
+          const backendMessage = error?.error?.message || 'Erro ao adicionar Envento. Tente novamente.';
+          this.notificationService.showError(backendMessage);
         }
       });
     }

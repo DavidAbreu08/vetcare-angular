@@ -8,6 +8,7 @@ import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { nifValidator } from '../../../../../core/validators/nif-validator';
 import { UserService } from '../../../../../core/services/user.service';
+import { NotificationService } from '../../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-add-employee',
@@ -28,11 +29,11 @@ import { UserService } from '../../../../../core/services/user.service';
 export class AddEmployeeComponent implements OnInit{
   public readonly dialogRef = inject(MatDialogRef<AddEmployeeComponent>);
   public addEmployeeForm!: FormGroup;
-  public errorMessage = '';
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly notificationService: NotificationService,
   ){
   }
 
@@ -111,8 +112,7 @@ export class AddEmployeeComponent implements OnInit{
 
   public onSubmit(){
     if (this.addEmployeeForm.invalid) {
-      //this.errorMessage = "Por favor, preencha corretamente todos os campos.";
-      console.log("Por favor, preencha corretamente todos os campos.");
+      this.notificationService.showError('Por favor, preencha corretamente todos os campos.');
       return;
     }
 
@@ -121,12 +121,12 @@ export class AddEmployeeComponent implements OnInit{
 
     this.userService.createEmployee(formData).subscribe({
       next: (response) => {
-        console.log('Funcionário criado com sucesso:', response);
+        this.notificationService.showSuccess('Funcionário criado com sucesso!');
         this.dialogRef.close(true);
       },
       error: (error) => {
-        console.error('Erro ao criar funcionário:', error);
-        this.errorMessage = 'Erro ao adicionar funcionário. Tente novamente.';
+        const backendMessage = error?.error?.message || 'Erro ao adicionar funcionário. Tente novamente.';
+        this.notificationService.showError(backendMessage);
       }
     });
 

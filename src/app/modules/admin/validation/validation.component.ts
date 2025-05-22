@@ -83,6 +83,8 @@ export class ValidationComponent implements OnInit {
     });
   }
 
+
+  // TODO: Verify implementation on update reservation status == 'rescheduled'
   public openDialogUpdate(reservation: any, index: number): void {
     this.dialog.open(ReservationInfoComponent, {
       data: {

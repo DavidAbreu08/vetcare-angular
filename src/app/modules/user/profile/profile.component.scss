@@ -1,8 +1,114 @@
 @import '../../../../styles/abstracts/variables';
 
 .profile {
+    display: flex;
+    justify-content: center;
+    padding: 55px;
+    flex-direction: column;
 
-    &__header {
 
+    &__title{
+        padding-bottom: 20px;
+    }
+    
+
+    &__content{
+        width: 85%;
+        height: 65vh;
+        background-color: var(--ion-color-dark-contrast);
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+    }
+    &__alert{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-bottom: 15px;
+
+        mat-icon{
+            font-size: 30px;
+            vertical-align: bottom !important;
+            padding-right: 10px;
+            width: auto !important;
+            height: auto !important;
+            color: var(--ion-color-warning);
+        }
+
+        span{
+            font-size: 16px;
+        }
+    }
+
+    &__header{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 25px;
+        position: relative;
+        width: 120px;
+
+        .upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 10px;
+            transform: translate(25%, 25%);
+        }
+    }
+
+    &__img{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    }
+    .field label {
+        font-weight: 600;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .field{
+        &--margin-bottom{
+            margin-bottom: 15px;
+        }
+
+        input {
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        
+    }
+
+    .form{
+        &__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        &__actions{
+
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            button{
+                color: var(--ion-color-light) !important;
+                box-shadow: $box-shadow;
+                border-radius: $border-radius;
+                padding: 10px;
+                font-size: 18px;
+
+                &:hover{
+                    background-color: lighten($buttonsColor, 10%) !important;
+                    box-shadow: none !important;
+                }
+            }
+        }
     }
 }
