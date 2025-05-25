@@ -4,6 +4,7 @@
             "logout": "Terminar sessão",
             "addFunc": "Adicionar Funcionário",
             "addCli": "Adicionar Clientes",
+            "addAnimal": "Adicionar Animal",
             "atualizarPerfil": "Atualizar Perfil",
             "addPermitions": "Adicionar Permicões",
             "goBack": "Voltar",
@@ -75,6 +76,41 @@
             "servico": "Serviço",
             "status": "Status",
             "observacoes": "Observações"
+        }
+    },
+    "profile": {
+
+        "add-animal": {
+            "title": "Adicionar Animal",
+            "info": "Preencha as informações abaixo para registrar o seu animal. Não se preocupe, você poderá editar essas informações mais tarde, se necessário.",
+            "personalInfo": "Informações Pessoais",
+            "name": "Nome do Animal *",
+            "namePlaceholder": "Insira o nome do animal",
+            "species": "Espécie *",
+            "speciesPlaceholder": "Incira a espécie do animal",
+            "breed": "Raça *",
+            "breedPlaceholder": "Insira a raça do animal",
+            "age": "Idade *",
+            "agePlaceholder": "Insira a idade do animal",
+            "height": "Altura *",
+            "heightPlaceholder": "Insira a altura do animal",
+            "weight": "Peso *",
+            "weightPlaceholder": "Insira o peso do animal",
+            "color": "Cor *",
+            "colorPlaceholder": "Insira a cor do animal",
+            "gender":{
+                "gender": "Gênero *",
+                "male": "Masculino",
+                "female": "Feminino",
+                "unknown": "Outro"
+            },
+            "genderPlaceholder": "Insira o gênero do animal",
+            "dateBirth": "Data de Nascimento *",
+            "dateBirthPlaceholder": "Insira a data de nascimento do animal",
+            "image": "Imagem do Animal",
+            "imagePlaceholder": "Carregue uma imagem do animal",
+            "observations": "Observações",
+            "observationsPlaceholder": "Insira observações sobre o animal"
         }
     }
 }

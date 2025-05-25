@@ -1,0 +1,62 @@
+<div class="content">
+    <div class="content__title">
+        <h2 class="text-primary">{{ 'profile.add-animal.title' | translate }}</h2>
+    </div>
+    
+    <form class="form" [formGroup]="animalForm" (ngSubmit)="onSubmit()">
+
+        <div class="form__grid">
+            <div class="field">
+                <label class="text-primary">{{ 'profile.add-animal.name' | translate }}</label>
+                <input type="text" formControlName="name" placeholder="{{ 'profile.add-animal.namePlaceholder' | translate }}" />
+            </div>
+        
+            <div class="field">
+                <label class="text-primary">{{ 'profile.add-animal.species' | translate }}</label>
+                <input type="text" formControlName="species" placeholder="{{ 'profile.add-animal.speciesPlaceholder' | translate }}" />
+            </div>
+        
+            <div class="field">
+                <label class="text-primary">{{ 'profile.add-animal.breed' | translate }}</label>
+                <input type="text" formControlName="breed" placeholder="{{ 'profile.add-animal.breedPlaceholder' | translate }}" />
+            </div>
+    
+        
+            <div class="field">
+                <label class="text-primary">{{ 'profile.add-animal.age' | translate }}</label>
+                <input type="number" formControlName="age" placeholder="{{ 'profile.add-animal.agePlaceholder' | translate }}" />
+            </div>
+    
+            <div class="field">
+                <label class="text-primary">{{ 'profile.add-animal.weight' | translate }}</label>
+                <input type="number" formControlName="weight" placeholder="{{ 'profile.add-animal.weightPlaceholder' | translate }}" />
+            </div>
+    
+            <div class="field">
+                <label class="text-primary">{{ 'profile.add-animal.height' | translate }}</label>
+                <input type="number" formControlName="height" placeholder="{{ 'profile.add-animal.heightPlaceholder' | translate }}" />
+            </div>
+    
+            <div class="field">
+                <label class="text-primary">{{ 'profile.add-animal.gender.gender' | translate }}</label>
+                <select formControlName="gender">
+                    <option value="none">-- none --</option>
+                    <option value="male">{{ 'profile.add-animal.gender.male' | translate }}</option>
+                    <option value="female">{{ 'profile.add-animal.gender.female' | translate }}</option>
+                    <option value="unknown">{{ 'profile.add-animal.gender.unknown' | translate }}</option>
+                </select>
+            </div>
+            <div class="field">
+                <label class="text-primary">{{ 'profile.add-animal.observations' | translate }}</label>
+                <textarea formControlName="observations" placeholder="{{ 'profile.add-animal.observationsPlaceholder' | translate }}"></textarea>
+            </div>
+        </div>
+        <div class="field">
+            <label class="text-primary">{{ 'profile.add-animal.image' | translate }}</label>
+            <input type="file" (change)="onFileSelected($event)" />
+        </div>
+        <div class="form__actions">
+            <button type="submit" class="button danger text-white">{{ 'common.buttons.addAnimal' | translate }}</button>
+        </div>
+    </form>
+</div>

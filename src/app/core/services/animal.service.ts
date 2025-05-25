@@ -13,8 +13,12 @@ export class AnimalService {
     private readonly http: HttpClient,
   ) { }
 
-  getAnimalsByClient(clientId: string): Observable<any[]> {
+  public getAnimalsByClient(clientId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/animal/owner/${clientId}`);
+  }
+
+  public addAnimal(animalDto: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/animal/create`, animalDto);
   }
 
 }

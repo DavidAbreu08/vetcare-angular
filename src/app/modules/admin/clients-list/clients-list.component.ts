@@ -10,7 +10,6 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslateModule } from '@ngx-translate/core';
 import { UserService } from '../../../core/services/user.service';
 import { AddClientsComponent } from './dialog/add-clients/add-clients.component';
-import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-clients-list',

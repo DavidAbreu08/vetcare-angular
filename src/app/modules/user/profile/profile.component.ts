@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
 import { UserInterface } from '../../../core/interfaces/user.interface';
 import { CommonModule } from '@angular/common';
@@ -6,6 +6,10 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { NotificationService } from '../../../core/services/notification.service';
+import { AnimalService } from '../../../core/services/animal.service';
+import { PhotoDefault } from '../../../core/interfaces/photo-default';
+import { MatDialog } from '@angular/material/dialog';
+import { AddAnimalComponent } from './dialog/add-animal/add-animal.component';
 
 /**
  * Profile Component
@@ -27,9 +31,17 @@ import { NotificationService } from '../../../core/services/notification.service
   styleUrl: './profile.component.scss',
   standalone: true
 })
+
 export class ProfileComponent implements OnInit {
   public userInfo!: UserInterface
   public userForm!: FormGroup;
+  public animals: any[] = [];
+
+  
+  public readonly dialog = inject(MatDialog);
+
+
+  public isClient: boolean = false;
 
   public defaultAvatar = '../../../../assets/icons/user-avatar.png';
   public selectedImage: string | ArrayBuffer | null = null;
@@ -38,7 +50,15 @@ export class ProfileComponent implements OnInit {
     private readonly userService: UserService,
     private readonly fb: FormBuilder,
     private readonly notificationService: NotificationService,
+    private readonly animalService: AnimalService
   ) {}
+
+  public photoDefault: PhotoDefault = {
+    dog: '../../../../assets/images/dog-default.png',
+    cat: '../../../../assets/images/cat-default.png',
+    rabbit: '../../../../assets/images/rabbit-default.png',
+    bird: '../../../../assets/images/bird-default.png'
+  };
 
   ngOnInit() {
     this.userForm = this.fb.group({
@@ -50,12 +70,36 @@ export class ProfileComponent implements OnInit {
       dateBirth: ['', Validators.required],
     });
 
-
     this.userService.getUserProfile()
       .subscribe((res: UserInterface) => {
+        this.isClient = res.role == 99;
         this.userInfo = res;
         this.userForm.patchValue(res);
+
+        this.animalService.getAnimalsByClient(this.userInfo.id)
+          .subscribe((res: any[]) => {
+            this.animals = res;
+          })
       })
+  }
+
+  public getAnimalPhoto(animal: any): string {
+    if (animal.image && animal.image.trim() !== '') {
+      return animal.image;
+    }
+
+    switch (animal.type) {
+      case 'dog':
+        return this.photoDefault.dog;
+      case 'cat':
+        return this.photoDefault.cat;
+      case 'rabbit':
+        return this.photoDefault.rabbit;
+      case 'bird':
+        return this.photoDefault.bird;
+      default:
+        return '../../../../assets/icons/user-avatar.png';
+    }
   }
 
   public onImageSelected(event: Event): void {
@@ -67,6 +111,16 @@ export class ProfileComponent implements OnInit {
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  public onAddAnimalDialog(): void {
+    const dialogRef = this.dialog.open(AddAnimalComponent, {
+      width: '800px',
+      data: { userId: this.userInfo.id }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
   }
 
   public onSubmit(): void {
