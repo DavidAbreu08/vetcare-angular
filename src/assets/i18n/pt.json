@@ -86,8 +86,13 @@
             "personalInfo": "Informações Pessoais",
             "name": "Nome do Animal *",
             "namePlaceholder": "Insira o nome do animal",
-            "species": "Espécie *",
-            "speciesPlaceholder": "Incira a espécie do animal",
+            "species": {
+                "name":"Espécie *",
+                "dog": "Cão",
+                "cat": "Gato",
+                "bird": "Passaro",
+                "rabbit": "Coelho"
+            },
             "breed": "Raça *",
             "breedPlaceholder": "Insira a raça do animal",
             "age": "Idade *",

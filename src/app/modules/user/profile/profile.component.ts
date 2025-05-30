@@ -10,6 +10,7 @@ import { AnimalService } from '../../../core/services/animal.service';
 import { PhotoDefault } from '../../../core/interfaces/photo-default';
 import { MatDialog } from '@angular/material/dialog';
 import { AddAnimalComponent } from './dialog/add-animal/add-animal.component';
+import { AnimalDetailsComponent } from './dialog/animal-details/animal-details.component';
 
 /**
  * Profile Component
@@ -76,10 +77,12 @@ export class ProfileComponent implements OnInit {
         this.userInfo = res;
         this.userForm.patchValue(res);
 
+        if (this.isClient) {
         this.animalService.getAnimalsByClient(this.userInfo.id)
           .subscribe((res: any[]) => {
             this.animals = res;
           })
+        }
       })
   }
 
@@ -116,7 +119,22 @@ export class ProfileComponent implements OnInit {
   public onAddAnimalDialog(): void {
     const dialogRef = this.dialog.open(AddAnimalComponent, {
       width: '800px',
-      data: { userId: this.userInfo.id }
+      data: { 
+        id: this.userInfo.id 
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
+  }
+
+  public onAnimalSelected(animal: any){
+    const dialogRef = this.dialog.open(AnimalDetailsComponent, {
+      width: '800px',
+      data: { 
+        name: this.userInfo.name,
+        animal: animal
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
@@ -147,13 +165,14 @@ export class ProfileComponent implements OnInit {
     }
 
     this.userService.updateUser(this.userInfo.id, updatedUser).subscribe({
-      next: () => {
-        this.notificationService.showSuccess('Perfil atualizado com sucesso!');
+      next: (response) => {
+        console.log('Backend response:', response);
         this.userInfo = { ...this.userInfo, ...updatedUser };
+        this.notificationService.showSuccess('Perfil atualizado com sucesso!');
       },
       error: (err) => {
-        this.notificationService.showError('Erro ao atualizar perfil. Tente novamente.');
         console.error(err);
+        this.notificationService.showError('Erro ao atualizar perfil. Tente novamente.');
       }
     });
   }

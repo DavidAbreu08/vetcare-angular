@@ -10,10 +10,21 @@
                 <label class="text-primary">{{ 'profile.add-animal.name' | translate }}</label>
                 <input type="text" formControlName="name" placeholder="{{ 'profile.add-animal.namePlaceholder' | translate }}" />
             </div>
-        
+
             <div class="field">
-                <label class="text-primary">{{ 'profile.add-animal.species' | translate }}</label>
-                <input type="text" formControlName="species" placeholder="{{ 'profile.add-animal.speciesPlaceholder' | translate }}" />
+                <label class="text-primary">{{ 'profile.add-animal.age' | translate }}</label>
+                <input type="number" formControlName="age" placeholder="{{ 'profile.add-animal.agePlaceholder' | translate }}" />
+            </div>
+
+            <div class="field">
+                <label class="text-primary">{{ 'profile.add-animal.species.name' | translate }}</label>
+                <select formControlName="type">
+                    <option value="none">-- none --</option>
+                    <option value="dog">{{ 'profile.add-animal.species.dog' | translate }}</option>
+                    <option value="cat">{{ 'profile.add-animal.species.cat' | translate }}</option>
+                    <option value="rabbit">{{ 'profile.add-animal.species.rabbit' | translate }}</option>
+                    <option value="bird">{{ 'profile.add-animal.species.bird' | translate }}</option>
+                </select>
             </div>
         
             <div class="field">
@@ -21,11 +32,6 @@
                 <input type="text" formControlName="breed" placeholder="{{ 'profile.add-animal.breedPlaceholder' | translate }}" />
             </div>
     
-        
-            <div class="field">
-                <label class="text-primary">{{ 'profile.add-animal.age' | translate }}</label>
-                <input type="number" formControlName="age" placeholder="{{ 'profile.add-animal.agePlaceholder' | translate }}" />
-            </div>
     
             <div class="field">
                 <label class="text-primary">{{ 'profile.add-animal.weight' | translate }}</label>
@@ -36,6 +42,11 @@
                 <label class="text-primary">{{ 'profile.add-animal.height' | translate }}</label>
                 <input type="number" formControlName="height" placeholder="{{ 'profile.add-animal.heightPlaceholder' | translate }}" />
             </div>
+
+            <div class="field">
+                <label class="text-primary">{{ 'profile.add-animal.color' | translate }}</label>
+                <input type="text" formControlName="color" placeholder="{{ 'profile.add-animal.colorPlaceholder' | translate }}" />
+            </div>
     
             <div class="field">
                 <label class="text-primary">{{ 'profile.add-animal.gender.gender' | translate }}</label>
@@ -45,10 +56,6 @@
                     <option value="female">{{ 'profile.add-animal.gender.female' | translate }}</option>
                     <option value="unknown">{{ 'profile.add-animal.gender.unknown' | translate }}</option>
                 </select>
-            </div>
-            <div class="field">
-                <label class="text-primary">{{ 'profile.add-animal.observations' | translate }}</label>
-                <textarea formControlName="observations" placeholder="{{ 'profile.add-animal.observationsPlaceholder' | translate }}"></textarea>
             </div>
         </div>
         <div class="field">

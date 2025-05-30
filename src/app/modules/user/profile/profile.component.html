@@ -59,10 +59,12 @@
             </div>
 
             <div class="profile__selection">
-                <div class="profile__circle" *ngFor="let animal of animals; let i = index">
-                    <img [src]="getAnimalPhoto(animal)" alt="{{ animal.name }}" />
-                    <h4 class="text-black">{{ animal.name }}</h4>
-                </div>
+                <ng-content *ngFor="let animal of animals; let i = index">
+                    <div class="profile__circle" (click)="onAnimalSelected(animal)" onkeydown="">
+                        <img [src]="getAnimalPhoto(animal)" alt="{{ animal.name }}" />
+                        <h4 class="text-black">{{ animal.name }}</h4>
+                    </div>
+                </ng-content>
                 <div class="profile__circle" (click)="onAddAnimalDialog()" onkeydown="">
                     <mat-icon>add</mat-icon>
                 </div>

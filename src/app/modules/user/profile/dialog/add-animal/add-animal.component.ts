@@ -4,13 +4,16 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AnimalService } from '../../../../../core/services/animal.service';
 import { NotificationService } from '../../../../../core/services/notification.service';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { DialogData } from '../../../../admin/agenda/dialog/schedule-event/schedule-event.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+
+export interface DialogData {
+  id: string;
+}
 
 @Component({
   selector: 'app-add-animal',
@@ -35,7 +38,6 @@ export class AddAnimalComponent implements OnInit{
   public animalForm!: FormGroup;
 
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
-  readonly userId = this.data;
 
   public selectedImage: string | ArrayBuffer | null = null;
 
@@ -47,22 +49,23 @@ export class AddAnimalComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
+
     this.animalForm = this.fb.group({
     name: ['', Validators.required],
-    species: ['', Validators.required],
+    type: ['none', Validators.required],
     breed: ['', Validators.required],
     age: ['', Validators.required],
     weight: ['', Validators.required],
     height: ['', Validators.required],
     gender: ['none', Validators.required],
-    observations: [''],
+    color: ['', Validators.required],
     image: [''],
-    ownerId: [this.userId, Validators.required]
+    ownerId: [this.data.id, Validators.required]
   });
   }
 
   get name() { return this.animalForm.get('name'); }
-  get species() { return this.animalForm.get('species'); }
+  get type() { return this.animalForm.get('type'); }
   get breed() { return this.animalForm.get('breed'); }
   get age() { return this.animalForm.get('age'); }
   get weight() { return this.animalForm.get('weight'); }
@@ -84,7 +87,7 @@ export class AddAnimalComponent implements OnInit{
   }
 
 
-  // TODO: finish the fields on back end to complete submission.
+  // TODO: just able to alter if any input were changed
   public onSubmit(): void {
     if (this.animalForm.invalid) {
       this.notificationService.showError('Por favor, preencha corretamente todos os campos.');
