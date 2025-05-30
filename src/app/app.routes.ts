@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { RoleAdminGuard } from './core/guards/role-admin.guard';
 import { RoleEmployeeGuard } from './core/guards/role-employee.guard';
+import { RoleClientGuard } from './core/guards/role-client.guard';
 
 export const routes: Routes = [
     {
@@ -31,5 +32,10 @@ export const routes: Routes = [
         path: 'employee',
         loadChildren: () => import('./modules/employee/employee.routes').then(route => route.routes),
         canActivate: [AuthGuard, RoleEmployeeGuard],
+    },
+    {
+        path: 'client',
+        loadChildren: () => import('./modules/client/client.routes').then(route => route.routes),
+        canActivate: [AuthGuard, RoleClientGuard],
     },
 ];

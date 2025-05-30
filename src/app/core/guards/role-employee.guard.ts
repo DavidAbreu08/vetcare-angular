@@ -9,7 +9,7 @@ import { Observable, switchMap } from 'rxjs';
 export class RoleEmployeeGuard implements CanActivate {
   constructor(
     private readonly userService: UserService,
-    private router: Router
+    private readonly router: Router
   ){}
 
   canActivate(): Observable<boolean> {

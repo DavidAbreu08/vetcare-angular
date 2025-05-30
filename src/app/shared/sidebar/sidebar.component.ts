@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../modules/auth/auth.service';
+import { UserService } from '../../core/services/user.service';
 
 interface MenuItem {
   icon: string;
@@ -20,11 +21,14 @@ interface MenuItem {
   styleUrl: './sidebar.component.scss',
   standalone: true,
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   @Input() isSidebarCollapsed = false;
   @Output() sidebarToggle = new EventEmitter<any>();
 
-  menuItems: MenuItem[] = [
+  public userRole: string | null = null;
+  public menuItems: MenuItem[] = [];
+
+  private readonly adminMenuItems: MenuItem[] = [
     {
       icon: 'dashboard',
       label: 'Dashboard',
@@ -61,24 +65,44 @@ export class SidebarComponent {
     },
   ];
 
+  private readonly clientMenuItems: MenuItem[] = [
+    {
+      icon: 'settings',
+      label: 'Meu Perfil',
+      link: '/user'
+    },
+    {
+      icon: 'event',
+      label: 'Minhas Consultas',
+      link: '/client/appointments'
+    }
+  ];
+
   constructor(
     private readonly authService: AuthService,
+    private readonly userService: UserService,
     private readonly router: Router
   ) {}
 
-  toggleSidebar() {
+  ngOnInit(): void {
+    this.userService.getUserProfile().subscribe(user => {
+      this.userRole = user.role;
+      this.menuItems = this.userRole === '99' ? this.clientMenuItems : this.adminMenuItems;
+    });
+  }
+
+  public toggleSidebar() {
     this.sidebarToggle.emit();
   }
 
-  toggleMenuItem(item: MenuItem) {
-    // Only toggle if sidebar is not collapsed and item has children
+  public toggleMenuItem(item: MenuItem) {
     if (!this.isSidebarCollapsed && item.children) {
       item.isOpen = !item.isOpen;
     }
   }
 
-  onLogout() {
-    const confirmLogout = window.confirm('Are you sure you want to log out?');
+  public onLogout() {
+    const confirmLogout = window.confirm('Tem a certeza que deseja sair?');
     if (confirmLogout) {
       this.authService.logout();
       this.router.navigate(['/login']);

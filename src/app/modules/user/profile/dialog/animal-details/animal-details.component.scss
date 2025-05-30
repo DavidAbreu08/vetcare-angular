@@ -6,12 +6,31 @@
     justify-content: center;
     padding: 20px;
 
+    &__container{
+        display: flex;
+        flex-direction: row;
+        gap: 50px;
+    }
+
     &__details{
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         gap: 5px;
         padding-top: 5px;
+    }
+
+    &__image{
+        display: flex;
+        justify-content: end;
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+
+        img{
+            width: 100%;
+            height: 100%;
+        }
     }
 
 

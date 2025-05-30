@@ -79,7 +79,18 @@
         }
     },
     "profile": {
-
+        "animal-list":{
+            "title": "Detalhes do Animal",	
+            "owner": "Dono",
+            "name": "Nome do Animal",
+            "species": "Espécie",
+            "breed": "Raça",
+            "age": "Idade",
+            "gender": "Gênero",
+            "weight": "Peso",
+            "height": "Altura",
+            "color": "Cor"
+        },
         "add-animal": {
             "title": "Adicionar Animal",
             "info": "Preencha as informações abaixo para registrar o seu animal. Não se preocupe, você poderá editar essas informações mais tarde, se necessário.",

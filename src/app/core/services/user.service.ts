@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, shareReplay, tap } from 'rxjs';
 import { UserInterface } from '../interfaces/user.interface';
 
 @Injectable({
@@ -16,7 +16,8 @@ export class UserService {
 
   constructor(
     private readonly http: HttpClient,
-  ) { }
+  ) {}
+
 
   // might not need to do this decode on front end cause backend is already doing it with /auth/me
   public getDecodedPayload(token: string): any{
@@ -29,10 +30,11 @@ export class UserService {
   }
 
   public getUserProfile(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/auth/me`).pipe(
-      tap((user) => (this.userInfo = user))
-    );
-  }
+  return this.http.get(`${this.apiUrl}/auth/me`).pipe(
+    tap((user) => (this.userInfo = user)),
+    shareReplay(1)
+  );
+}
 
   public getRole(): string | null{
     return this.userInfo ? this.userInfo.role : null;

@@ -1,7 +1,20 @@
 <div class="content">
-  <h2 class="text-primary">{{ 'schedules.details-event.title' | translate }}</h2>
-  <div class="content__details">
-    <div><strong>{{ 'schedules.details-event.data' | translate }}:</strong> {{ data.name }}</div>
+  <h2 class="text-primary">{{ 'profile.animal-list.title' | translate }}</h2>
+  <div class="content__container">
+    <div class="content__details">
+      <div><strong>{{ 'profile.animal-list.owner' | translate }}:</strong> {{ data.name }}</div>
+      <div><strong>{{ 'profile.animal-list.name' | translate }}:</strong> {{ data.animal.name }}</div>
+      <div><strong>{{ 'profile.animal-list.species' | translate }}:</strong> {{ data.animal.type }}</div>
+      <div><strong>{{ 'profile.animal-list.breed' | translate }}:</strong> {{ data.animal.breed }}</div>
+      <div><strong>{{ 'profile.animal-list.gender' | translate }}:</strong> {{ data.animal.gender }}</div>
+      <div><strong>{{ 'profile.animal-list.age' | translate }}:</strong> {{ data.animal.age }}</div>
+      <div><strong>{{ 'profile.animal-list.weight' | translate }}:</strong> {{ data.animal.weight }} kg</div>
+      <div><strong>{{ 'profile.animal-list.height' | translate }}:</strong> {{ data.animal.height }} cm</div>
+      <div><strong>{{ 'profile.animal-list.color' | translate }}:</strong> {{ data.animal.color }}</div>
+    </div>
+    <div class="content__image">
+      <img [src]="getAnimalPhoto(data.animal)" alt="animal">
+    </div>
   </div>
   <div class="content__action">
     <button mat-button class="button secondary" (click)="close()">{{ 'common.buttons.goBack' | translate }}</button>
