@@ -30,11 +30,11 @@ export class UserService {
   }
 
   public getUserProfile(): Observable<any> {
-  return this.http.get(`${this.apiUrl}/auth/me`).pipe(
-    tap((user) => (this.userInfo = user)),
-    shareReplay(1)
-  );
-}
+    return this.http.get(`${this.apiUrl}/auth/me`).pipe(
+      tap((user) => (this.userInfo = user)),
+      shareReplay(1)
+    );
+  }
 
   public getRole(): string | null{
     return this.userInfo ? this.userInfo.role : null;

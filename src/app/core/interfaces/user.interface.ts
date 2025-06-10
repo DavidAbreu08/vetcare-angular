@@ -7,6 +7,5 @@ export interface UserInterface {
     dateBirth?: string;
     profilePicture?: string;
     role: number;
-    
 }
 

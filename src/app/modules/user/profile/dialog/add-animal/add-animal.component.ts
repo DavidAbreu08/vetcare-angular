@@ -32,7 +32,7 @@ export interface DialogData {
   providers: [provideNativeDateAdapter()],
   standalone: true
 })
-export class AddAnimalComponent implements OnInit{
+export class AddAnimalComponent implements OnInit {
 
   public readonly dialogRef = inject(MatDialogRef<AddAnimalComponent>);
   public animalForm!: FormGroup;
@@ -49,19 +49,18 @@ export class AddAnimalComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-
     this.animalForm = this.fb.group({
-    name: ['', Validators.required],
-    type: ['none', Validators.required],
-    breed: ['', Validators.required],
-    age: ['', Validators.required],
-    weight: ['', Validators.required],
-    height: ['', Validators.required],
-    gender: ['none', Validators.required],
-    color: ['', Validators.required],
-    image: [''],
-    ownerId: [this.data.id, Validators.required]
-  });
+      name: ['', Validators.required],
+      type: ['none', Validators.required],
+      breed: ['', Validators.required],
+      age: ['', Validators.required],
+      weight: ['', Validators.required],
+      height: ['', Validators.required],
+      gender: ['none', Validators.required],
+      color: ['', Validators.required],
+      image: [''],
+      ownerId: [this.data.id, Validators.required]
+    });
   }
 
   get name() { return this.animalForm.get('name'); }

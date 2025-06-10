@@ -128,5 +128,16 @@
             "observations": "Observações",
             "observationsPlaceholder": "Insira observações sobre o animal"
         }
+    },
+    "animals": {
+        "title": "Adicionar Animal",
+        "animal-owner": "Escolha o Seu animal",
+        "no-animal": "Nenhum animal encontrado",
+        "date": "Data",
+        "startTime": "Hora de Início",
+        "endTime": "Hora de Término",
+        "timePlaceholder": "HH:MM",
+        "description": "Descrição"
     }
+    
 }

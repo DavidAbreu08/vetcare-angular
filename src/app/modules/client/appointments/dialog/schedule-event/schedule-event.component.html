@@ -1,0 +1,37 @@
+<div class="content">
+    <div class="content__title">
+        <h2 class="text-primary">{{ 'animals.title' | translate }}</h2>
+    </div>
+
+    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="form__grid">
+
+            <div class="field">
+                <label class="text-primary">{{ 'animals.animal-owner' | translate }}</label>
+                <select formControlName="animal">
+                    <option value="">-- selecione o seu animal --</option>
+                    <option *ngFor="let animal of animals" [value]="animal.id">
+                        {{ animal.name }} ({{ animal.type | titlecase }})
+                    </option>
+                    <option *ngIf="animals.length === 0" disabled>
+                        {{ 'animals.no-animal' | translate }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label class="text-primary">{{ 'animals.startTime' | translate }}</label>
+                <input type="time" formControlName="startTime" placeholder="{{ 'animals.timePlaceholder' | translate }}" />
+            </div>
+
+            <div class="field">
+                <label class="text-primary">{{ 'animals.description' | translate }}</label>
+                <textarea formControlName="description" placeholder="{{ 'animals.description' | translate }}" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="form__actions">
+            <button type="submit" class="button danger text-white">{{ 'common.buttons.addAnimal' | translate }}</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,74 @@
+@import '../../../../styles/abstracts/variables';
+
+.history{
+    padding: 0 15px 0;
+
+    &__title {
+        position: fixed;
+        top: 20px;
+
+        h1 {
+            font-size: 25px;
+            font-weight: 600;
+            color: var(--ion-color-primary);
+        }
+    }
+
+    &__content {
+        padding-top: 55px;
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        height: 90vh;
+        box-sizing: border-box;
+    }
+
+    .left-panel,
+    .right-panel {
+        flex: 1;
+        border-radius: $border-radius;
+        box-sizing: border-box;
+        overflow: hidden;
+        overflow-y: auto; // 'auto' shows scroll only when needed
+        background-color: var(--ion-color-dark-contrast);
+
+        /* Optional: Custom scrollbar for Webkit browsers */
+        &::-webkit-scrollbar {
+            width: 8px;
+            background: #eee;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: var(--ion-color-light-shade);
+            border-radius: 4px;
+        }
+
+
+        &__title{
+            padding: 15px;
+        }
+
+        &__content{
+            padding: 15px;
+        }
+    }
+
+    .status {
+        font-weight: bold;
+        margin-left: 10px;
+        padding: 2px 8px;
+        border-radius: 8px;
+        font-size: 0.9em;
+    }
+    .status-confirmed {
+        background: #e6f9ea;
+        color: #219653;
+    }
+    .status-rescheduled {
+        background: #fffbe6;
+        color: #00ade2;
+    }
+    .status-pending {
+        background: #fbeee6;
+        color: #b47d00;
+    }
+}

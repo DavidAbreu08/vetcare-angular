@@ -146,6 +146,25 @@
     }
 }
 
+.notification-confirmed {
+  color: #219653;
+}
+.notification-rescheduled {
+  color: #e2b100;
+}
+.clear-btn {
+  background: none;
+  border: none;
+  color: var(--ion-color-danger);
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 0.95em;
+}
+.no-notifications {
+  color: #888;
+  padding: 10px 0;
+}
+
 
 
 

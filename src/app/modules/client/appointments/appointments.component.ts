@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,6 +11,8 @@ import {
 import { ptBR } from 'date-fns/locale';
 import { MatDialog } from '@angular/material/dialog';
 import { ScheduleEventComponent } from './dialog/schedule-event/schedule-event.component';
+import { UserInterface } from '../../../core/interfaces/user.interface';
+import { UserService } from '../../../core/services/user.service';
 import { ReservationService } from '../../../core/services/reservation.service';
 
 
@@ -24,20 +26,42 @@ type ViewMode = 'month' | 'week' | 'day';
     MatIconModule,
   ],
   templateUrl: './appointments.component.html',
-  styleUrl: './appointments.component.scss'
+  styleUrl: './appointments.component.scss',
+  standalone: true,
 })
-export class AppointmentsComponent {
+export class AppointmentsComponent implements OnInit{
   public currentDate: Date = new Date();
   public days: Date[] = [];
   public weekDays: string[] = [];
   public viewMode: ViewMode = 'month';
 
+  public userInfo!: UserInterface
+  public readonly dialog = inject(MatDialog);
+
   constructor(
-    private readonly dialog: MatDialog,
-    private readonly reservationServie: ReservationService 
+    private readonly userService: UserService,
+    private readonly reservationService: ReservationService
   ) {
     this.updateCalendar();
   }
+
+  ngOnInit(): void {
+    this.userService.getUserProfile()
+      .subscribe((res: UserInterface) => {
+        this.userInfo = res;
+
+        // Buscar reservas futuras
+        this.reservationService.getReservationsByClient().subscribe((appointments: any[]) => {
+          const now = new Date();
+          this.futureAppointments = appointments
+            .filter(a => new Date(a.end) > now)
+            .map(a => ({ date: a.date }));
+        });
+      })
+  }
+
+  public futureAppointments: { date: string }[] = [];
+
 
   public changeCalendarType(type: ViewMode): void {
     this.viewMode = type;
@@ -129,7 +153,16 @@ export class AppointmentsComponent {
 
   public isSelected(date: string): void {
     this.dialog.open(ScheduleEventComponent, {
-      data: { date },
+      width: '800px',
+      data: {
+        date: date,
+        id: this.userInfo.id 
+      }
     });
+  }
+
+  public hasAppointment(day: Date): boolean {
+    const dayStr = this.formatDateNormal(day);
+    return this.futureAppointments.some(a => this.formatDateNormal(new Date(a.date)) === dayStr);
   }
 }

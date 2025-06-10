@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
 import { UserInterface } from '../../../core/interfaces/user.interface';
 import { CommonModule } from '@angular/common';
-import { TopBarComponent } from '../../../shared/top-bar/top-bar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 

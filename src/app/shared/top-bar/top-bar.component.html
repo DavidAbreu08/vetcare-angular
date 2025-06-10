@@ -4,17 +4,34 @@
   </div>
   <div class="top-bar__notification-container">
     <a (click)="toggleNotifications()" class="notification-container__btn">
-      <mat-icon fontIcon="notifications"/>
-      <span>1</span>
+      <mat-icon fontIcon="notifications" />
+      <span *ngIf="notifications.length">{{ notifications.length }}</span>
     </a>
+    <!-- Exemplo para o dropdown de notificações -->
     <div class="notification-container__dropdown" *ngIf="showNotifications">
       <h3>Notificações</h3>
-      <a
-        *ngFor="let notification of notifications"
-        [routerLink]="notification.link"
+      <button
+        *ngIf="notifications.length"
+        (click)="clearNotifications()"
+        class="clear-btn"
       >
-        {{ notification.message }}
-      </a>
+        Limpar todas
+      </button>
+      <ng-container *ngIf="notifications.length; else noNotifications">
+        <a
+          *ngFor="let notification of notifications"
+          [routerLink]="notification.link"
+          [ngClass]="{
+            'notification-confirmed': notification.type === 'confirmed',
+            'notification-rescheduled': notification.type === 'rescheduled'
+          }"
+        >
+          {{ notification.message }}
+        </a>
+      </ng-container>
+      <ng-template #noNotifications>
+        <div class="no-notifications">Sem notificações</div>
+      </ng-template>
     </div>
   </div>
   <div class="top-bar__avatar" (click)="toggleProfileDropdown()" onkeypress="">
@@ -25,4 +42,3 @@
     </div>
   </div>
 </div>
-

@@ -36,7 +36,7 @@ export class AddClientsComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly userService: UserService,
-    private notificationService: NotificationService
+    private readonly notificationService: NotificationService
   ){
   }
 

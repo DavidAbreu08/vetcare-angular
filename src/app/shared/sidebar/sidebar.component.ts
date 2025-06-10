@@ -73,9 +73,14 @@ export class SidebarComponent implements OnInit {
     },
     {
       icon: 'event',
-      label: 'Minhas Consultas',
+      label: 'Marcação de Consultas',
       link: '/client/appointments'
-    }
+    },
+    {
+      icon: 'event',
+      label: 'Minhas Consultas',
+      link: '/client/history'
+    },
   ];
 
   constructor(
