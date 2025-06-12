@@ -1,0 +1,58 @@
+<div class="content">
+    <div class="content__title">
+        <h2 class="text-primary">{{ 'employees.editarEmployee.title' | translate }}</h2>
+    </div>
+    
+    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="form__grid">
+            <div class="field">
+                <label class="text-primary">{{ 'employees.editarEmployee.name' | translate }}</label>
+                <input type="text" formControlName="name" placeholder="{{ 'employees.editarEmployee.namePlaceholder' | translate }}" />
+            </div>
+
+            <div class="field">
+                <label class="text-primary">{{ 'employees.editarEmployee.nif' | translate }}</label>
+                <input type="text" formControlName="nif" placeholder="{{ 'employees.editarEmployee.nifPlaceholder' | translate }}" />
+            </div>
+
+            <div class="field">
+                <label class="text-primary">{{ 'employees.editarEmployee.tele' | translate }}</label>
+                <input type="number" formControlName="phone" placeholder="{{ 'employees.editarEmployee.telePlaceholder' | translate }}" />
+            </div>
+
+            <div class="field">
+                <label class="text-primary">{{ 'employees.editarEmployee.funcao' | translate }}</label>
+                <select formControlName="function">
+                    <option value="none">-- none --</option>
+                    <option value="Administrador">{{ 'employees.editarEmployee.funcaoAdministrativa' | translate }}</option>
+                    <option value="Atendimento">{{ 'employees.editarEmployee.funcaoAtendimento' | translate }}</option>
+                    <option value="Contablista">{{ 'employees.editarEmployee.funcaoFinanceira' | translate }}</option>
+                    <option value="Médica">{{ 'employees.editarEmployee.funcaoVeterinaria' | translate }}</option>
+                    <option value="Farmácia">{{ 'employees.editarEmployee.funcaoFarmacia' | translate }}</option>
+                    <option value="Outros">{{ 'employees.editarEmployee.outros' | translate }}</option>
+                </select>
+            </div>
+        
+            <div class="field">
+                <label class="text-primary">{{ 'employees.editarEmployee.workload' | translate }}</label>
+                <select formControlName="workLoad">
+                    <option value="Full-Time">{{ 'employees.editarEmployee.tempoIntegral' | translate }}</option>
+                    <option value="Part-time">{{ 'employees.editarEmployee.meioPeriodo' | translate }}</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label class="text-primary">{{ 'employees.editarEmployee.status' | translate }}</label>
+                <select formControlName="isActive">
+                    <option value="true">{{ 'employees.editarEmployee.statusAtivo' | translate }}</option>
+                    <option value="false">{{ 'employees.editarEmployee.statusInativo' | translate }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form__actions">
+            <button type="submit" class="button danger text-white">{{ 'common.buttons.addAnimal' | translate }}</button>
+        </div>
+    </form>
+</div>
+

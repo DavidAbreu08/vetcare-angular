@@ -13,6 +13,14 @@ export class AnimalService {
     private readonly http: HttpClient,
   ) { }
 
+  /**
+   * Fetches all animals from the API.
+   * @returns An observable containing an array of animals.
+   */
+  public getAllAnimals(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/animal/all`);
+  }
+
   public getAnimalsByClient(clientId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/animal/owner/${clientId}`);
   }

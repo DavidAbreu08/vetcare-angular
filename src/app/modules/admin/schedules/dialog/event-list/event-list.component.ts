@@ -13,11 +13,15 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './event-list.component.scss'
 })
 export class EventListComponent {
+  public reserva: any;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { event: any },
+    @Inject(MAT_DIALOG_DATA) public data: { event?: any, reserva?: any },
     private readonly dialogRef: MatDialogRef<EventListComponent>
   ) {
-    console.log('Event List Data:', data);
+    // Se vier do calendário, usa event; se vier do painel, usa reserva
+    this.reserva = data.reserva || data.event;
+    console.log('Reserva para detalhes:', this.reserva);
   }
 
   public close() {

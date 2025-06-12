@@ -1,46 +1,79 @@
 <div class="dashboard">
   <div class="dashboard__welcome">
-    <h1>{{ 'dashboard.welcome' | translate }}</h1>
-    <h4 *ngIf="userInfo">Olá {{userInfo.name}}. Bem-vindo de volta!</h4>
+    <h1>{{ "dashboard.welcome" | translate }}</h1>
+    <h4 *ngIf="userInfo">Olá {{ userInfo.name }}. Bem-vindo de volta!</h4>
   </div>
   <div class="dashboard__content">
     <div class="row">
       <div class="column">
         <div class="card overall">
-          <h1>{{ 'dashboard.overall.title' | translate }}</h1>
+          <h1>{{ "dashboard.overall.title" | translate }}</h1>
           <div class="overall__icon" (click)="toggleCalendar()" onkeypress="">
             <mat-icon fontIcon="menu" />
           </div>
           <div class="overall__circle-client">
-            <h2>40</h2>
+            <h2>{{ totalClients }}</h2>
             <h5>Clientes</h5>
           </div>
           <div class="overall__circle-employee">
-            <h2>20</h2>
+            <h2>{{ totalEmployees }}</h2>
             <h5>Funcionários</h5>
           </div>
           <div class="overall__circle-animals">
-            <h2>2</h2>
+            <h2>{{ totalAnimals }}</h2>
             <h5>Animais</h5>
           </div>
         </div>
       </div>
       <div class="column">
         <div class="card calendar">
-          <h2>Eventos marcados</h2>
+          <h2 class="text-primary calendar__title">Eventos de hoje</h2>
+          <ul
+            *ngIf="todaysReservations.length > 0; else noEvents"
+            class="calendar__events"
+          >
+            <li *ngFor="let reserva of todaysReservations">
+              <div class="calendar__details">
+                <span>
+                  <strong>Horas: </strong>{{ reserva.timeStart }} até
+                  {{ reserva.timeEnd }}
+                  <span> - </span>
+                  <strong>Cliente: </strong
+                  >{{ reserva.cliente?.name || reserva.client.name }}
+                  <span> - </span>
+                  <span *ngIf="reserva.animal"
+                    ><strong>Animal: </strong> ({{
+                      reserva.animal?.name
+                    }})</span
+                  >
+                </span>
+                <mat-icon
+                  class="calendar__icon"
+                  fontIcon="menu"
+                  (click)="openDetailsReserva(reserva)"
+                ></mat-icon>
+              </div>
+            </li>
+          </ul>
+          <ng-template #noEvents>
+            <p>Sem eventos marcados para hoje.</p>
+          </ng-template>
         </div>
       </div>
       <div class="column">
         <div class="card newsoftheweek">
-          <h1>3 noticias mais visitadas</h1>
-          <div class="newsoftheweek__news">
-            <h2>Noticia 1</h2>
-          </div>
-          <div class="newsoftheweek__news">
-            <h2>Noticia 1</h2>
-          </div>
-          <div class="newsoftheweek__news">
-            <h2>Noticia 1</h2>
+          <h1>
+            {{ recentPendingReservations.length }} Pendentes por confirmar
+          </h1>
+          <div
+            class="newsoftheweek__news"
+            *ngFor="let reserva of recentPendingReservations"
+          >
+            <h2>
+              {{ reserva.date | date : "dd/MM/yyyy" }} -
+              {{ reserva.cliente?.name || reserva.clientName }}
+              <span *ngIf="reserva.animal">({{ reserva.animal?.name }})</span>
+            </h2>
           </div>
         </div>
       </div>

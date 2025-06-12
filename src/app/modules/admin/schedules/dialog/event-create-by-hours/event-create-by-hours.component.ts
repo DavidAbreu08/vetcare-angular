@@ -11,7 +11,7 @@ import { AnimalService } from '../../../../../core/services/animal.service';
 import { UserService } from '../../../../../core/services/user.service';
 import { map, tap } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
-import { Notification, NotificationService } from '../../../../../core/services/notification.service';
+import { NotificationService } from '../../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-event-create-by-hours',

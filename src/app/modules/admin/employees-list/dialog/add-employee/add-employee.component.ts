@@ -9,6 +9,7 @@ import { MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { nifValidator } from '../../../../../core/validators/nif-validator';
 import { UserService } from '../../../../../core/services/user.service';
 import { NotificationService } from '../../../../../core/services/notification.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-employee',
@@ -21,6 +22,7 @@ import { NotificationService } from '../../../../../core/services/notification.s
     MatDatepickerModule,
     MatDialogContent,
     ReactiveFormsModule,
+    TranslateModule
   ],
   templateUrl: './add-employee.component.html',
   styleUrl: './add-employee.component.scss',
@@ -50,8 +52,7 @@ export class AddEmployeeComponent implements OnInit{
       nif: [
         '', 
         [
-          Validators.required, 
-          nifValidator(),
+          Validators.required,
         ]
       ],
       dateBirth: [
@@ -67,13 +68,13 @@ export class AddEmployeeComponent implements OnInit{
         ]
       ],
       function: [
-        '',
+        'Atendimento',
         [
           Validators.required,
         ]
       ],
       workLoad: [
-        '',
+        'Full-Time',
         [
           Validators.required,
         ]
@@ -115,12 +116,11 @@ export class AddEmployeeComponent implements OnInit{
       this.notificationService.showError('Por favor, preencha corretamente todos os campos.');
       return;
     }
-
+    
     const formData = this.addEmployeeForm.value;
 
-
     this.userService.createEmployee(formData).subscribe({
-      next: (response) => {
+      next: () => {
         this.notificationService.showSuccess('Funcionário criado com sucesso!');
         this.dialogRef.close(true);
       },

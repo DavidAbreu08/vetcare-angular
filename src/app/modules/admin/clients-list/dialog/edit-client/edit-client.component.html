@@ -1,0 +1,62 @@
+<div class="content">
+  <div class="content__title">
+    <h2 class="text-primary">{{ "clients.editarClient.title" | translate }}</h2>
+  </div>
+
+  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form__grid">
+        <div class="field">
+            <label class="text-primary">{{
+            "clients.editarClient.name" | translate
+            }}</label>
+            <input
+            type="text"
+            formControlName="name"
+            placeholder="{{ 'clients.editarClient.namePlaceholder' | translate }}"
+            />
+        </div>
+
+        <div class="field">
+            <label class="text-primary">{{
+            "clients.editarClient.nif" | translate
+            }}</label>
+            <input
+            type="text"
+            formControlName="nif"
+            placeholder="{{ 'clients.editarClient.nifPlaceholder' | translate }}"
+            />
+        </div>
+
+        <div class="field">
+            <label class="text-primary">{{
+            "clients.editarClient.phone" | translate
+            }}</label>
+            <input
+            type="number"
+            formControlName="phone"
+            placeholder="{{
+                'clients.editarClient.phonePlaceholder' | translate
+            }}"
+            />
+        </div>
+
+        <div class="field">
+            <label class="text-primary">{{
+            "clients.editarClient.dateBirth" | translate
+            }}</label>
+            <input
+            type="date"
+            formControlName="dateBirth"
+            placeholder="{{
+                'clients.editarClient.dateBirthPlaceholder' | translate
+            }}"
+            />
+        </div>
+    </div>
+    <div class="form__actions">
+      <button type="submit" class="button danger text-white">
+        {{ "common.buttons.save" | translate }}
+      </button>
+    </div>
+  </form>
+</div>

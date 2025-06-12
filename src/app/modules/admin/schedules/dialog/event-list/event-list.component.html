@@ -1,16 +1,95 @@
 <div class="content">
-  <h2 class="text-primary">{{ 'schedules.details-event.title' | translate }}</h2>
-  <div *ngIf="data.event.extendedProps" class="content__details">
-    <div><strong>{{ 'schedules.details-event.data' | translate }}:</strong> {{ data.event.start | date:'dd-MM-yyyy' }}</div>
-    <div><strong>{{ 'schedules.details-event.hora' | translate }}:</strong> {{ data.event.start | date:'HH:mm' }} - {{ data.event.end | date:'HH:mm' }}</div>
-    <div><strong>{{ 'schedules.details-event.cliente' | translate }}:</strong> {{ data.event.extendedProps.client }}</div>
-    <div><strong>{{ 'schedules.details-event.animal' | translate }}:</strong> {{ data.event.extendedProps.animal }}</div>
-    <div *ngIf="data.event.extendedProps.employee === 'Unknown'"><strong>{{ 'schedules.details-event.funcionario' | translate }}:</strong> Ainda por Definir...</div>
-    <div *ngIf="data.event.extendedProps.employee !== 'Unknown'"><strong>{{ 'schedules.details-event.funcionario' | translate }}:</strong> {{ data.event.extendedProps.employee }}</div>
-    <div><strong>{{ 'schedules.details-event.status' | translate }}:</strong> {{ data.event.extendedProps.status }}</div>
-    <div *ngIf="data.event.extendedProps.rescheduleNote"><strong>{{ 'schedules.details-event.observacoes' | translate }}:</strong> {{ data.event.extendedProps.rescheduleNote }}</div>
+  <h2 class="text-primary">
+    {{ "schedules.details-event.title" | translate }}
+  </h2>
+
+  <!-- Caso venha do calendário (event) -->
+  <div
+    *ngIf="data.event?.extendedProps; else painelReserva"
+    class="content__details"
+  >
+    <div>
+      <strong>{{ "schedules.details-event.data" | translate }}:</strong>
+      {{ data.event.start | date : "dd-MM-yyyy" }}
+    </div>
+    <div>
+      <strong>{{ "schedules.details-event.hora" | translate }}:</strong>
+      {{ data.event.start | date : "HH:mm" }} -
+      {{ data.event.end | date : "HH:mm" }}
+    </div>
+    <div>
+      <strong>{{ "schedules.details-event.cliente" | translate }}:</strong>
+      {{ data.event.extendedProps.client }}
+    </div>
+    <div>
+      <strong>{{ "schedules.details-event.animal" | translate }}:</strong>
+      {{ data.event.extendedProps.animal }}
+    </div>
+    <div *ngIf="data.event.extendedProps.employee === 'Unknown'">
+      <strong>{{ "schedules.details-event.funcionario" | translate }}:</strong>
+      Ainda por Definir...
+    </div>
+    <div *ngIf="data.event.extendedProps.employee !== 'Unknown'">
+      <strong>{{ "schedules.details-event.funcionario" | translate }}:</strong>
+      {{ data.event.extendedProps.employee }}
+    </div>
+    <div>
+      <strong>{{ "schedules.details-event.status" | translate }}:</strong>
+      {{ data.event.extendedProps.status }}
+    </div>
+    <div *ngIf="data.event.extendedProps.rescheduleNote">
+      <strong>{{ "schedules.details-event.observacoes" | translate }}:</strong>
+      {{ data.event.extendedProps.rescheduleNote }}
+    </div>
   </div>
+
+  <!-- Caso venha do painel (reserva) -->
+  <ng-template #painelReserva>
+    <div class="content__details">
+      <div>
+        <strong>{{ "schedules.details-event.data" | translate }}:</strong>
+        {{ reserva?.date | date : "dd-MM-yyyy" }}
+      </div>
+      <div>
+        <strong>{{ "schedules.details-event.hora" | translate }}:</strong>
+        {{ reserva?.timeStart }} - {{ reserva?.timeEnd }}
+      </div>
+      <div>
+        <strong>{{ "schedules.details-event.cliente" | translate }}:</strong>
+        {{ reserva?.client?.name || reserva?.cliente?.name }}
+      </div>
+      <div>
+        <strong>{{ "schedules.details-event.animal" | translate }}:</strong>
+        {{ reserva?.animal?.name }}
+      </div>
+      <div *ngIf="!reserva?.employee">
+        <strong
+          >{{ "schedules.details-event.funcionario" | translate }}:</strong
+        >
+        Ainda por Definir...
+      </div>
+      <div *ngIf="reserva?.employee">
+        <strong
+          >{{ "schedules.details-event.funcionario" | translate }}:</strong
+        >
+        {{ reserva?.employee?.name }}
+      </div>
+      <div>
+        <strong>{{ "schedules.details-event.status" | translate }}:</strong>
+        {{ reserva?.status }}
+      </div>
+      <div *ngIf="reserva?.rescheduleNote">
+        <strong
+          >{{ "schedules.details-event.observacoes" | translate }}:</strong
+        >
+        {{ reserva?.rescheduleNote }}
+      </div>
+    </div>
+  </ng-template>
+
   <div class="content__action">
-    <button mat-button class="button secondary" (click)="close()">{{ 'common.buttons.goBack' | translate }}</button>
+    <button mat-button class="button secondary" (click)="close()">
+      {{ "common.buttons.goBack" | translate }}
+    </button>
   </div>
 </div>

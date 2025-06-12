@@ -25,13 +25,13 @@
             </div>
             <div class="form__input form--between">
                 <input 
-                    type="text" 
+                    type="number" 
                     class="input-form" 
                     formControlName="nif" 
                     placeholder="NIF *"
                 >
                 <input 
-                    type="text" 
+                    type="date" 
                     class="input-form" 
                     formControlName="dateBirth" 
                     placeholder="Data de Nascimento *"
@@ -47,21 +47,21 @@
             </div>
             <h1 class="form--padding">Características de Trabalho</h1>
             <div class="form__input form--between">
-                <input 
-                    type="text" 
-                    class="input-form" 
-                    formControlName="function" 
-                    placeholder="Função *"
-                >
-                <input 
-                    type="text" 
-                    class="input-form" 
-                    formControlName="workLoad"
-                    placeholder="Jornada de Trabalho *"
-                >
+                <select formControlName="function" class="input-form">
+                    <option value="Administrador">{{ 'employees.editarEmployee.funcaoAdministrativa' | translate }}</option>
+                    <option value="Atendimento">{{ 'employees.editarEmployee.funcaoAtendimento' | translate }}</option>
+                    <option value="Contablista">{{ 'employees.editarEmployee.funcaoFinanceira' | translate }}</option>
+                    <option value="Médica">{{ 'employees.editarEmployee.funcaoVeterinaria' | translate }}</option>
+                    <option value="Farmacia">{{ 'employees.editarEmployee.funcaoFarmacia' | translate }}</option>
+                    <option value="Outros">{{ 'employees.editarEmployee.outros' | translate }}</option>
+                </select>
+                <select formControlName="workLoad" class="input-form" >
+                    <option value="Full-Time">Tempo Integral</option>
+                    <option value="Part-time">Meio Tempo</option>
+                </select>
             </div>
             <button class="button button__form button--goback" type="button" (click)="onNoClick()">Voltar</button>
-            <button class="button button__form"  [disabled]="addEmployeeForm.invalid" >Adicionar Funcionario</button>
+            <button class="button button__form" [disabled]="addEmployeeForm.invalid" type="submit">Adicionar Funcionario</button>
         </form>
     </mat-dialog-content>
 </div>

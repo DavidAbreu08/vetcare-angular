@@ -33,6 +33,28 @@
             "dataadmition": "Data de Admição",
             "status":"status",
             "def": "Definições"
+        },
+        "editarEmployee": {
+            "title": "Editar Veterinário",
+            "name": "Nome Completo *",
+            "namePlaceholder": "Insira o nome completo",
+            "workload": "Carga Horária",
+            "tempoIntegral": "Tempo Integral",
+            "meioPeriodo": "Meio Período",
+            "tele": "Telemóvel *",
+            "telePlaceholder": "Insira o telemóvel",
+            "nif": "NIF *",
+            "nifPlaceholder": "Insira o NIF",
+            "funcao": "Função *",
+            "funcaoAtendimento": "Atendimento",
+            "funcaoAdministrativa": "Administrativa",
+            "funcaoFinanceira": "Financeira",
+            "funcaoVeterinaria": "Medico Veterinário",
+            "funcaoFarmacia": "Farmácia",
+            "outros": "Outros",
+            "status": "Status *",
+            "statusAtivo": "Ativo",
+            "statusInativo": "Inativo"
         }
         
 
@@ -49,8 +71,6 @@
             "nif": "NIF *",
             "dateBirth": "Data de Nascimento *",
             "address": "Morada *"
-
-
         },
         "table": {
             "nome": "Nome",
@@ -61,6 +81,20 @@
             "dataadmition": "Data de Admição",
             "status":"status",
             "def": "Definições"
+        },
+        "editarClient":{
+            "title": "Editar Cliente",
+            "name": "Nome Completo *",
+            "namePlaceholder": "Insira o nome completo",
+            "phone": "Telemóvel *",
+            "phonePlaceholder": "Insira o telemóvel",
+            "nif": "NIF *",
+            "nifPlaceholder": "Insira o NIF",
+            "email": "Email *",
+            "emailPlaceholder": "Insira o email",
+            "dateBirth": "Data de Nascimento *",
+            "dateBirthPlaceholder": "Insira a data de nascimento do cliente",
+            "image": "Imagem do Animal"
         }
         
 

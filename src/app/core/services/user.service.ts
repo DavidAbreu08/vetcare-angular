@@ -67,4 +67,11 @@ export class UserService {
     return this.http.patch(`${this.apiUrl}/users/${userId}`, userData);
   }
 
+  public updateEmployee(employeeId: string, employeeData: any) {
+    return this.http.patch(`${this.apiUrl}/users/employee/${employeeId}`, employeeData);
+  }
+  public deleteUser(userId: string) {
+    return this.http.delete(`${this.apiUrl}/users/${userId}`);
+  }
+
 }

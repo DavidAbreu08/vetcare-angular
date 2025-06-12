@@ -1,112 +1,177 @@
 <div class="clients" (document:click)="closeOptionsMenu()">
   <div class="clients__title">
-    <h1>{{ 'clients.title' | translate }}</h1>
+    <h1>{{ "clients.title" | translate }}</h1>
   </div>
   <div class="row">
     <div class="column">
       <div class="clients__togglebuttons">
-        <button class="button button__secondary" (click)="openDialog()" >{{ 'common.buttons.addCli' | translate }}</button>
+        <button class="button button__secondary" (click)="openDialog()">
+          {{ "common.buttons.addCli" | translate }}
+        </button>
       </div>
     </div>
     <div class="card">
       <div class="card__clients">
         <div class="card__filters">
-            <button class="button button--filter">
-                <mat-icon fontIcon="filter_alt" class="button--icon"/>
-            </button>
-            <div class="filter-input">
-                <mat-icon fontIcon="search" class="input-filter__icon"/>
-                <input class="input-filter" placeholder="Procurar Nome" (keyup)="applyFilter($event)">
-            </div>
-            <div class="filter-input">
-                <mat-icon fontIcon="search" class="input-filter__icon"/>
-                <input class="input-filter" placeholder="Procurar NIF" (keyup)="applyFilter($event)">
-            </div>
+          <button class="button button--filter">
+            <mat-icon fontIcon="filter_alt" class="button--icon" />
+          </button>
+          <div class="filter-input">
+            <mat-icon fontIcon="search" class="input-filter__icon" />
+            <input
+              class="input-filter"
+              placeholder="Procurar Nome"
+              (keyup)="applyFilter($event)"
+            />
+          </div>
+          <div class="filter-input">
+            <mat-icon fontIcon="search" class="input-filter__icon" />
+            <input
+              class="input-filter"
+              placeholder="Procurar NIF"
+              (keyup)="applyFilter($event)"
+            />
+          </div>
+          <div class="filter-input">
+            <mat-icon fontIcon="search" class="input-filter__icon" />
+            <input
+              class="input-filter"
+              placeholder="Procurar por Animal"
+              (keyup)="filterByAnimalEvent($event)"
+            />
+          </div>
         </div>
         <table mat-table [dataSource]="clients" class="mat-elevation-z8">
-            <!-- Position Column -->
-            <ng-container matColumnDef="position">
-              <th mat-header-cell *matHeaderCellDef> No. </th>
-              <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
-            </ng-container>
-    
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Name </th>
-              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            </ng-container>
-    
-            <!-- Email Column -->
-            <ng-container matColumnDef="email">
-              <th mat-header-cell *matHeaderCellDef> Email </th>
-              <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-            </ng-container>
-    
-            <!-- Nif Column -->
-            <ng-container matColumnDef="nif">
-              <th mat-header-cell *matHeaderCellDef> NIF </th>
-              <td mat-cell *matCellDef="let element"> {{element.nif || 'Por Atualizar'}} </td>
-            </ng-container>
-    
-            <!-- Phone Column -->
-            <ng-container matColumnDef="phone">
-              <th mat-header-cell *matHeaderCellDef> Telemovel </th>
-              <td mat-cell *matCellDef="let element"> {{element.phone || 'Por Atualizar'}}</td>
-            </ng-container>
-    
-    
-            <!-- Admission Date Column -->
-            <ng-container matColumnDef="createdAt">
-              <th mat-header-cell *matHeaderCellDef> Data de Criação </th>
-              <td mat-cell *matCellDef="let element"> {{element.createdAt | date:'dd/MM/yyyy'}} </td>
-            </ng-container>
-    
-            <!-- Options Column -->
-            <ng-container matColumnDef="options">
-              <th mat-header-cell *matHeaderCellDef> Options </th>
-              <td mat-cell *matCellDef="let element; let i = index">
-                <button mat-mini-fab aria-label="Button to open menu" class="button--rounded" (click)="openOptionsMenu(i, $event)">
-                  <mat-icon 
-                    aria-hidden="false" 
-                    aria-label="Menu" 
-                    fontIcon="more_vert"
-                  ></mat-icon>
-                </button>
-                <div class="card__options" id="options-menu-{{ i }}" [ngClass]="{ 'active': openedOptionsIndex === i }" (click)="$event.stopPropagation()">
-                  <ul>
-                    <li>
-                      <mat-icon 
-                        aria-hidden="false" 
-                        aria-label="Edit" 
-                        fontIcon="edit"
-                      ></mat-icon>
-                      Editar
-                    </li>
-                    <li>
-                      <mat-icon 
-                        aria-hidden="false" 
-                        aria-label="Settings" 
-                        fontIcon="settings"
-                      ></mat-icon>
-                      Alterar permissões
-                    </li>
-                    <li class="danger">
-                      <mat-icon 
-                        aria-hidden="false" 
-                        aria-label="Delete" 
-                        fontIcon="delete"
-                      ></mat-icon>
-                      Apagar
-                    </li>
-                  </ul>
-                </div>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumns;"></tr>
+          <!-- Position Column -->
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let element; let i = index">
+              {{ i + 1 }}
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+
+          <!-- Email Column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+          </ng-container>
+
+          <!-- Nif Column -->
+          <ng-container matColumnDef="nif">
+            <th mat-header-cell *matHeaderCellDef>NIF</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.nif || "Por Atualizar" }}
+            </td>
+          </ng-container>
+
+          <!-- Phone Column -->
+          <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef>Telemovel</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.phone || "Por Atualizar" }}
+            </td>
+          </ng-container>
+
+          <!-- Admission Date Column -->
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef>Data de Criação</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.createdAt | date : "dd/MM/yyyy" }}
+            </td>
+          </ng-container>
+
+          <!-- Options Column -->
+          <ng-container matColumnDef="options">
+            <th mat-header-cell *matHeaderCellDef>Options</th>
+            <td mat-cell *matCellDef="let element; let i = index">
+              <button
+                mat-mini-fab
+                aria-label="Button to open menu"
+                class="button--rounded"
+                (click)="openOptionsMenu(i, $event)"
+              >
+                <mat-icon
+                  aria-hidden="false"
+                  aria-label="Menu"
+                  fontIcon="more_vert"
+                ></mat-icon>
+              </button>
+              <div
+                class="card__options"
+                id="options-menu-{{ i }}"
+                [ngClass]="{ active: openedOptionsIndex === i }"
+                (click)="$event.stopPropagation()"
+              >
+                <ul>
+                  <li (click)="openEditDialog(element)">
+                    <mat-icon
+                      aria-hidden="false"
+                      aria-label="Edit"
+                      fontIcon="edit"
+                    ></mat-icon>
+                    Editar
+                  </li>
+                  <li>
+                    <mat-icon
+                      aria-hidden="false"
+                      aria-label="Settings"
+                      fontIcon="settings"
+                    ></mat-icon>
+                    Alterar permissões
+                  </li>
+                  <li class="danger" (click)="deleteClient(element)">
+                    <mat-icon
+                      aria-hidden="false"
+                      aria-label="Delete"
+                      fontIcon="delete"
+                    ></mat-icon>
+                    Apagar
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </ng-container>
+          <!-- Animals Column -->
+          <ng-container matColumnDef="animals">
+            <th mat-header-cell *matHeaderCellDef>Animais</th>
+            <td mat-cell *matCellDef="let element">
+              <ng-container *ngIf="element.animals?.length; else noAnimals">
+                <span *ngFor="let animal of element.animals; let last = last">
+                  <a
+                    (click)="openAnimalDialog(animal); $event.preventDefault()"
+                    style="
+                      cursor: pointer;
+                      color: #1976d2;
+                      text-decoration: underline;
+                    "
+                  >
+                    {{ animal.name }} </a
+                  ><span *ngIf="!last">, </span>
+                </span>
+              </ng-container>
+              <ng-template #noAnimals>
+                <span>—</span>
+              </ng-template>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; let i = index; columns: displayedColumns"
+          ></tr>
         </table>
         <div class="card__pagination">
-            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page"></mat-paginator>
+          <mat-paginator
+            [pageSize]="5"
+            [pageSizeOptions]="[5, 10, 20]"
+            aria-label="Select page"
+          ></mat-paginator>
         </div>
       </div>
     </div>

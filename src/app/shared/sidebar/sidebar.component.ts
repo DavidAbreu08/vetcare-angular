@@ -48,11 +48,7 @@ export class SidebarComponent implements OnInit {
     {
       icon: 'group',
       label: 'Clientes',
-      isOpen: true,
-      children: [
-        { icon: 'person', label: 'Lista de Clientes', link: '/admin/clients-list' },
-        { icon: 'pets', label: 'Lista de Animais', link: '/admin/animals-list' },
-      ]
+      link: '/admin/clients-list'
     },
     {
       icon: 'description',

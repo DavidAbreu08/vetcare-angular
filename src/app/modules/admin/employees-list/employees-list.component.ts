@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { UserService } from '../../../core/services/user.service';
 import { CommonModule } from '@angular/common';
@@ -10,6 +16,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEmployeeComponent } from './dialog/add-employee/add-employee.component';
+import { EditEmployeeComponent } from './dialog/edit-employee/edit-employee.component';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-employees-list',
@@ -21,7 +29,7 @@ import { AddEmployeeComponent } from './dialog/add-employee/add-employee.compone
     MatTableModule,
     MatFormFieldModule,
     MatPaginatorModule,
-    MatMenuModule
+    MatMenuModule,
   ],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss',
@@ -29,10 +37,19 @@ import { AddEmployeeComponent } from './dialog/add-employee/add-employee.compone
   standalone: true,
 })
 export class EmployeesListComponent implements OnInit {
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  public displayedColumns: string[] = ['position', 'name', 'email', 'nif', 'phone', 'function', 'createdAt', 'isActive', 'options'];
+  public displayedColumns: string[] = [
+    'position',
+    'name',
+    'email',
+    'nif',
+    'phone',
+    'function',
+    'createdAt',
+    'isActive',
+    'options',
+  ];
   public employees = new MatTableDataSource<any>();
 
   public currentRow: any;
@@ -42,23 +59,44 @@ export class EmployeesListComponent implements OnInit {
   public openedOptionsIndex: number | null = null;
 
   constructor(
-    private readonly userService: UserService
-  ) { }
+    private readonly userService: UserService,
+    private readonly notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.userService.getAllEmployees().subscribe({
       next: (data) => {
         this.employees.data = data;
+        console.log('Employees fetched successfully:', this.employees.data);
       },
       error: (error) => {
-        console.error("Error fetching employees:", error);
-      }
+        console.error('Error fetching employees:', error);
+      },
     });
   }
 
   public openDialog(): void {
     const dialogRef = this.dialog.open(AddEmployeeComponent);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.userService.getAllEmployees().subscribe({
+          next: (data) => {
+            this.employees.data = data;
+          },
+          error: (error) => {
+            console.error('Erro ao atualizar lista de funcionários:', error);
+          },
+        });
+      }
+    });
+  }
+
+  public openDialogEdit(employee: any): void {
+    const dialogRef = this.dialog.open(EditEmployeeComponent, {
+      width: '900px',
+      data: employee,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
     });
   }
@@ -74,7 +112,28 @@ export class EmployeesListComponent implements OnInit {
     }
     this.openedOptionsIndex = this.openedOptionsIndex === index ? null : index;
   }
-  
+
+  public onDelete(employee: any) {
+    if (confirm(`Tem a certeza que quer apagar ${employee.name}?`)) {
+      this.userService.deleteUser(employee.id).subscribe({
+        next: () => {
+          this.employees.data = this.employees.data.filter(
+            (emp: any) => emp.id !== employee.id
+          );
+          this.closeOptionsMenu();
+          this.currentRow = null;
+          this.openedOptionsIndex = null;
+          this.notificationService.showSuccess(
+            `Funcionário ${employee.name} apagado com sucesso.`
+          );
+        },
+        error: () => {
+          this.notificationService.showError('Erro ao apagar funcionário');
+        },
+      });
+    }
+  }
+
   public closeOptionsMenu() {
     this.openedOptionsIndex = null;
   }
