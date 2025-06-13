@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { PhotoDefault } from '../../../../../core/interfaces/photo-default';
+import { EditAnimalComponent } from '../edit-animal/edit-animal.component';
 
 
 export interface DialogData {
@@ -28,6 +29,8 @@ export class AnimalDetailsComponent {
   public readonly dialogRef = inject(MatDialogRef<AnimalDetailsComponent>);
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
 
+  public readonly dialog = inject(MatDialog);
+
   public photoDefault: PhotoDefault = {
       dog: '../../../../../../assets/images/dog-default.png',
       cat: '../../../../../../assets/images/cat-default.png',
@@ -36,7 +39,7 @@ export class AnimalDetailsComponent {
   };
 
 
-    public getAnimalPhoto(animal: any): string {
+  public getAnimalPhoto(animal: any): string {
     if (animal.image && animal.image.trim() !== '') {
       return animal.image;
     }
@@ -53,6 +56,10 @@ export class AnimalDetailsComponent {
       default:
         return '../../../../assets/icons/user-avatar.png';
     }
+  }
+
+  public editAnimalDialog(animal: any) {
+    this.dialog.open(EditAnimalComponent, { data: { animal } });
   }
 
   public close() {

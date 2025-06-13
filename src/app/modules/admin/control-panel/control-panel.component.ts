@@ -8,7 +8,6 @@ import { AnimalService } from '../../../core/services/animal.service';
 import { ReservationService } from '../../../core/services/reservation.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EventListComponent } from '../schedules/dialog/event-list/event-list.component';
-import { EventClickArg } from '@fullcalendar/core/index.js';
 
 @Component({
   selector: 'app-control-panel',

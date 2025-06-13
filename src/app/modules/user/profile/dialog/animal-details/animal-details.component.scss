@@ -35,8 +35,10 @@
 
 
     &__action{
+        padding-top: 10px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: flex-end;
 
         button{
             padding: 10px 20px;

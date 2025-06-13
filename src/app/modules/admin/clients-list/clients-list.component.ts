@@ -14,6 +14,7 @@ import { AnimalService } from '../../../core/services/animal.service';
 import { AnimalDetailsComponent } from '../../user/profile/dialog/animal-details/animal-details.component';
 import { EditClientComponent } from './dialog/edit-client/edit-client.component';
 import { NotificationService } from '../../../core/services/notification.service';
+import { AddAnimalComponent } from '../../user/profile/dialog/add-animal/add-animal.component';
 @Component({
   selector: 'app-clients-list',
   imports: [
@@ -207,6 +208,35 @@ export class ClientsListComponent {
       error: (error) => {
         console.error('Erro ao remover cliente:', error);
       },
+    });
+  }
+
+  public addAnimalClient(client: any){
+    this.dialog.open(AddAnimalComponent, {
+      width: '600px',
+      data: { id: client.id },
+    });
+    this.dialog.afterAllClosed.subscribe(() => {
+      // Atualiza a lista de clientes após adicionar um animal
+      this.userService.getAllClients().subscribe({
+        next: (data) => {
+          const requests = data.map((client: any) =>
+            this.animalService
+              .getAnimalsByClient(client.id)
+              .toPromise()
+              .then((animals: any[] | undefined) => {
+                client.animals = animals ?? [];
+                return client;
+              })
+          );
+          Promise.all(requests).then((clientsWithAnimals) => {
+            this.clients.data = clientsWithAnimals;
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching clients:', error);
+        },
+      });
     });
   }
 }

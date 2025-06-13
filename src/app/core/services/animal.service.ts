@@ -29,4 +29,8 @@ export class AnimalService {
     return this.http.post<any>(`${this.apiUrl}/animal/create`, animalDto);
   }
 
+  public update(id: string, dto: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/animal/update/${id}`, dto);
+  }
+
 }

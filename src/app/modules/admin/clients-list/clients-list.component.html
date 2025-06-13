@@ -107,9 +107,10 @@
                 id="options-menu-{{ i }}"
                 [ngClass]="{ active: openedOptionsIndex === i }"
                 (click)="$event.stopPropagation()"
+                onkeydown=""
               >
                 <ul>
-                  <li (click)="openEditDialog(element)">
+                  <li (click)="openEditDialog(element)" onkeydown="">
                     <mat-icon
                       aria-hidden="false"
                       aria-label="Edit"
@@ -117,15 +118,15 @@
                     ></mat-icon>
                     Editar
                   </li>
-                  <li>
+                  <li (click)="addAnimalClient(element)" onkeydown="">
                     <mat-icon
                       aria-hidden="false"
                       aria-label="Settings"
-                      fontIcon="settings"
+                      fontIcon="add"
                     ></mat-icon>
-                    Alterar permissões
+                    Adicionar Animal
                   </li>
-                  <li class="danger" (click)="deleteClient(element)">
+                  <li class="danger" (click)="deleteClient(element)" onkeydown="">
                     <mat-icon
                       aria-hidden="false"
                       aria-label="Delete"

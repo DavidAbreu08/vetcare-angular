@@ -1,0 +1,57 @@
+<div class="content">
+  <div class="content__title">
+    <h2 class="text-primary">Editar Animal {{ data.animal.name }}</h2>
+  </div>
+
+  <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form__grid">
+      <div class="field">
+        <label class="text-primary">Raça</label>
+        <input type="text" formControlName="breed" placeholder="Raça" />
+      </div>
+
+      <div class="field">
+        <label class="text-primary">Idade</label>
+        <input
+          type="number"
+          formControlName="age"
+          placeholder="Idade"
+          min="0"
+        />
+      </div>
+
+      <div class="field">
+        <label class="text-primary">Peso (kg)</label>
+        <input
+          type="number"
+          formControlName="weight"
+          placeholder="Peso"
+          min="0"
+        />
+      </div>
+
+      <div class="field">
+        <label class="text-primary">Altura (cm)</label>
+        <input
+          type="number"
+          formControlName="height"
+          placeholder="Altura"
+          min="0"
+        />
+      </div>
+
+    </div>
+    <div class="form__actions">
+      <button
+        type="submit"
+        class="button danger text-white"
+        [disabled]="form.invalid"
+      >
+        Guardar
+      </button>
+      <button type="button" class="button secondary text-white" (click)="onClose()">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

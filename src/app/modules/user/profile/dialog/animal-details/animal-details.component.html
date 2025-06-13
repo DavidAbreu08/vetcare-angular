@@ -2,7 +2,7 @@
   <h2 class="text-primary">{{ 'profile.animal-list.title' | translate }}</h2>
   <div class="content__container">
     <div class="content__details">
-      <div><strong>{{ 'profile.animal-list.owner' | translate }}:</strong> {{ data.name }}</div>
+      <div><strong>{{ 'profile.animal-list.owner' | translate }}:</strong> {{ data.animal.owner.name }}</div>
       <div><strong>{{ 'profile.animal-list.name' | translate }}:</strong> {{ data.animal.name }}</div>
       <div><strong>{{ 'profile.animal-list.species' | translate }}:</strong> {{ data.animal.type }}</div>
       <div><strong>{{ 'profile.animal-list.breed' | translate }}:</strong> {{ data.animal.breed }}</div>
@@ -17,6 +17,7 @@
     </div>
   </div>
   <div class="content__action">
+    <button mat-button class="button tertiary " (click)="editAnimalDialog(data.animal)">{{ 'common.buttons.editarAnimal' | translate }}</button>
     <button mat-button class="button secondary" (click)="close()">{{ 'common.buttons.goBack' | translate }}</button>
   </div>
 </div>
