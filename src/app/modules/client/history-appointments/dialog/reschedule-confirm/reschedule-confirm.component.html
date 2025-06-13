@@ -1,0 +1,9 @@
+<h2 class="text-primary titulo">Confirmação de Remarcação</h2>
+<mat-dialog-content>
+  <p class="text-primary">Deseja aceitar ou recusar a nova data desta consulta?</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" (click)="dialogRef.close('accept')">Aceitar</button>
+  <button mat-button color="warn" (click)="dialogRef.close('reject')">Recusar</button>
+  <button mat-button mat-dialog-close>Cancelar</button>
+</mat-dialog-actions>

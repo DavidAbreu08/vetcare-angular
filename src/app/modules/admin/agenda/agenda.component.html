@@ -1,40 +1,79 @@
 <div class="agenda">
     <div class="agenda__title">
-        <h1>Agenda</h1>
+        <h1 class="text-primary">Agenda</h1>
     </div>
-    <div class="agenda__calendar-type-filter">
-        <ul>
-            <li (click)="changeCalendarType('month')" onkeydown="" [ngClass]="viewMode === 'month' ? 'active' : ''">Mensal</li>
-            <li (click)="changeCalendarType('week')" onkeydown="" [ngClass]="viewMode === 'week' ? 'active' : ''">Semanal</li>
-            <li (click)="changeCalendarType('day')" onkeydown="" [ngClass]="viewMode === 'day' ? 'active' : ''">Diário</li>
-        </ul>
-    </div>
-    <div class="agenda__calendar">
-        <div class="calendar__header">
-            <button mat-mini-fab (click)="previous()">
-                <mat-icon fontIcon="arrow_back" />
-            </button>
-            <span>{{ getTitle() }}</span>
-            <button mat-mini-fab (click)="next()">
-                <mat-icon fontIcon="arrow_forward" />
-            </button>
-        </div>
-        
-        <div class="calendar__weekdays">
-            <div *ngFor="let weekday of weekDays" class="calendar__weekday">{{ weekday | titlecase }}</div>
+
+    <div class="agenda__content">
+        <div class="agenda__content__item">
+            <div class="agenda__infos">
+                <h2 class="text-primary agenda__h2">Definições de Horários</h2>
+                <p class="text-primary">Horário de Funcionamento da Clínica</p>
+
+            </div>
+            <form action="" class="form">
+                <div class="form__group">
+                    Horário de Manhã:
+                    <input type="time" value="08:00">
+                    Até:
+                    <input type="time" value="12:30">
+                </div>
+                <div class="form__group">
+                    Pausa para Almoço:
+                    <input type="time" value="12:30">
+                    Até:
+                    <input type="time" value="14:00">
+                </div>
+                <div class="form__group">
+                    Horário de Tarde:
+                    <input type="time" value="14:00">
+                    Até:
+                    <input type="time" value="18:00">
+                </div>
+            </form>
         </div>
 
-        <div class="calendar__grid" [class.week]="viewMode === 'week'" [class.day]="viewMode === 'day'">
-            <div 
-                *ngFor="let day of days" 
-                class="day" 
-                [class.other-month]="!isCurrentMonth(day)" 
-                [class.today]="isToday(day)" 
-                (click)="isSelected(formatDateNormal(day))"
-                onkeydown=""
-            >
-                {{ formatDate(day) }}
+        <div class="agenda__content__item">
+            <div class="agenda__infos">
+                <h2 class="text-primary agenda__h2">Agenda dos Funcionários no dia de Hoje</h2>
+                <div class="agenda__warning">
+                    <mat-icon>info</mat-icon>
+                    <p class="text-primary">Procure e selecione um veterinário para verificar a agenda e disponibilidade.</p>
+                </div>
+                <div class="agenda__search">
+                    <input
+                        class="input-form"
+                        type="text"
+                        placeholder="Pesquisar funcionário pelo nome..."
+                        [value]="selectedEmployee?.name || ''"
+                        (input)="onEmployeeSearch($event)"
+                        (focus)="onEmployeeFocus()"
+                        (blur)="onEmployeeBlur()"
+                    />
+                    <ul class="agenda__employee-list" *ngIf="showEmployeeList && filteredEmployees.length > 0">
+                        <li *ngFor="let emp of filteredEmployees" (click)="selectEmployee(emp)" onkeydown="">
+                            {{ emp.name }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="agenda__employee-info" *ngIf="selectedEmployee && selectedEmployeeReservations.length > 0">
+                    <h3 class="text-primary">Agenda do Funcionário: {{ selectedEmployee.name }}</h3>
+                    <ul>
+                        <li *ngFor="let reserva of selectedEmployeeReservations">
+                            <strong>Hora:</strong> {{ reserva.timeStart }} - {{ reserva.timeEnd }}
+                            <span> | </span>
+                            <strong>Animal:</strong> {{ reserva.animal?.name }}
+                            <span> | </span>
+                            <strong>Cliente:</strong> {{ reserva.client?.name || reserva.cliente?.name }}
+                            <span> | </span>
+                            <strong>Motivo:</strong> {{ reserva?.reason }}
+                        </li>
+                    </ul>
+                </div>
+                <ng-content *ngIf="selectedEmployee && selectedEmployeeReservations.length === 0">
+                    <p class="text-primary">O funcionario nao tem nenhuma consulta ajendada para hoje...</p>
+                </ng-content>
             </div>
         </div>
     </div>
+
 </div>

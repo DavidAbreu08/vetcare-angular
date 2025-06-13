@@ -40,9 +40,9 @@ export class SidebarComponent implements OnInit {
       label: 'Clinica',
       isOpen: true,
       children: [
-        { icon: 'schedule', label: 'Horários', link: '/admin/schedule' },
+        { icon: 'schedule', label: 'Horários', link: '/admin/agenda' },
         { icon: 'badge', label: 'Funcionários', link: '/admin/employees-list'},
-        { icon: 'event', label: 'Agenda', link: '/admin/agenda' },
+        { icon: 'event', label: 'Agenda', link: '/admin/schedule' },
       ]
     },
     {

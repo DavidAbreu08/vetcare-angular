@@ -52,4 +52,8 @@ export class ReservationService {
   public confirmRescheduledReservation(employeeId: string, dto:any): Observable<any> {
     return this.http.patch(`${this.apiUrl}/reservation/${employeeId}/confirm-rescheduled`, dto);
   }
+
+  public rejectRescheduledReservation(id: string, note?: string): Observable<any> {
+  return this.http.patch(`${this.apiUrl}/reservation/${id}/reject-rescheduled`, { note });
+}
 }

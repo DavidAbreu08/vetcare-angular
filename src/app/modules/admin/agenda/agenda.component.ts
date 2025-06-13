@@ -1,18 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { 
-  addMonths, subMonths, addWeeks, subWeeks, addDays, subDays,
-  startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval,
-  format,
-  getDay
-} from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import { MatDialog } from '@angular/material/dialog';
-import { ScheduleEventComponent } from './dialog/schedule-event/schedule-event.component';
-
-type ViewMode = 'month' | 'week' | 'day';
+import { UserService } from '../../../core/services/user.service';
+import { ReservationService } from '../../../core/services/reservation.service';
 
 @Component({
   selector: 'app-agenda',
@@ -24,101 +15,62 @@ type ViewMode = 'month' | 'week' | 'day';
   templateUrl: './agenda.component.html',
   styleUrl: './agenda.component.scss'
 })
-export class AgendaComponent {
-  public currentDate: Date = new Date();
-  public days: Date[] = [];
-  public weekDays: string[] = [];
-  public viewMode: ViewMode = 'month';
+export class AgendaComponent implements OnInit {
+  public isLoading = true;
+  public employees: any[] = [];
+  public filteredEmployees: any[] = [];
+  public showEmployeeList = false;
+  public selectedEmployee: any = null;
+  public selectedEmployeeReservations: any[] = [];
 
   constructor(
-    private readonly dialog: MatDialog
-  ) {
-    this.updateCalendar();
+    private readonly userService: UserService,
+    private readonly reservationService: ReservationService
+  ) {}
+
+  ngOnInit(): void {
+    this.userService.getAllEmployees().subscribe((employees: any[]) => {
+      this.employees = employees;
+      this.filteredEmployees = employees;
+      this.isLoading = false;
+    });
   }
 
-  public changeCalendarType(type: ViewMode): void {
-    this.viewMode = type;
-    this.updateCalendar();
-  }
-
-  public  updateCalendar() {
-    const weekStart = startOfWeek(new Date());
-    this.weekDays = Array.from({ length: 7 }, (_, i) => 
-      format(addDays(weekStart, i), 'EEE', { locale: ptBR }) 
+  public searchEmployeeByName(name: string): void {
+    const filterValue = name.trim().toLowerCase();
+    this.filteredEmployees = this.employees.filter(emp =>
+      (emp.name ?? '').toLowerCase().includes(filterValue)
     );
-
-    if (this.viewMode === 'month') {
-      this.generateMonthView();
-    } else if (this.viewMode === 'week') {
-      const start = startOfWeek(this.currentDate);
-      const end = endOfWeek(this.currentDate);
-      this.days = eachDayOfInterval({ start, end });
-    } else {
-      this.days = [this.currentDate];
-    }
   }
 
-  public generateMonthView() {
-    const start = startOfMonth(this.currentDate);
-    const end = endOfMonth(this.currentDate);
-    const firstDayOfMonthIndex = getDay(start); 
-    const startOfWeekDate = subDays(start, firstDayOfMonthIndex);
-    const endOfWeekDate = endOfWeek(end);
-
-    this.days = eachDayOfInterval({ start: startOfWeekDate, end: endOfWeekDate });
+  public onEmployeeSearch(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchEmployeeByName(value);
   }
 
-  public previous() {
-    if (this.viewMode === 'month') {
-      this.currentDate = subMonths(this.currentDate, 1);
-    } else if (this.viewMode === 'week') {
-      this.currentDate = subWeeks(this.currentDate, 1);
-    } else {
-      this.currentDate = subDays(this.currentDate, 1);
-    }
-    this.updateCalendar();
+  public onEmployeeFocus() {
+    this.showEmployeeList = true;
   }
 
-  public next() {
-    if (this.viewMode === 'month') {
-      this.currentDate = addMonths(this.currentDate, 1);
-    } else if (this.viewMode === 'week') {
-      this.currentDate = addWeeks(this.currentDate, 1);
-    } else {
-      this.currentDate = addDays(this.currentDate, 1);
-    }
-    this.updateCalendar();
+  public onEmployeeBlur() {
+    // Pequeno delay para permitir clique na lista antes de esconder
+    setTimeout(() => this.showEmployeeList = false, 150);
   }
 
-  public getTitle(): string {
-    if (this.viewMode === 'month') {
-      return format(this.currentDate, 'MMMM yyyy', { locale: ptBR }); 
-    } else if (this.viewMode === 'week') {
-      return `Semana de ${format(this.currentDate, 'd MMM yyyy', { locale: ptBR })}`;
-    } else {
-      return format(this.currentDate, 'EEEE, d MMMM yyyy', { locale: ptBR });
-    }
+  public selectEmployee(emp: any) {
+    this.selectedEmployee = emp;
+    this.showEmployeeList = false;
+    this.fetchEmployeeReservationsForToday(emp);
   }
 
-  public formatDate(date: Date): string {
-    return format(date, 'd');
-  }
+  private fetchEmployeeReservationsForToday(emp: any) {
+    const today = new Date();
+    const dateStr = today.toISOString().split('T')[0];
 
-  public formatDateNormal(date: Date): string {
-    return format(date, 'yyyy-MM-dd');
-  }
-
-  public isCurrentMonth(date: Date): boolean {
-    return format(date, 'MM-yyyy') === format(this.currentDate, 'MM-yyyy');
-  }
-
-  public isToday(date: Date): boolean {
-    return format(date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
-  }
-
-  public isSelected(date: string): void {
-    this.dialog.open(ScheduleEventComponent, {
-      data: { date },
+    // Usa o parâmetro emp.id e não selectedEmployee.id
+    this.reservationService.getReservations(emp.id, dateStr).subscribe((res: any[]) => {
+      this.selectedEmployeeReservations = res;
+      console.log(this.selectedEmployeeReservations);
     });
   }
 }

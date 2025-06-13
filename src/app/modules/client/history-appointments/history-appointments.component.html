@@ -14,21 +14,34 @@
             *ngFor="let appointment of activeAppointments"
             class="appointment-item"
           >
-            <div>
+            <div class="appointment-item__details">
+              <!-- Consultas Ativas -->
               <strong>{{ appointment.date | date : "dd/MM/yyyy" }}</strong> -
-              {{ appointment.animalName }} -
-              {{ appointment.reason }}
+              {{ appointment.animalName }}
+              <span *ngIf="appointment?.reason">
+                - {{ appointment.reason | slice : 0 : 30
+                }}<span *ngIf="appointment.reason.length > 30">...</span>
+              </span>
               <span
                 class="status"
                 [ngClass]="{
                   'status-confirmed': appointment.status === 'confirmed',
-                  'status-pending': appointment.status !== 'confirmed'
+                  'status-pending': appointment.status !== 'confirmed',
+                  'status-rescheduled': appointment.status === 'rescheduled',
+                  'status-cancelled': appointment.status === 'cancelled'
                 }"
               >
                 {{
-                  appointment.status === "confirmed" ? "Confirmada" : "Pendente"
+                  appointment.status === "confirmed"
+                    ? "Confirmada"
+                    : appointment.status === "rescheduled"
+                    ? "Remarcada":
+                     appointment.status === "cancelled"
+                    ? "Cancelada"
+                    : "Pendente"
                 }}
               </span>
+              <button class="button-accept" *ngIf="appointment.status === 'rescheduled'" matButton="elevated" (click)="openRescheduleModal(appointment)">Aceitar/Recusar</button>
             </div>
           </div>
         </ng-container>
