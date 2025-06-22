@@ -5,8 +5,10 @@
             "addFunc": "Adicionar Funcionário",
             "addCli": "Adicionar Clientes",
             "addAnimal": "Adicionar Animal",
+            "addReserva": "Adicionar Reserva",
             "atualizarPerfil": "Atualizar Perfil",
             "addPermitions": "Adicionar Permicões",
+            "editarVet": "Editar Funcionário",
             "editarAnimal": "Editar Animal",
             "goBack": "Voltar",
             "save": "Guardar"
@@ -165,6 +167,7 @@
         }
     },
     "animals": {
+        "title2": "Adicionar de Reserva",
         "title": "Adicionar Animal",
         "animal-owner": "Escolha o Seu animal",
         "no-animal": "Nenhum animal encontrado",

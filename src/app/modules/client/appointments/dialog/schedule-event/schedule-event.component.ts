@@ -117,7 +117,7 @@ export class ScheduleEventComponent implements OnInit {
         this.dialogRef.close(eventData);
       },
       error: (error) => {
-        this.notificationService.showError('Erro ao agendar evento.');
+        this.notificationService.showError('Está fora do Horário de funcionamento da Clínica');
         console.error('Erro ao agendar evento:', error);
       }
     });
